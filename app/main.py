@@ -36,9 +36,8 @@ def initialize_database():
         if 'db' in locals() and db:
             db.close() 
 
-# Khởi tạo Database ngay khi module main.py được load
-# Điều này an toàn hơn on_event("startup") khi dùng reload=True
-initialize_database()
+# Khởi tạo Database ngay khi module main.py được loade
+# initialize_database()
 
 # --- KHỞI TẠO APP FASTAPI ---
 app = FastAPI(
