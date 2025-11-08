@@ -1,0 +1,11 @@
+# Core Framework
+fastapi
+uvicorn
+pydantic
+
+# Database (SQLAlchemy 2.0+ for modern syntax)
+sqlalchemy
+
+# Driver for SQL Server (using pyodbc for Windows/Linux compatibility)
+pyodbc
+python-dotenv  # For managing environment variables (connection strings, secrets)

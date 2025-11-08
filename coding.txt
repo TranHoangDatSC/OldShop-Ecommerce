@@ -1,0 +1,24 @@
+1. Thiết lập requirements.txt
+2. Thiết lập cấu hình qua .env
+3. Viết code file app\core\config.py
+4. Viết code file app\core\database.py
+5. Viết code file app\main.py
+6. uvicorn app.main:app - reload để khởi tạo file sql_app.db
+7. Viết code file app\core\security.py
+8. Viết code file app\crud\crud_user.py
+9. Viết code file app\models\schemas.py
+10. Viết code file app\api\base.py
+11. Viết code file app\api\endpoints/auth.py
+12. Cập nhật file app\main.py
+13. Viết code file app\api\deps.py
+14. Viết code file app\api\endpoints\products.py
+15. Cập nhật file app\models\schemas.py
+16. Viết code file app\crud\crud_product.py
+17. Cập nhật file app\api\endpoints\products.py
+18. Viết file app\initial_data.py
+19. Cập nhật file app\main.py
+20. Cập nhật file app\api\endpoints\
+21. Cập nhật file app\models\sqlmodels.py
+22. Cập nhật file app\models\schemas.py
+23. Cập nhật file app\initial_data.py
+24. Viết file app\crud\crud_cart.py

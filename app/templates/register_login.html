@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Auth API</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: flex-start; gap: 40px; padding-top: 50px; background-color: #f4f4f9; }
+        .container { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 350px; }
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+        form div { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input[type="email"], input[type="password"], input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; border: none; border-radius: 4px; color: white; font-size: 16px; cursor: pointer; transition: background-color 0.3s; }
+        #loginForm button { background-color: #007bff; }
+        #loginForm button:hover { background-color: #0056b3; }
+        #registerForm button { background-color: #28a745; }
+        #registerForm button:hover { background-color: #1e7e34; }
+        #result { margin-top: 20px; padding: 15px; border-radius: 4px; background-color: #e9ecef; border: 1px solid #ced4da; white-space: pre-wrap; word-wrap: break-word; }
+        .success { background-color: #d4edda; color: #155724; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border-color: #f5c6cb; }
+        .note { margin-top: 10px; font-size: 0.9em; color: #6c757d; }
+    </style>
+</head>
+<body>
+
+    <!-- FORM ĐĂNG KÝ -->
+    <div class="container">
+        <h2>Đăng Ký Tài Khoản</h2>
+        <form id="registerForm">
+            <div>
+                <label for="regEmail">Email:</label>
+                <!-- Đã loại bỏ hardcode value -->
+                <input type="email" id="regEmail" name="Email" required placeholder="ví dụ: user@new.com"> 
+            </div>
+            <div>
+                <label for="regUsername">Username:</label>
+                <!-- Đã loại bỏ hardcode value -->
+                <input type="text" id="regUsername" name="Username" required placeholder="Tên đăng nhập"> 
+            </div>
+            <div>
+                <label for="fullName">Tên đầy đủ:</label>
+                <!-- Đã loại bỏ hardcode value -->
+                <input type="text" id="fullName" name="FullName" required placeholder="Tên đầy đủ của bạn"> 
+            </div>
+            <div>
+                <label for="regPassword">Mật khẩu:</label>
+                <!-- Đã loại bỏ hardcode value -->
+                <input type="password" id="regPassword" name="Password" required placeholder="Mật khẩu (tối thiểu 6 ký tự)"> 
+            </div>
+            <button type="submit">Đăng Ký</button>
+        </form>
+    </div>
+
+    <!-- FORM ĐĂNG NHẬP -->
+    <div class="container">
+        <h2>Đăng Nhập (Lấy Token)</h2>
+        <form id="loginForm">
+            <div>
+                <label for="email">Email:</label>
+                <!-- Đã loại bỏ hardcode value -->
+                <input type="email" id="email" name="username" required placeholder="admin@oldshop.com">
+            </div>
+            <div>
+                <label for="password">Mật khẩu:</label>
+                <!-- Đã loại bỏ hardcode value -->
+                <input type="password" id="password" name="password" required placeholder="adminpass">
+            </div>
+            <button type="submit">Đăng Nhập (Lấy Token)</button>
+        </form>
+        <p class="note">Sử dụng tài khoản có sẵn trong CSDL (ví dụ: Admin: admin@oldshop.com / adminpass) hoặc tài khoản vừa đăng ký.</p>
+    </div>
+
+    <!-- KHU VỰC KẾT QUẢ -->
+    <div class="container" style="width: 400px;">
+        <h2>Kết Quả (Token)</h2>
+        <div id="result">Kết quả API sẽ hiển thị ở đây.</div>
+    </div>
+
+    <script>
+        const resultDiv = document.getElementById('result');
+
+        // Hàm chung để xử lý form submit
+        async function handleSubmit(event, endpoint) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            resultDiv.textContent = 'Đang xử lý...';
+            resultDiv.className = '';
+
+            try {
+                let response;
+                
+                if (endpoint === '/api/v1/auth/token') {
+                    // Xử lý Login: Gửi form-urlencoded (FastAPI yêu cầu 'username' và 'password')
+                    response = await fetch(endpoint, {
+                        method: 'POST',
+                        body: new URLSearchParams(formData)
+                    });
+                } else if (endpoint === '/api/v1/auth/register') {
+                    // Xử lý Register: Gửi JSON
+                    const data = Object.fromEntries(formData.entries());
+                    response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                }
+                
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.className = 'success';
+
+                    let displayMessage = `Thành công (${response.status} ${response.statusText})!`;
+
+                    // Nếu là Đăng nhập, hiển thị role và token
+                    if (endpoint === '/api/v1/auth/token' && data.access_token) {
+                        const roles = data.roles ? data.roles.join(', ') : 'Không có vai trò';
+                        
+                        displayMessage += `\n\n✅ Vai trò của bạn: ${roles}\n\n`;
+                        displayMessage += `Token Đăng Nhập:\n${data.access_token}`;
+
+                        resultDiv.textContent = displayMessage; // Cập nhật nội dung kết quả
+ 
+                        // Có thể giữ lại alert nếu cần thông báo nổi
+                        alert(`Đăng nhập thành công!\nVai trò: ${roles}\nToken: ${data.access_token.substring(0, 15)}...`);
+                    } else {
+                        // Xử lý các phản hồi thành công khác (ví dụ: đăng ký)
+                        resultDiv.textContent = displayMessage + '\n\n' + JSON.stringify(data, null, 2);
+                    }
+                } else {
+                    resultDiv.className = 'error';
+                    // Kiểm tra và hiển thị detail nếu có
+                    const detail = data.detail ? (typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail)) : 'Lỗi không xác định.';
+                    resultDiv.textContent = `Thất bại (${response.status} ${response.statusText})!\n\nChi tiết lỗi: ${detail}`;
+                }
+                if (endpoint === '/api/v1/auth/token' && data.access_token) {
+                    const roles = data.roles ? data.roles.join(', ') : 'Không có vai trò';
+                    
+                    // ------------------------------------------------------------------
+                    // *** LOGIC CHUYỂN HƯỚNG MỚI ĐƯỢC THÊM VÀO ĐÂY ***
+                    
+                    // 1. Kiểm tra xem người dùng có vai trò "Admin" hay không
+                    const isAdmin = data.roles && data.roles.includes("Admin");
+                    
+                    if (isAdmin) {
+                        // 2. Chuyển hướng nếu là Admin
+                        resultDiv.textContent = `Đăng nhập thành công! Đang chuyển hướng đến trang Admin Dashboard...`;
+                        resultDiv.className = 'success';
+                        
+                        // ** Tự động chuyển hướng sau 1 giây **
+                        setTimeout(() => {
+                            // Giả định đường dẫn tới dashboard là /dashboard_admin.html 
+                            // Nếu bạn dùng framework (FastAPI) để render template, đường dẫn có thể là /admin/dashboard
+                            window.location.href = "/dashboard_admin.html"; 
+                        }, 1000); 
+                        
+                    } else {
+                        // 3. Xử lý người dùng thường (chỉ hiện thông báo, không chuyển hướng)
+                        resultDiv.textContent = `Đăng nhập thành công!\n\n✅ Vai trò của bạn: ${roles}\n\nToken Đăng Nhập:\n${data.access_token}`;
+                        resultDiv.className = 'success';
+                        alert(`Đăng nhập thành công!\nVai trò: ${roles}`);
+                    }
+                    
+                    // ------------------------------------------------------------------
+                }
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.textContent = 'Lỗi kết nối hoặc xử lý: ' + error.message;
+            }
+        }
+
+        // Gắn sự kiện cho form Đăng nhập
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            handleSubmit(e, '/api/v1/auth/token');
+        });
+
+        // Gắn sự kiện cho form Đăng ký
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            handleSubmit(e, '/api/v1/auth/register');
+        });
+        // 1. Lấy danh sách vai trò (roles) từ phản hồi của API
+    const roles = data.roles ? data.roles.join(', ') : 'Không có vai trò'; // Dùng để hiển thị
+    // ...
+
+    // 2. Kiểm tra xem người dùng có vai trò "Admin" hay không
+    const isAdmin = data.roles && data.roles.includes("Admin");
+    // Lưu ý: data.roles phải là một MẢNG chứa chuỗi "Admin"
+
+    if (isAdmin) {
+        // 2.1. CHUYỂN HƯỚNG NẾU LÀ ADMIN
+        resultDiv.textContent = `Đăng nhập thành công! Đang chuyển hướng đến trang Admin Dashboard...`;
+        resultDiv.className = 'success';
+        
+        // Tự động chuyển hướng sau 1 giây
+        setTimeout(() => {
+            // Đường dẫn mà bạn đã định nghĩa:
+            window.location.href = "/dashboard_admin.html"; 
+        }, 1000); 
+        
+    } else {
+        // 2.2. XỬ LÝ NGƯỜI DÙNG THƯỜNG
+        resultDiv.textContent = `Đăng nhập thành công!\n\n✅ Vai trò của bạn: ${roles}\n\nToken Đăng Nhập:\n${data.access_token}`;
+        resultDiv.className = 'success';
+        alert(`Đăng nhập thành công!\nVai trò: ${roles}`);
+    }
+    </script>
+</body>
+</html>
