@@ -1,8 +1,8 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional, Union
 from datetime import datetime
 from app.models.sqlmodels import Product, User, Category, ProductImage
-from app.models import schemas
+from app.models import schemas, sqlmodels
 from app.core.constants import ProductStatus
 
 class CRUDProductImage:
@@ -34,6 +34,9 @@ class CRUDProduct:
         return db.query(Product).filter(
             Product.ProductID == product_id, 
             Product.IsDeleted == False
+        ).options(
+            # Tải trước ProductImage, chỉ cần lấy ImageUrl và IsDefault
+            joinedload(Product.images).load_only(sqlmodels.ProductImage.ImageUrl, sqlmodels.ProductImage.IsDefault)
         ).first()
 
     def get_multiple(
@@ -54,7 +57,9 @@ class CRUDProduct:
             elif isinstance(status, int):
                 # Sử dụng so sánh bằng cho một trạng thái
                 query = query.filter(Product.Status == status)
-        
+        query = query.options(
+            joinedload(Product.images).load_only(sqlmodels.ProductImage.ImageUrl, sqlmodels.ProductImage.IsDefault)
+        )
         return query.offset(skip).limit(limit).all()
     
     def create(self, db: Session, obj_in: schemas.ProductCreate, seller_id: int) -> Product:

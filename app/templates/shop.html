@@ -20,15 +20,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../templates/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../templates/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../templates/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../templates/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -42,7 +42,6 @@
     </div>
     <!-- Spinner End -->
 
-
     <!-- Topbar Start -->
     <div class="container-fluid px-5 d-none border-bottom d-lg-block">
         <div class="row gx-0 align-items-center">
@@ -51,6 +50,7 @@
                     <a href="#" class="text-muted me-2"> Help</a><small> / </small>
                     <a href="#" class="text-muted mx-2"> Support</a><small> / </small>
                     <a href="#" class="text-muted ms-2"> Contact</a>
+
                 </div>
             </div>
             <div class="col-lg-4 text-center d-flex align-items-center justify-content-center">
@@ -79,16 +79,17 @@
                         </div>
                     </div>
                     <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown"><small><i
-                                    class="fa fa-home me-2"></i> My Dashboard</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item"> Login</a>
-                            <a href="#" class="dropdown-item"> Wishlist</a>
-                            <a href="#" class="dropdown-item"> My Card</a>
-                            <a href="#" class="dropdown-item"> Notifications</a>
-                            <a href="#" class="dropdown-item"> Account Settings</a>
-                            <a href="#" class="dropdown-item"> My Account</a>
-                            <a href="#" class="dropdown-item"> Log Out</a>
+                        <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown" id="dashboardDropdownLink">
+                            <small><i class="fa fa-home me-2"></i>Bảng điều khiển</small>
+                        </a>
+                        <div class="dropdown-menu rounded" id="authMenuDropdown">
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#loginModal" id="uiLoginLink">Đăng Nhập</a>
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#registerModal" id="uiRegisterLink">Đăng Ký</a>
+
+                            <a href="/profile" class="dropdown-item d-none" id="uiProfileLink"><i class="fas fa-user-circle me-2"></i> Tài khoản của tôi</a>
+                            <a href="/cart" class="dropdown-item d-none" id="uiCartLink"><i class="fas fa-shopping-cart me-2"></i> Giỏ hàng của tôi</a>
+                            <a href="/app/templates/user/seller_dashboard.html" class="dropdown-item d-none" id="uiStoreLink"><i class="fas fa-store me-2"></i> Cửa hàng của tôi</a>
+                            <a href="#" class="dropdown-item d-none" id="uiLogoutLink"><i class="fas fa-sign-out-alt me-2"></i> Đăng Xuất</a>
                         </div>
                     </div>
                 </div>
@@ -198,12 +199,11 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="shop.html" class="nav-item nav-link active">Shop</a>
+                            <a href="../templates/index.html" class="nav-item nav-link active">Home</a>
+                            <a href="shop.html" class="nav-item nav-link">Shop</a>
                             <a href="single.html" class="nav-item nav-link">Single Page</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link" data-bs-toggle="dropdown"><span
-                                        class="dropdown-toggle">Pages</span></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0">
                                     <a href="bestseller.html" class="dropdown-item">Bestseller</a>
                                     <a href="cart.html" class="dropdown-item">Cart Page</a>
@@ -213,8 +213,7 @@
                             </div>
                             <a href="contact.html" class="nav-item nav-link me-2">Contact</a>
                             <div class="nav-item dropdown d-block d-lg-none mb-3">
-                                <a href="#" class="nav-link" data-bs-toggle="dropdown"><span class="dropdown-toggle">All
-                                        Category</span></a>
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">All Category</a>
                                 <div class="dropdown-menu m-0">
                                     <ul class="list-unstyled categories-bars">
                                         <li>
@@ -259,123 +258,6 @@
         </div>
     </div>
     <!-- Navbar & Hero End -->
-
-    <!-- Single Page Header start -->
-    <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Shop Page</h1>
-        <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Pages</a></li>
-            <li class="breadcrumb-item active text-white">Shop</li>
-        </ol>
-    </div>
-    <!-- Single Page Header End -->
-
-    <!-- Searvices Start -->
-    <div class="container-fluid px-0">
-        <div class="row g-0">
-            <div class="col-6 col-md-4 col-lg-2 border-start border-end wow fadeInUp" data-wow-delay="0.1s">
-                <div class="p-4">
-                    <div class="d-inline-flex align-items-center">
-                        <i class="fa fa-sync-alt fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Free Return</h6>
-                            <p class="mb-0">30 days money back guarantee!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.2s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fab fa-telegram-plane fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Free Shipping</h6>
-                            <p class="mb-0">Free shipping on all order</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.3s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-life-ring fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Support 24/7</h6>
-                            <p class="mb-0">We support online 24 hrs a day</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.4s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-credit-card fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Receive Gift Card</h6>
-                            <p class="mb-0">Recieve gift all over oder $50</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.5s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-lock fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Secure Payment</h6>
-                            <p class="mb-0">We Value Your Security</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2 border-end wow fadeInUp" data-wow-delay="0.6s">
-                <div class="p-4">
-                    <div class="d-flex align-items-center">
-                        <i class="fas fa-blog fa-2x text-primary"></i>
-                        <div class="ms-4">
-                            <h6 class="text-uppercase mb-2">Online Service</h6>
-                            <p class="mb-0">Free return products in 30 days</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Searvices End -->
-
-
-    <!-- Products Offer Start -->
-    <div class="container-fluid bg-light py-5">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
-                    <a href="#" class="d-flex align-items-center justify-content-between border bg-white rounded p-4">
-                        <div>
-                            <p class="text-muted mb-3">Find The Best Camera for You!</p>
-                            <h3 class="text-primary">Smart Camera</h3>
-                            <h1 class="display-3 text-secondary mb-0">40% <span
-                                    class="text-primary fw-normal">Off</span></h1>
-                        </div>
-                        <img src="img/product-1.png" class="img-fluid" alt="">
-                    </a>
-                </div>
-                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.3s">
-                    <a href="#" class="d-flex align-items-center justify-content-between border bg-white rounded p-4">
-                        <div>
-                            <p class="text-muted mb-3">Find The Best Whatches for You!</p>
-                            <h3 class="text-primary">Smart Whatch</h3>
-                            <h1 class="display-3 text-secondary mb-0">20% <span
-                                    class="text-primary fw-normal">Off</span></h1>
-                        </div>
-                        <img src="img/product-2.png" class="img-fluid" alt="">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Products Offer End -->
-
 
     <!-- Shop Page Start -->
     <div class="container-fluid shop py-5">
@@ -422,40 +304,7 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- <div class="price mb-4">
-                        <h4 class="mb-2">Price</h4>
-                        <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput" min="0" max="500"
-                            value="0" oninput="amount.value=rangeInput.value">
-                        <output id="amount" name="amount" min-velue="0" max-value="500" for="rangeInput">0</output>
-                        <div class=""></div>
-                    </div> -->
-                    <!-- <div class="product-color mb-3">
-                        <h4>Select By Color</h4>
-                        <ul class="list-unstyled">
-                            <li>
-                                <div class="product-color-item">
-                                    <a href="#" class="text-dark"><i class="fas fa-apple-alt text-secondary me-2"></i>
-                                        Gold</a>
-                                    <span>(1)</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="product-color-item">
-                                    <a href="#" class="text-dark"><i class="fas fa-apple-alt text-secondary me-2"></i>
-                                        Green</a>
-                                    <span>(1)</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="product-color-item">
-                                    <a href="#" class="text-dark"><i class="fas fa-apple-alt text-secondary me-2"></i>
-                                        White</a>
-                                    <span>(1)</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div> -->
-                    <!-- <div class="additional-product mb-4">
+                    <div class="additional-product mb-4">
                         <h4>Additional Products</h4>
                         <div class="additional-product-item">
                             <input type="radio" class="me-2" id="Categories-1" name="Categories-1" value="Beverages">
@@ -477,97 +326,8 @@
                             <input type="radio" class="me-2" id="Categories-5" name="Categories-1" value="Beverages">
                             <label for="Categories-5" class="text-dark"> SmartPhone & Smart TV</label>
                         </div>
-                    </div> -->
-                    <!-- <div class="featured-product mb-4">
-                        <h4 class="mb-3">Featured products</h4>
-                        <div class="featured-product-item">
-                            <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                <img src="img/product-3.png" class="img-fluid rounded" alt="Image">
-                            </div>
-                            <div>
-                                <h6 class="mb-2">SmartPhone</h6>
-                                <div class="d-flex mb-2">
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="d-flex mb-2">
-                                    <h5 class="fw-bold me-2">2.99 $</h5>
-                                    <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="featured-product-item">
-                            <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                <img src="img/product-4.png" class="img-fluid rounded" alt="Image">
-                            </div>
-                            <div>
-                                <h6 class="mb-2">Smart Camera</h6>
-                                <div class="d-flex mb-2">
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="d-flex mb-2">
-                                    <h5 class="fw-bold me-2">2.99 $</h5>
-                                    <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="featured-product-item">
-                            <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                <img src="img/product-5.png" class="img-fluid rounded" alt="Image">
-                            </div>
-                            <div>
-                                <h6 class="mb-2">Camera Leance</h6>
-                                <div class="d-flex mb-2">
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star text-secondary"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="d-flex mb-2">
-                                    <h5 class="fw-bold me-2">2.99 $</h5>
-                                    <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center my-4">
-                            <a href="#" class="btn btn-primary px-4 py-3 rounded-pill w-100">Vew More</a>
-                        </div>
-                    </div> -->
-                    <!-- <a href="#">
-                        <div class="position-relative">
-                            <img src="img/product-banner-2.jpg" class="img-fluid w-100 rounded" alt="Image">
-                            <div class="text-center position-absolute d-flex flex-column align-items-center justify-content-center rounded p-4"
-                                style="width: 100%; height: 100%; top: 0; right: 0; background: rgba(242, 139, 0, 0.3);">
-                                <h5 class="display-6 text-primary">SALE</h5>
-                                <h4 class="text-secondary">Get UP To 50% Off</h4>
-                                <a href="#" class="btn btn-primary rounded-pill px-4">Shop Now</a>
-                            </div>
-                        </div>
-                    </a> -->
-                    <!-- <div class="product-tags py-4">
-                        <h4 class="mb-3">PRODUCT TAGS</h4>
-                        <div class="product-tags-items bg-light rounded p-3">
-                            <a href="#" class="border rounded py-1 px-2 mb-2">New</a>
-                            <a href="#" class="border rounded py-1 px-2 mb-2">brand</a>
-                            <a href="#" class="border rounded py-1 px-2 mb-2">black</a>
-                            <a href="#" class="border rounded py-1 px-2 mb-2">white</a>
-                            <a href="#" class="border rounded py-1 px-2 mb-2">tablats</a>
-                            <a href="#" class="border rounded py-1 px-2 mb-2">phone</a>
-                            <a href="#" class="border rounded py-1 px-2 mb-2">camera</a>
-                            <a href="#" class="border rounded py-1 px-2 mb-2">drone</a>
-                            <a href="#" class="border rounded py-1 px-2 mb-2">talevision</a>
-                            <a href="#" class="border rounded py-1 px-2 mb-2">slaes</a>
-                        </div>
                     </div>
-                </div> -->
+                </div>
                 <div class="col-lg-9 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="rounded mb-4 position-relative">
                         <img src="img/product-banner-3.jpg" class="img-fluid rounded w-100" style="height: 250px;"
@@ -1512,42 +1272,6 @@
     </div>
     <!-- Shop Page End -->
 
-    <!-- Product Banner Start -->
-    <div class="container-fluid py-5">
-        <div class="container pb-5">
-            <div class="row g-4">
-                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.1s">
-                    <a href="#">
-                        <div class="bg-primary rounded position-relative">
-                            <img src="img/product-banner.jpg" class="img-fluid w-100 rounded" alt="">
-                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center rounded p-4"
-                                style="background: rgba(255, 255, 255, 0.5);">
-                                <h3 class="display-5 text-primary">EOS Rebel <br> <span>T7i Kit</span></h3>
-                                <p class="fs-4 text-muted">$899.99</p>
-                                <a href="#" class="btn btn-primary rounded-pill align-self-start py-2 px-4">Shop Now</a>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
-                    <a href="#">
-                        <div class="text-center bg-primary rounded position-relative">
-                            <img src="img/product-banner-2.jpg" class="img-fluid w-100" alt="">
-                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center rounded p-4"
-                                style="background: rgba(242, 139, 0, 0.5);">
-                                <h2 class="display-2 text-secondary">SALE</h2>
-                                <h4 class="display-5 text-white mb-4">Get UP To 50% Off</h4>
-                                <a href="#" class="btn btn-secondary rounded-pill align-self-center py-2 px-4">Shop
-                                    Now</a>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Product Banner End -->
-
     <!-- Footer Start -->
     <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
         <div class="container py-5">
@@ -1606,8 +1330,8 @@
                     <div class="footer-item d-flex flex-column">
                         <div class="footer-item">
                             <h4 class="text-primary mb-4">Newsletter</h4>
-                            <p class="text-white mb-3">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum
-                                dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit.</p>
+                            <p class="mb-3">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum dolor sit
+                                amet, consectetur adipiscing elit consectetur adipiscing elit.</p>
                             <div class="position-relative mx-auto rounded-pill">
                                 <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text"
                                     placeholder="Enter your email">
@@ -1657,8 +1381,7 @@
         </div>
     </div>
     <!-- Footer End -->
-
-
+     
     <!-- Copyright Start -->
     <div class="container-fluid copyright py-4">
         <div class="container">
@@ -1681,6 +1404,69 @@
     </div>
     <!-- Copyright End -->
 
+    <!-- Model đăng nhập -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Đăng Nhập Tài Khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="email" name="username" required placeholder="Email đăng nhập">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mật khẩu:</label>
+                            <input type="password" class="form-control" id="password" name="password" required placeholder="Mật khẩu">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
+                    </form>
+                    <div id="loginResult" class="mt-3 p-3 rounded" style="display: none; border: 1px solid;"></div>
+                    
+                    <p class="mt-3 text-center text-muted small">Chưa có tài khoản? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">Đăng Ký Ngay</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal đăng ký -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">Đăng Ký Tài Khoản Mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label for="regEmail" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="regEmail" name="Email" required placeholder="user@new.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="regUsername" class="form-label">Username:</label>
+                            <input type="text" class="form-control" id="regUsername" name="Username" required placeholder="Tên đăng nhập">
+                        </div>
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Tên đầy đủ:</label>
+                            <input type="text" class="form-control" id="fullName" name="FullName" required placeholder="Tên đầy đủ">
+                        </div>
+                        <div class="mb-3">
+                            <label for="regPassword" class="form-label">Mật khẩu:</label>
+                            <input type="password" class="form-control" id="regPassword" name="Password" required placeholder="Mật khẩu (tối thiểu 6 ký tự)">
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Đăng Ký</button>
+                    </form>
+                    <div id="registerResult" class="mt-3 p-3 rounded" style="display: none; border: 1px solid;"></div>
+
+                    <p class="mt-3 text-center text-muted small">Đã có tài khoản? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Đăng Nhập</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
@@ -1689,12 +1475,238 @@
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../templates/lib/wow/wow.min.js"></script>
+    <script src="../templates/lib/owlcarousel/owl.carousel.min.js"></script>
 
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="../templates/js/main.js"></script>
+
+    <!-- Xử lý Đăng nhập và đăng ký -->
+    <script>
+    // Định nghĩa các hằng số và API Endpoint
+        const AUTH_API_TOKEN = '/api/v1/auth/token';
+        const AUTH_API_REGISTER = '/api/v1/auth/register';
+        
+        // Khởi tạo Modal 
+        const loginModalElement = document.getElementById('loginModal');
+        const registerModalElement = document.getElementById('registerModal');
+        const loginModal = loginModalElement ? new bootstrap.Modal(loginModalElement) : null;
+        const registerModal = registerModalElement ? new bootstrap.Modal(registerModalElement) : null;
+
+        // Khu vực Kết quả 
+        const loginResultDiv = document.getElementById('loginResult');
+        const registerResultDiv = document.getElementById('registerResult');
+
+        // Các phần tử UI Menu
+        const uiLoginLink = document.getElementById('uiLoginLink');
+        const uiRegisterLink = document.getElementById('uiRegisterLink');
+        const uiProfileLink = document.getElementById('uiProfileLink');
+        const uiCartLink = document.getElementById('uiCartLink');
+        const uiStoreLink = document.getElementById('uiStoreLink');
+        const uiLogoutLink = document.getElementById('uiLogoutLink');
+        const dashboardDropdownLink = document.getElementById('dashboardDropdownLink');
+
+        // --- Hàm Hiển thị Thông báo trong Modal ---
+        function showModalMessage(resultDiv, message, isSuccess) {
+            if (!resultDiv) return;
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = message;
+            resultDiv.className = isSuccess ? 'mt-3 p-3 rounded alert alert-success' : 'mt-3 p-3 rounded alert alert-danger';
+        }
+
+        // --- Hàm Cập nhật UI (Đã Đăng nhập / Chưa Đăng nhập) ---
+        // --- Hàm Cập nhật UI (Đã Đăng nhập / Chưa Đăng nhập) ---
+        function updateAuthUI() {
+            const token = localStorage.getItem('access_token');
+            let roles = [];
+            try {
+                roles = JSON.parse(localStorage.getItem('roles') || '[]');
+            } catch (e) {
+                console.error("Lỗi khi parse roles từ Local Storage:", e);
+            }
+            const fullName = localStorage.getItem('full_name');
+            
+            if (token) {
+                // ĐÃ ĐĂNG NHẬP
+                if (uiLoginLink) uiLoginLink.classList.add('d-none');
+                if (uiRegisterLink) uiRegisterLink.classList.add('d-none');
+                
+                if (uiProfileLink) uiProfileLink.classList.remove('d-none');
+                if (uiCartLink) uiCartLink.classList.remove('d-none');
+                if (uiLogoutLink) uiLogoutLink.classList.remove('d-none');
+
+                if (dashboardDropdownLink) {
+                    const display_name = fullName ? fullName.split(' ')[0] : 'Tài khoản';
+                    dashboardDropdownLink.innerHTML = `<small><i class="fa fa-user me-2"></i> ${display_name}</small>`;
+                }
+                
+                // --- LOGIC ĐÃ SỬA: Hiển thị Cửa hàng của tôi cho mọi User đã đăng nhập ---
+                if (uiStoreLink) {
+                    uiStoreLink.classList.remove('d-none'); // Loại bỏ class d-none
+                    // Cập nhật đường dẫn theo yêu cầu mới
+                    uiStoreLink.href = "/templates/user/seller_dashboard.html"; 
+                }
+                
+                // --- Giữ lại logic chuyển hướng cho Admin/Mod ---
+                const isAdminOrMod = roles.includes("Admin") || roles.includes("Moderator");
+                if (isAdminOrMod && uiStoreLink) {
+                    // Admin/Mod sẽ được chuyển hướng về Dashboard quản trị nếu họ click vào Cửa hàng
+                    // Lưu ý: Nếu muốn Admin/Mod cũng truy cập Seller Dashboard, bạn có thể bỏ qua phần này.
+                    // Tôi giữ lại phần này chỉ để logic chuyển hướng khi đăng nhập không bị mất
+                    uiStoreLink.href = roles.includes("Admin") ? "/admin/dashboard_admin.html" : "/moderator/moderator_dashboard.html"; 
+                }
+
+            } else {
+                // CHƯA ĐĂNG NHẬP
+                if (uiLoginLink) uiLoginLink.classList.remove('d-none');
+                if (uiRegisterLink) uiRegisterLink.classList.remove('d-none');
+                
+                if (uiProfileLink) uiProfileLink.classList.add('d-none');
+                if (uiCartLink) uiCartLink.classList.add('d-none');
+                if (uiStoreLink) uiStoreLink.classList.add('d-none'); // Ẩn khi chưa đăng nhập
+                if (uiLogoutLink) uiLogoutLink.classList.add('d-none');
+                
+                if (dashboardDropdownLink) {
+                    dashboardDropdownLink.innerHTML = `<small><i class="fa fa-home me-2"></i> Bảng điều khiển</small>`;
+                }
+            }
+        }
+        // --- Hàm Đăng Xuất ---
+        function handleLogout(event) {
+            event.preventDefault(); 
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('roles');
+            localStorage.removeItem('full_name');
+            
+            updateAuthUI();
+            alert("Bạn đã đăng xuất thành công!");
+        }
+
+
+        // --- Hàm chung để xử lý form submit ---
+        async function handleSubmit(event, endpoint) {
+            event.preventDefault(); 
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const isLogin = endpoint === AUTH_API_TOKEN;
+            const resultDiv = isLogin ? loginResultDiv : registerResultDiv;
+            const currentModal = isLogin ? loginModal : registerModal;
+
+            if (resultDiv) {
+                resultDiv.style.display = 'none'; 
+                showModalMessage(resultDiv, 'Đang xử lý...', false); 
+            }
+
+            try {
+                let response;
+                
+                if (isLogin) {
+                    // Login: Gửi form-urlencoded
+                    response = await fetch(endpoint, {
+                        method: 'POST',
+                        body: new URLSearchParams(formData)
+                    });
+                } else {
+                    // Register: Gửi JSON
+                    const data = Object.fromEntries(formData.entries());
+                    response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                }
+                
+                // Xử lý response, ngay cả khi fail, để lấy lỗi chi tiết
+                const data = await response.json(); 
+
+                if (response.ok) {
+                    if (isLogin) {
+                        // Xử lý thành công Đăng nhập
+                        const roles = data.roles || [];
+                        const full_name = data.full_name || data.username || "Người dùng"; 
+
+                        localStorage.setItem('access_token', data.access_token);
+                        localStorage.setItem('roles', JSON.stringify(roles));
+                        localStorage.setItem('full_name', full_name); 
+
+                        showModalMessage(resultDiv, `Đăng nhập thành công! Chào mừng ${full_name}.`, true);
+                        
+                        if (currentModal) currentModal.hide(); 
+                        updateAuthUI(); 
+
+                        const isAdminOrMod = roles.includes("Admin") || roles.includes("Moderator");
+                        if (isAdminOrMod) {
+                            const redirectUrl = roles.includes("Admin") ? "/admin/dashboard_admin.html" : "/moderator/moderator_dashboard.html";
+                            setTimeout(() => {
+                                window.location.href = redirectUrl; 
+                            }, 500); 
+                        }
+
+                    } else {
+                        // Xử lý thành công Đăng ký
+                        showModalMessage(resultDiv, `Đăng ký thành công! Bạn có thể Đăng nhập ngay.`, true);
+                        form.reset(); 
+                        
+                        setTimeout(() => {
+                            if (registerModal) registerModal.hide();
+                            if (loginModal) loginModal.show();
+                        }, 2000);
+                    }
+
+                } else {
+                    // Xử lý lỗi API (Status 4xx, 5xx)
+                    const detail = data.detail ? (typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail)) : 'Lỗi không xác định.';
+                    showModalMessage(resultDiv, `Thất bại (${response.status}): ${detail}`, false);
+                }
+            } catch (error) {
+                // Xử lý lỗi kết nối
+                showModalMessage(resultDiv, 'Lỗi kết nối hoặc xử lý: ' + error.message, false);
+                console.error("Fetch Error:", error);
+            }
+        }
+        
+        // Gắn sự kiện cho form Đăng nhập
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            // *** Dùng hằng số đã định nghĩa ***
+            loginForm.addEventListener('submit', (e) => {
+                handleSubmit(e, AUTH_API_TOKEN); 
+            });
+        }
+
+        // Gắn sự kiện cho form Đăng ký
+        const registerForm = document.getElementById('registerForm');
+        if (registerForm) {
+            // *** Dùng hằng số đã định nghĩa ***
+            registerForm.addEventListener('submit', (e) => {
+                handleSubmit(e, AUTH_API_REGISTER); 
+            });
+        }
+
+        // Gắn sự kiện cho Đăng xuất
+        if (uiLogoutLink) {
+            uiLogoutLink.addEventListener('click', handleLogout);
+        }
+
+        // Lắng nghe sự kiện Modal đóng để dọn dẹp thông báo
+        if (loginModalElement) {
+            loginModalElement.addEventListener('hidden.bs.modal', function () {
+                if (loginResultDiv) loginResultDiv.style.display = 'none';
+            })
+        }
+        if (registerModalElement) {
+            registerModalElement.addEventListener('hidden.bs.modal', function () {
+                if (registerResultDiv) registerResultDiv.style.display = 'none';
+            })
+        }
+
+        // --- Chạy khi tải trang lần đầu ---
+        document.addEventListener('DOMContentLoaded', updateAuthUI);
+
+    </script>
 </body>
 
 </html>
+

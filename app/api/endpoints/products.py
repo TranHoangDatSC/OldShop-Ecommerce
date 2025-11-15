@@ -9,7 +9,7 @@ from app.models import schemas, sqlmodels
 from app.models.sqlmodels import Product, User
 from app.crud.crud_product import product_crud
 from app.core.constants import ProductStatus, RoleID
-from app.services.product_service import product_service
+from app.services.product_service import attach_product_response_fields, product_service
 
 router = APIRouter()
 
@@ -26,9 +26,25 @@ def read_products(
     )
     return products
 
+# --- Endpoint Public: Xem chi tiết sản phẩm ---
+@router.get("/{product_id}", response_model=schemas.Product)
+def read_product_detail(
+    product_id: int,
+    db: Session = Depends(get_db)
+):
+    product = product_crud.get_by_id(db, product_id=product_id)
+    if not product:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Sản phẩm không tồn tại hoặc đã bị xóa."
+        )
+    
+    # SỬ DỤNG HÀM HELPER để thêm PrimaryImageUrl
+    product_out = attach_product_response_fields(product) 
+    
+    return product_out
 
 # --- Endpoint Protected: Tạo sản phẩm mới (chỉ JSON) ---
-
 @router.post("/", response_model=schemas.Product, status_code=status.HTTP_201_CREATED)
 def create_product(
     product_in: schemas.ProductCreate,
@@ -158,7 +174,6 @@ def create_product_with_images(
         )
 
 # --- Endpoint Protected: Xóa sản phẩm (Soft Delete) ---
-
 @router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_product(
     product_id: int,

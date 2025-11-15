@@ -147,6 +147,7 @@ class Product(ProductBase):
     CreatedAt: datetime
     UpdatedAt: Optional[datetime] = None
     
+    PrimaryImageUrl: Optional[str] = None
     # Mối quan hệ: Thêm images
     images: List[ProductImage] = [] 
     

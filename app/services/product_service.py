@@ -1,9 +1,7 @@
-# F:\Document_Study\Semesters 2025-2026\Object-Oriented Analysis & Design\choDoCu-ecommerce-main\choDoCu-ecommerce-main\app\services\product_service.py
-
 import os
 import shutil
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Union
 from sqlalchemy.orm import Session
 # Thêm HTTPException và status
 from fastapi import UploadFile, HTTPException, status 
@@ -14,6 +12,24 @@ from app.crud.crud_product import product_crud, product_image_crud
 
 STATIC_DIR = Path("static/images/products")
 STATIC_DIR.mkdir(parents=True, exist_ok=True) 
+
+def attach_product_response_fields(product: Product) -> schemas.Product:
+    # 1. Tìm ảnh mặc định (IsDefault=True) hoặc ảnh đầu tiên chưa bị xóa
+    primary_image = next(
+        (img for img in product.images if img.IsDefault and not img.IsDeleted),
+        next((img for img in product.images if not img.IsDeleted), None)
+    )
+    
+    # 2. Tạo đối tượng Pydantic Product từ SQLAlchemy object
+    product_schema = schemas.Product.model_validate(product) 
+    
+    # 3. Gán các trường bổ sung
+    product_schema.PrimaryImageUrl = primary_image.ImageUrl if primary_image else None
+    
+    # VideoUrl đã được gán tự động vì nó là trường thuộc ProductBase (giữ lại code này để minh họa)
+    # product_schema.VideoUrl = product.VideoUrl 
+    
+    return product_schema
 
 class ProductService:
     def create_product_and_save_images(
@@ -68,7 +84,7 @@ class ProductService:
             
             # 4. Refresh và trả về
             db.refresh(new_product) 
-            return new_product
+            return attach_product_response_fields(new_product)
 
         except ValueError as e:
             # Lỗi nghiệp vụ (ví dụ: CategoryID không hợp lệ)
@@ -91,5 +107,14 @@ class ProductService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
                 detail=f"Lỗi hệ thống khi đăng sản phẩm: {e}"
             )
-
+    def get_products_with_primary_image(
+        self, db: Session, skip: int, limit: int, status: Optional[Union[int, List[int]]]
+    ) -> List[schemas.Product]:
+        """Lấy danh sách sản phẩm và đính kèm PrimaryImageUrl."""
+        products_db = product_crud.get_multiple(db, skip=skip, limit=limit, status=status)
+        
+        # Áp dụng hàm xử lý cho từng sản phẩm
+        products_out = [attach_product_response_fields(p) for p in products_db]
+        
+        return products_out
 product_service = ProductService()

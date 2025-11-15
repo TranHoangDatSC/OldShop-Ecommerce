@@ -221,6 +221,21 @@
             <span class="close-btn" onclick="closeModal()">&times;</span>
             <h3 id="modalTitle" class="text-xl font-bold mb-4">Chi tiết Sản phẩm</h3>
             <form id="productForm">
+                <div class="mb-3">
+                    <label class="block text-gray-700 font-medium mb-1">Hình ảnh Sản phẩm (chính)</label>
+                    <div id="productImageContainer" class="border border-gray-300 p-2 rounded-lg bg-gray-100">
+                        <img id="productImage" src="/static/images/products/..." alt="Hình ảnh sản phẩm" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 4px;">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-gray-700 font-medium mb-1">Video Mô tả (Cho Mod Check)</label>
+                    <a id="productVideoLink" href="#" target="_blank" 
+                    class="block w-full p-3 mb-1 border-2 border-dashed border-blue-400 rounded-lg text-blue-600 hover:text-blue-800 hover:border-blue-600 transition duration-150 truncate">
+                    <i class="fas fa-link mr-2"></i> Không có Video
+                    </a>
+                    <input type="hidden" id="productVideoUrlHidden">
+                    <p class="text-xs text-gray-500 mt-1">(*) Mod check vui lòng nhấn vào đường link trên để xem chi tiết video.</p>
+                </div>
                 <input type="hidden" id="productID" name="ProductID">
                 <div class="mb-3">
                     <label class="block text-gray-700 font-medium mb-1">Tên sản phẩm</label>
@@ -333,6 +348,7 @@
         }
 
         // --- MAIN MODAL LOGIC (Product Details View) ---
+        // --- MAIN MODAL LOGIC (Product Details View) ---
         function closeModal() {
             modal.style.display = 'none';
         }
@@ -349,16 +365,61 @@
             form.reset();
             document.getElementById('productID').value = productId;
 
+            // LẤY CÁC BIẾN MỚI
+            const videoLinkElement = document.getElementById('productVideoLink');
+            const videoHiddenElement = document.getElementById('productVideoUrlHidden');
+            const productImageElement = document.getElementById('productImage');
+            const imageContainerElement = document.getElementById('productImageContainer');
+            
+            // 1. Reset các trường (Quan trọng: Xóa dòng lỗi cũ ở đây)
+            productImageElement.src = '';
+            imageContainerElement.style.display = 'none';
+            
+            // Reset Video Link
+            videoLinkElement.href = "#";
+            videoLinkElement.textContent = "Không có Video Mô tả";
+            videoLinkElement.classList.remove('border-green-400');
+            videoLinkElement.classList.add('border-blue-400');
+            videoHiddenElement.value = '';
+
             try {
-                // Fetch chi tiết sản phẩm
+                // 2. Fetch chi tiết sản phẩm
                 const response = await fetch(`${API_BASE}/${productId}`, { method: 'GET' });
+                
                 if (response.ok) {
                     const productData = await response.json();
                     
+                    // 3. Gán các trường cơ bản
                     document.getElementById('productTitle').value = productData.Title || '';
                     document.getElementById('productDescription').value = productData.Description || '';
                     document.getElementById('productPrice').value = (productData.Price || 0).toLocaleString('vi-VN') + ' VND';
-                    modal.style.display = 'block';
+
+                    // 4. Gán URL Video và Image (Key đã được sửa)
+                    const videoUrl = productData.VideoUrl || '';      // SỬA: Key chính xác
+                    const imageUrl = productData.PrimaryImageUrl || ''; // SỬA: Key chính xác
+
+                    // Gán URL Video (vào thẻ <a>)
+                    if (videoUrl) {
+                        videoHiddenElement.value = videoUrl;
+                        videoLinkElement.href = videoUrl;
+                        // Hiển thị một phần của URL (hoặc toàn bộ)
+                        videoLinkElement.textContent = videoUrl.length > 
+                                                        50 ? videoUrl.substring(0, 47) + '...' : videoUrl; 
+                        videoLinkElement.classList.remove('border-blue-400');
+                        videoLinkElement.classList.add('border-green-400');
+                    }
+
+                    // Gán URL Hình ảnh
+                    if (imageUrl) {
+                        productImageElement.src = imageUrl; 
+                        imageContainerElement.style.display = 'block';
+                    } else {
+                        imageContainerElement.style.display = 'none';
+                    }
+                    
+                    // 🌟 5. HIỂN THỊ MODAL
+                    modal.style.display = 'block'; 
+                    
                 } else {
                     const errorDetails = await getErrorDetails(response);
                     showCustomMessage(
@@ -370,13 +431,13 @@
             } catch (error) {
                 console.error('Lỗi API Get:', error);
                 showCustomMessage(
-                    'Lỗi kết nối',
-                    '<p>Lỗi kết nối mạng khi lấy dữ liệu chi tiết sản phẩm. Vui lòng thử lại.</p>',
+                    'Lỗi kết nối', 
+                    '<p>Lỗi kết nối mạng khi lấy dữ liệu chi tiết sản phẩm. Vui lòng thử lại.</p>', 
                     false
                 );
             }
         }
-
+        
         // --- API HELPER FUNCTIONS SỬA LỖI HIỂN THỊ ---
         async function getErrorDetails(response) {
             try {

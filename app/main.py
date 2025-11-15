@@ -46,6 +46,7 @@ app = FastAPI(
 )
 
 # Cấu hình Static và Templates
+app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
@@ -54,7 +55,12 @@ app.mount("/templates", StaticFiles(directory="app/templates"), name="templates"
 def read_root(request: Request):
     """Render trang index.html."""
     return templates.TemplateResponse("index.html", {"request": request})
+app.mount("/templates", StaticFiles(directory="app/templates"), name="templates")
 
+@app.get("/")
+def read_root(request: Request):
+    """Render trang shop.html."""
+    return templates.TemplateResponse("shop.html", {"request": request})
 
 # Router Dashboard Người dùng Quản lý:
 @app.get("/user/seller_dashboard.html", response_class=HTMLResponse)
