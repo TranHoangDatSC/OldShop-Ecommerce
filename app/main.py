@@ -97,6 +97,8 @@ async def admin_users_page(request: Request): # Đổi tên hàm để tránh tr
 
 # ROUTE CHÍNH
 app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(products.router, prefix="/api/products")
+
 
 if __name__ == "__main__":
     # Đảm bảo uvicorn chạy đúng file app
