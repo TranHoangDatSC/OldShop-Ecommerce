@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quản Lý Sản Phẩm - Moderator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* CSS Cơ bản */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+            z-index: 50;
+            display: flex; /* Dùng flexbox cho sidebar */
+            flex-direction: column;
+            justify-content: space-between; /* Đẩy Logout xuống cuối */
+        }
+        .sidebar h3 {
+            padding: 10px 20px;
+            font-size: 1.25rem;
+            border-bottom: 1px solid #34495e;
+            margin-bottom: 10px;
+        }
+        .sidebar a {
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #ecf0f1;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+            border-left: 5px solid transparent;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #34495e;
+            border-left: 5px solid #3498db;
+            color: white;
+        }
+        .sidebar a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        .main-content {
+            margin-left: 250px;
+            flex-grow: 1;
+            padding: 20px;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+        .header-bar {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+        }
+        .content-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        }
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .product-table th, .product-table td {
+            padding: 15px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .product-table th {
+            background-color: #ecf0f1;
+            font-weight: 600;
+            color: #333;
+        }
+        .product-table tr:hover {
+            background-color: #fcfcfc;
+        }
+
+        .action-btn {
+            padding: 8px 12px;
+            margin: 4px 2px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s, transform 0.1s;
+            font-weight: 500;
+        }
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+        /* Chi tiết - Màu xanh dương */
+        .detail-btn { background-color: #3498db; } 
+        /* Duyệt/Duyệt lại - Màu xanh lá */
+        .approve-btn { background-color: #2ecc71; } 
+        /* Từ chối - Màu đỏ */
+        .reject-btn { background-color: #e74c3c; } 
+        /* Chuyển về Chờ - Màu cam (hoặc xám/trắng) */
+        .pending-btn { background-color: #f39c12; } 
+
+        .status-pill {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .status-pill.approved { background-color: #2ecc71; color: white; }
+        .status-pill.pending { background-color: #f39c12; color: white; } 
+        .status-pill.rejected { background-color: #e74c3c; color: white; } 
+
+        /* Custom Modal Styling - Giữ nguyên */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6);
+        }
+        .modal-content {
+            background-color: #fefefe; margin: 5% auto; padding: 30px; border: none;
+            width: 90%; max-width: 700px; border-radius: 10px; position: relative;
+            animation: fadeIn 0.3s;
+        }
+        .close-btn { color: #aaa; float: right; font-size: 32px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
+        .close-btn:hover { color: #333; }
+
+        .modal-content input, .modal-content textarea {
+            width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px;
+            border: 1px solid #ddd; box-sizing: border-box; background-color: #f9f9f9;
+        }
+        .modal-content textarea {
+            resize: vertical;
+        }
+        
+        /* Custom Message Box Styling - Giữ nguyên */
+        #customMessageBox { z-index: 2000; }
+        .message-box {
+            background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 90%; max-width: 400px; text-align: center; margin: 15% auto; animation: scaleIn 0.2s ease-out;
+        }
+        .message-box h4 { font-size: 1.25rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
+        .message-box p { margin-bottom: 20px; color: #555; }
+        .message-box .confirm-btn { background-color: #e74c3c; color: white; border: none; }
+        .message-box .cancel-btn { background-color: #bdc3c7; color: #333; border: 1px solid #95a5a6; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body onload="fetchProducts()">
+    <div class="sidebar">
+        <div> 
+            <h3><i class="fas fa-gavel"></i> Khu vực Moderator</h3>
+            <div style="padding: 10px 0;">
+                <a href="/moderator/moderator_dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Quản lý Kiểm duyệt</h4>
+                <a href="/moderator/moderator_products.html" class="active"><i class="fas fa-box"></i> Duyệt Sản phẩm</a>
+                <a href="/moderator/moderator_users.html"><i class="fas fa-users-slash"></i> Mở/Khóa Tài khoản</a>
+                <div style="padding: 10px 0; border-top: 1px solid #34495e;">
+                    <a href="#" id="logoutBtn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header-bar">
+            <h2>Quản Lý Duyệt Sản Phẩm</h2>
+        </div>
+        <div class="content-box">
+            <h3>Danh sách Sản phẩm Cần Duyệt và Đã Duyệt</h3>
+            <table class="product-table" id="productsTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Người bán</th> 
+                        <th>Liên hệ</th> 
+                        <th>Giá</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="7">Đang tải dữ liệu...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="productModal" class="modal" onclick="if(event.target.id === 'productModal') closeModal()">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle" class="text-xl font-bold mb-4">Chi tiết Sản phẩm</h3>
+            <form id="productForm">
+                <div class="mb-3">
+                    <label class="block text-gray-700 font-medium mb-1">Hình ảnh Sản phẩm (chính)</label>
+                    <div id="productImageContainer" class="border border-gray-300 p-2 rounded-lg bg-gray-100">
+                        <img id="productImage" src="/static/images/products/..." alt="Hình ảnh sản phẩm" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 4px;">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-gray-700 font-medium mb-1">Video Mô tả (Cho Mod Check)</label>
+                    <a id="productVideoLink" href="#" target="_blank" 
+                    class="block w-full p-3 mb-1 border-2 border-dashed border-blue-400 rounded-lg text-blue-600 hover:text-blue-800 hover:border-blue-600 transition duration-150 truncate">
+                    <i class="fas fa-link mr-2"></i> Không có Video
+                    </a>
+                    <input type="hidden" id="productVideoUrlHidden">
+                    <p class="text-xs text-gray-500 mt-1">(*) Mod check vui lòng nhấn vào đường link trên để xem chi tiết video.</p>
+                </div>
+                <input type="hidden" id="productID" name="ProductID">
+                <div class="mb-3">
+                    <label class="block text-gray-700 font-medium mb-1">Tên sản phẩm</label>
+                    <input type="text" id="productTitle" name="Title" required disabled class="bg-gray-100 cursor-not-allowed">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-gray-700 font-medium mb-1">Mô tả</label>
+                    <textarea id="productDescription" name="Description" rows="5" disabled class="bg-gray-100 cursor-not-allowed"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-gray-700 font-medium mb-1">Giá (VND)</label>
+                    <input type="text" id="productPrice" name="Price" required disabled class="bg-gray-100 cursor-not-allowed">
+                </div>
+                <p class="text-sm italic text-blue-500 mt-4">
+                    (*) Chi tiết sản phẩm chỉ mang tính chất xem (read-only).
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="customMessageBox" class="modal">
+        <div class="message-box">
+            <h4 id="messageBoxTitle">Tiêu đề</h4>
+            <p id="messageBoxContent">Nội dung thông báo.</p>
+            <div id="messageBoxActions">
+                </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- CONSTANTS ---
+        const modal = document.getElementById('productModal');
+        const form = document.getElementById('productForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const tableBody = document.querySelector('#productsTable tbody');
+        const msgBox = document.getElementById('customMessageBox');
+        const msgBoxTitle = document.getElementById('messageBoxTitle');
+        const msgBoxContent = document.getElementById('messageBoxContent');
+        const msgBoxActions = document.getElementById('messageBoxActions');
+
+        const API_BASE = '/api/v1/products'; 
+        const FETCH_URL = `${API_BASE}/moderator/all`; 
+        const STATUS_UPDATE_URL = `${API_BASE}/status`; 
+
+        const STATUS_PENDING = 0;
+        const STATUS_APPROVED = 1;
+        const STATUS_REJECTED = 2; 
+
+        let currentProductId = null;
+
+        // --- LOGOUT FUNCTION ---
+        function handleLogout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            showCustomMessage(
+                'Xác nhận Đăng xuất',
+                'Bạn có chắc chắn muốn đăng xuất khỏi khu vực Moderator?',
+                true,
+                (confirmed) => {
+                    if (confirmed) {
+                        // TODO: Implement actual logout logic (clear token, redirect to login page)
+                        // Ví dụ: localStorage.removeItem('access_token');
+                        window.location.href = "http://127.0.0.1:8000/"; 
+                    }
+                }
+            );
+        }
+
+        // --- CUSTOM MESSAGE BOX IMPLEMENTATION (ALERT/CONFIRM REPLACEMENT) ---
+
+        function showCustomMessage(title, message, isConfirm, callback = null) {
+            msgBoxTitle.textContent = title;
+            msgBoxContent.innerHTML = message;
+            msgBoxActions.innerHTML = '';
+            msgBox.style.display = 'block';
+
+            const closeMessage = () => {
+                msgBox.style.display = 'none';
+            };
+
+            if (isConfirm) {
+                const confirmBtn = document.createElement('button');
+                // Thay đổi màu nút xác nhận thành màu xanh dương cho hành động ít tiêu cực hơn
+                confirmBtn.className = 'action-btn detail-btn'; 
+                confirmBtn.textContent = 'Xác nhận';
+                confirmBtn.onclick = () => {
+                    closeMessage();
+                    if (callback) callback(true);
+                };
+
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'action-btn reject-btn'; // Dùng màu đỏ cho nút hủy
+                cancelBtn.textContent = 'Hủy bỏ';
+                cancelBtn.onclick = () => {
+                    closeMessage();
+                    if (callback) callback(false);
+                };
+
+                msgBoxActions.appendChild(confirmBtn);
+                msgBoxActions.appendChild(cancelBtn);
+            } else {
+                const okBtn = document.createElement('button');
+                okBtn.className = 'action-btn detail-btn'; 
+                okBtn.textContent = 'Đóng';
+                okBtn.onclick = closeMessage;
+                msgBoxActions.appendChild(okBtn);
+            }
+        }
+
+        // --- MAIN MODAL LOGIC (Product Details View) ---
+        // --- MAIN MODAL LOGIC (Product Details View) ---
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        async function editProduct(productId) {
+            currentProductId = productId;
+            modalTitle.textContent = `Chi tiết Sản phẩm ID: ${productId}`;
+            form.reset();
+            document.getElementById('productID').value = productId;
+
+            // LẤY CÁC BIẾN MỚI
+            const videoLinkElement = document.getElementById('productVideoLink');
+            const videoHiddenElement = document.getElementById('productVideoUrlHidden');
+            const productImageElement = document.getElementById('productImage');
+            const imageContainerElement = document.getElementById('productImageContainer');
+            
+            // 1. Reset các trường (Quan trọng: Xóa dòng lỗi cũ ở đây)
+            productImageElement.src = '';
+            imageContainerElement.style.display = 'none';
+            
+            // Reset Video Link
+            videoLinkElement.href = "#";
+            videoLinkElement.textContent = "Không có Video Mô tả";
+            videoLinkElement.classList.remove('border-green-400');
+            videoLinkElement.classList.add('border-blue-400');
+            videoHiddenElement.value = '';
+
+            try {
+                // 2. Fetch chi tiết sản phẩm
+                const response = await fetch(`${API_BASE}/${productId}`, { method: 'GET' });
+                
+                if (response.ok) {
+                    const productData = await response.json();
+                    
+                    // 3. Gán các trường cơ bản
+                    document.getElementById('productTitle').value = productData.Title || '';
+                    document.getElementById('productDescription').value = productData.Description || '';
+                    document.getElementById('productPrice').value = (productData.Price || 0).toLocaleString('vi-VN') + ' VND';
+
+                    // 4. Gán URL Video và Image (Key đã được sửa)
+                    const videoUrl = productData.VideoUrl || '';      // SỬA: Key chính xác
+                    const imageUrl = productData.PrimaryImageUrl || ''; // SỬA: Key chính xác
+
+                    // Gán URL Video (vào thẻ <a>)
+                    if (videoUrl) {
+                        videoHiddenElement.value = videoUrl;
+                        videoLinkElement.href = videoUrl;
+                        // Hiển thị một phần của URL (hoặc toàn bộ)
+                        videoLinkElement.textContent = videoUrl.length > 
+                                                        50 ? videoUrl.substring(0, 47) + '...' : videoUrl; 
+                        videoLinkElement.classList.remove('border-blue-400');
+                        videoLinkElement.classList.add('border-green-400');
+                    }
+
+                    // Gán URL Hình ảnh
+                    if (imageUrl) {
+                        productImageElement.src = imageUrl; 
+                        imageContainerElement.style.display = 'block';
+                    } else {
+                        imageContainerElement.style.display = 'none';
+                    }
+                    
+                    // 🌟 5. HIỂN THỊ MODAL
+                    modal.style.display = 'block'; 
+                    
+                } else {
+                    const errorDetails = await getErrorDetails(response);
+                    showCustomMessage(
+                        'Lỗi tải chi tiết sản phẩm', 
+                        `<p>Không thể lấy dữ liệu chi tiết cho sản phẩm ID ${productId}.</p><p style="color: red;"><strong>Chi tiết:</strong> ${errorDetails}</p>`, 
+                        false
+                    );
+                }
+            } catch (error) {
+                console.error('Lỗi API Get:', error);
+                showCustomMessage(
+                    'Lỗi kết nối', 
+                    '<p>Lỗi kết nối mạng khi lấy dữ liệu chi tiết sản phẩm. Vui lòng thử lại.</p>', 
+                    false
+                );
+            }
+        }
+        
+        // --- API HELPER FUNCTIONS SỬA LỖI HIỂN THỊ ---
+        async function getErrorDetails(response) {
+            try {
+                const errorData = await response.json();
+                
+                if (errorData.detail) {
+                    if (Array.isArray(errorData.detail)) {
+                        return JSON.stringify(errorData.detail, null, 2);
+                    }
+                    return errorData.detail;
+                }
+
+                if (errorData.message) {
+                    return errorData.message;
+                }
+
+                return JSON.stringify(errorData, null, 2); 
+            } catch (e) {
+                const textError = await response.text();
+                return `Lỗi không phải JSON (Status: ${response.status}). Nội dung: ${textError.substring(0, 100)}...`;
+            }
+        }
+
+        // --- MAIN TABLE DATA FETCHING ---
+        async function fetchProducts() {
+            tableBody.innerHTML = '<tr><td colspan="7"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...</td></tr>';
+            try {
+                const response = await fetch(FETCH_URL, { method: 'GET' });
+                if (response.ok) {
+                    const products = await response.json();
+                    renderTable(products);
+                } else {
+                    const errorDetails = await getErrorDetails(response);
+                    tableBody.innerHTML = `<tr><td colspan="7" style="color: red; font-weight: bold;">LỖI TẢI DỮ LIỆU: ${errorDetails}</td></tr>`;
+                }
+            } catch (error) {
+                console.error('Lỗi API:', error);
+                tableBody.innerHTML = '<tr><td colspan="7" style="color: red; font-weight: bold;">Không thể kết nối đến máy chủ API (Lỗi mạng hoặc CORS).</td></tr>';
+            }
+        }
+
+        function getStatusInfo(status) {
+            switch (status) {
+                case STATUS_APPROVED:
+                    // Đã Duyệt: Giữ lại 2 lựa chọn: Chuyển về Chờ (0) hoặc Từ chối (2)
+                    return { text: 'Đã duyệt', class: 'approved', action_buttons: [
+                        { text: 'Chuyển về Chờ', class: 'pending-btn', icon: 'fas fa-arrow-alt-circle-left', status: STATUS_PENDING, action: 'Chuyển về Chờ Duyệt' },
+                        { text: 'Từ chối', class: 'reject-btn', icon: 'fas fa-times-circle', status: STATUS_REJECTED, action: 'Từ chối duyệt' }
+                    ]}; 
+                case STATUS_PENDING:
+                    // Chờ Duyệt: Chỉ Duyệt (1) hoặc Từ chối (2)
+                    return { text: 'Chờ duyệt', class: 'pending', action_buttons: [
+                        { text: 'Duyệt ngay', class: 'approve-btn', icon: 'fas fa-check-circle', status: STATUS_APPROVED, action: 'Duyệt' },
+                        { text: 'Từ chối', class: 'reject-btn', icon: 'fas fa-times-circle', status: STATUS_REJECTED, action: 'Từ chối duyệt' }
+                    ]};
+                case STATUS_REJECTED:
+                    // Từ chối: Duyệt lại (1) hoặc Chuyển về Chờ (0)
+                    return { text: 'Từ chối', class: 'rejected', action_buttons: [
+                        { text: 'Duyệt lại', class: 'approve-btn', icon: 'fas fa-check-circle', status: STATUS_APPROVED, action: 'Duyệt lại' },
+                        { text: 'Chuyển về Chờ', class: 'pending-btn', icon: 'fas fa-arrow-alt-circle-left', status: STATUS_PENDING, action: 'Chuyển về Chờ Duyệt' }
+                    ]};
+                default:
+                    return { text: 'Không rõ', class: 'text-gray-500', action_buttons: [] };
+            }
+        }
+
+        function renderTable(products) {
+            tableBody.innerHTML = '';
+            if (products.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-gray-500">Chưa có sản phẩm nào cần kiểm duyệt hoặc đã duyệt.</td></tr>';
+                return;
+            }
+
+            products.forEach(product => {
+                const statusInfo = getStatusInfo(product.Status);
+                
+                // Giả định backend trả về object Seller (cần sửa backend)
+                const seller = product.seller || { FullName: 'N/A', Email: 'N/A', PhoneNumber: 'N/A' }; 
+                const sellerInfo = `<strong>${seller.FullName}</strong> <span class="text-xs text-gray-400"> (ID: ${product.SellerID})</span>`;
+
+                const contactInfo = `
+                    <span class="text-xs">
+                        <i class="fas fa-envelope mr-1"></i>${seller.Email}<br>
+                        <i class="fas fa-phone mr-1"></i>${seller.PhoneNumber}
+                    </span>
+                `;
+                
+                // Nút Chi tiết luôn hiển thị đầu tiên
+                let actionButtonsHTML = `<button class="action-btn detail-btn" onclick="editProduct(${product.ProductID})"><i class="fas fa-eye"></i> Chi tiết</button>`;
+                
+                // Duyệt/Từ chối/Chuyển chờ (chỉ 2 nút liên quan)
+                statusInfo.action_buttons.forEach(btn => {
+                    actionButtonsHTML += `
+                        <button class="action-btn ${btn.class}" 
+                            data-product-id="${product.ProductID}" 
+                            onclick="toggleApproval(${product.ProductID}, ${btn.status}, '${btn.action}', this)">
+                            <i class="${btn.icon}"></i> ${btn.text}
+                        </button>
+                    `;
+                });
+
+
+                const row = `
+                    <tr>
+                        <td>${product.ProductID}</td>
+                        <td class="font-medium">${product.Title || 'N/A'}</td>
+                        <td class="text-sm">${sellerInfo}</td>
+                        <td>${contactInfo}</td>
+                        <td>${(product.Price || 0).toLocaleString('vi-VN')} VND</td>
+                        <td><span class="status-pill ${statusInfo.class}">${statusInfo.text}</span></td>
+                        <td>
+                            ${actionButtonsHTML}
+                        </td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            });
+        }
+
+        // --- APPROVAL TOGGLE LOGIC ---
+        // Thêm tham số 'clickedButton' để chỉ vô hiệu hóa các nút liên quan
+        async function toggleApproval(productId, newStatus, action, clickedButton) { 
+            const newStatusName = 
+                newStatus === STATUS_APPROVED ? 'Duyệt' : 
+                newStatus === STATUS_PENDING ? 'Chuyển về Chờ Duyệt' : 
+                'Từ chối'; 
+
+            showCustomMessage(
+                `Xác nhận ${action}`,
+                `<p>Bạn có chắc chắn muốn <strong>${action}</strong> sản phẩm ID: <strong>${productId}</strong>? (Trạng thái mới: ${newStatusName})</p>`,
+                true,
+                async (confirmed) => {
+                    if (!confirmed) return;
+
+                    // Vô hiệu hóa tất cả các nút hành động của sản phẩm này
+                    const allActionBtns = document.querySelectorAll(`#productsTable tr button`);
+                    allActionBtns.forEach(btn => {
+                        if (btn.parentElement.parentElement.querySelector(`td:first-child`).textContent.trim() == productId) {
+                            btn.disabled = true;
+                        }
+                    });
+
+
+                    // Hiệu ứng tải cho nút vừa được nhấn
+                    const originalText = clickedButton.innerHTML;
+                    clickedButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+
+                    try {
+                        const response = await fetch(`${STATUS_UPDATE_URL}/${productId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ Status: newStatus }) 
+                        });
+
+                        if (response.ok) {
+                            showCustomMessage('Thành công', `${action} sản phẩm ID ${productId} thành công!`, false);
+                            fetchProducts(); // Tải lại bảng để cập nhật trạng thái
+                        } else {
+                            const errorDetails = await getErrorDetails(response);
+                            showCustomMessage(
+                                'Lỗi', 
+                                `<p>Lỗi khi ${action.toLowerCase()} sản phẩm ID ${productId}.</p><p style="color: red;"><strong>Chi tiết:</strong> ${errorDetails}</p>`, 
+                                false
+                            );
+                        }
+                    } catch (error) {
+                        console.error('Lỗi kết nối:', error);
+                        showCustomMessage('Lỗi kết nối', 'Lỗi kết nối đến máy chủ. Vui lòng kiểm tra mạng.', false);
+                    } finally {
+                        // Nếu fetchProducts() không được gọi (ví dụ: lỗi), cần kích hoạt lại các nút
+                        if (!response || !response.ok) {
+                             allActionBtns.forEach(btn => {
+                                if (btn.parentElement.parentElement.querySelector(`td:first-child`).textContent.trim() == productId) {
+                                    btn.disabled = false;
+                                }
+                            });
+                            clickedButton.innerHTML = originalText;
+                        }
+                    }
+                }
+            );
+        }
+    </script>
+</body>
+</html>

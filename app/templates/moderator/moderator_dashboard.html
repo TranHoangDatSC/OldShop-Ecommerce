@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Kiểm Duyệt - Moderator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* CSS Cơ bản */
+        body { 
+            font-family: 'Arial', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f4f4f9; 
+            display: flex; 
+            min-height: 100vh; 
+        }
+        .sidebar { 
+            width: 250px; 
+            background-color: #2c3e50; 
+            color: white; 
+            padding-top: 20px; 
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1); 
+            position: fixed; 
+            height: 100%; 
+            overflow-y: auto; 
+            /* ĐỒNG BỘ: Dùng Flexbox để đẩy Đăng xuất xuống cuối (Giống moderator_products.html) */
+            display: flex; 
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .sidebar a { 
+            padding: 15px 20px; 
+            text-decoration: none; 
+            font-size: 16px; 
+            color: #ecf0f1; 
+            display: flex; /* ĐỒNG BỘ */
+            align-items: center;
+            transition: background-color 0.3s; 
+            border-left: 5px solid transparent; 
+        }
+        .sidebar a:hover, .sidebar a.active { 
+            background-color: #34495e; 
+            border-left: 5px solid #3498db; 
+            color: white; 
+        }
+        .sidebar a i { 
+            margin-right: 10px; 
+            width: 20px; 
+            text-align: center; 
+        }
+        .main-content { margin-left: 250px; flex-grow: 1; padding: 20px; }
+        .header-bar { background: white; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; }
+        .content-box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        .stat-card .value { font-size: 2.5em; font-weight: bold; color: #3498db; margin-bottom: 5px; }
+        .stat-card .label { color: #7f8c8d; font-size: 1em; }
+
+        /* ĐỒNG BỘ: Thêm CSS cho Custom Modal/Message Box (Giống moderator_products.html) */
+        .modal { 
+            display: none; position: fixed; z-index: 2000; left: 0; top: 0; 
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); 
+        }
+        .message-box { 
+            background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+            width: 90%; max-width: 400px; text-align: center; margin: 15% auto; animation: scaleIn 0.2s ease-out; 
+        }
+        .message-box h4 { font-size: 1.25rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
+        .message-box p { margin-bottom: 20px; color: #555; }
+        .action-btn { 
+            padding: 10px 20px; margin: 0 5px; border-radius: 6px; cursor: pointer; font-weight: 500; border: none; color: white;
+            transition: background-color 0.3s;
+        }
+        .detail-btn { background-color: #3498db; }
+        .reject-btn { background-color: #e74c3c; } 
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body>
+    <div id="customMessageBox" class="modal">
+        <div class="message-box">
+            <h4 id="messageBoxTitle">Tiêu đề</h4>
+            <p id="messageBoxContent">Nội dung thông báo.</p>
+            <div id="messageBoxActions"></div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div>
+            <h3><i class="fas fa-gavel"></i> Khu vực Moderator</h3>
+            <div style="padding: 10px 0;">
+                <a href="/moderator/moderator_dashboard.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Quản lý Kiểm duyệt</h4>
+                <a href="/moderator/moderator_products.html"><i class="fas fa-box"></i> Duyệt Sản phẩm</a>
+                <a href="/moderator/moderator_users.html"><i class="fas fa-users-slash"></i> Mở/Khóa Tài khoản</a>
+                <div style="padding: 10px 0; border-top: 1px solid #34495e;">
+                    <a href="#" id="logoutBtn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header-bar">
+            <h2>Chào mừng, Moderator!</h2>
+        </div>
+        
+        <div class="content-box mb-6">
+            <h3 class="text-xl font-semibold mb-4 text-gray-700">Tổng quan Công việc</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="stat-card">
+                    <div class="value text-yellow-600">42</div>
+                    <div class="label">Sản phẩm Chờ duyệt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value text-red-600">18</div>
+                    <div class="label">Tài khoản Bị khóa (Hôm nay)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value text-green-600">512</div>
+                    <div class="label">Sản phẩm Đã duyệt (Tuần này)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h3 class="text-xl font-semibold mb-4 text-gray-700">Tác vụ Quan trọng</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="/moderator/moderator_products.html" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg shadow-md transition duration-300 flex items-center justify-between">
+                    <div>
+                        <i class="fas fa-check-double mr-3"></i>
+                        <span class="font-bold">Tiến hành Duyệt Sản phẩm</span>
+                    </div>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="/moderator/moderator_users.html" class="bg-red-500 hover:bg-red-600 text-white p-4 rounded-lg shadow-md transition duration-300 flex items-center justify-between">
+                    <div>
+                        <i class="fas fa-user-slash mr-3"></i>
+                        <span class="font-bold">Quản lý Tài khoản Vi phạm</span>
+                    </div>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONSTANTS ---
+        // ĐỒNG BỘ: Khai báo các biến DOM cho Modal
+        const msgBox = document.getElementById('customMessageBox');
+        const msgBoxTitle = document.getElementById('messageBoxTitle');
+        const msgBoxContent = document.getElementById('messageBoxContent');
+        const msgBoxActions = document.getElementById('messageBoxActions');
+
+        // --- CUSTOM MESSAGE BOX IMPLEMENTATION (ĐỒNG BỘ từ moderator_products.html) ---
+        function showCustomMessage(title, message, isConfirm, callback = null) {
+            msgBoxTitle.textContent = title;
+            msgBoxContent.innerHTML = message;
+            msgBoxActions.innerHTML = '';
+            msgBox.style.display = 'block';
+
+            const closeMessage = () => {
+                msgBox.style.display = 'none';
+            };
+
+            if (isConfirm) {
+                const confirmBtn = document.createElement('button');
+                confirmBtn.className = 'action-btn detail-btn'; 
+                confirmBtn.textContent = 'Xác nhận';
+                confirmBtn.onclick = () => {
+                    closeMessage();
+                    if (callback) callback(true);
+                };
+
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'action-btn reject-btn'; 
+                cancelBtn.textContent = 'Hủy bỏ';
+                cancelBtn.onclick = () => {
+                    closeMessage();
+                    if (callback) callback(false);
+                };
+
+                msgBoxActions.appendChild(confirmBtn);
+                msgBoxActions.appendChild(cancelBtn);
+            } else {
+                const okBtn = document.createElement('button');
+                okBtn.className = 'action-btn detail-btn'; 
+                okBtn.textContent = 'Đóng';
+                okBtn.onclick = closeMessage;
+                msgBoxActions.appendChild(okBtn);
+            }
+        }
+
+        // --- LOGOUT FUNCTION (Bây giờ đã hoạt động) ---
+        function handleLogout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('user_role');
+            localStorage.removeItem('user_name');
+            showCustomMessage(
+                'Xác nhận Đăng xuất',
+                'Bạn có chắc chắn muốn đăng xuất khỏi khu vực Moderator?',
+                true,
+                (confirmed) => {
+                    if (confirmed) {
+                        // TODO: Implement actual logout logic (clear token, redirect to login page)
+                        window.location.href = "http://127.0.0.1:8000/"; 
+                    }
+                }
+            );
+        }
+    </script>
+</body>
+</html>
