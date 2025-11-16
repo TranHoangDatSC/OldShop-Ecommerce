@@ -59,6 +59,11 @@ app.mount("/templates", StaticFiles(directory="app/templates"), name="templates"
 
 @app.get("/")
 def read_root(request: Request):
+    """Render trang cart.html."""
+    return templates.TemplateResponse("cart.html", {"request": request})
+
+@app.get("/")
+def read_root(request: Request):
     """Render trang shop.html."""
     return templates.TemplateResponse("shop.html", {"request": request})
 

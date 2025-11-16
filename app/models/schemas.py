@@ -209,28 +209,74 @@ class Contact(ContactBase):
         from_attributes = True
 
 # --- SCHEMAS CHO CART ITEM ---
-class CartItemCreate(BaseModel):
+# Thêm schema cần thiết để nhúng vào CartItemOut
+class ProductInCart(BaseModel):
     ProductID: int
-    Quantity: int
+    Title: str
+    Price: Decimal
+    PrimaryImageUrl: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+        json_encoders = {Decimal: float}
 
-class CartItem(CartItemCreate):
+# --- SCHEMAS CHO CART ITEM ---
+class CartItemCreate(BaseModel):
+    """Schema dùng khi THÊM sản phẩm mới vào giỏ hàng."""
+    ProductID: int
+    Quantity: int = 1 # Mặc định thêm 1
+
+class CartItemUpdate(BaseModel):
+    """Schema dùng khi CẬP NHẬT số lượng sản phẩm."""
+    new_quantity: int
+
+class CartItem(BaseModel):
+    """Schema base của CartItem (dùng để map từ SQL model)"""
     ItemID: int
     CartID: int
+    ProductID: int
+    Quantity: int
     AddedDate: datetime
+    
+    class Config:
+        from_attributes = True
+
+class CartItemOut(BaseModel):
+    """Schema ĐẦU RA API: Cart Item có nhúng chi tiết sản phẩm."""
+    ItemID: int
+    Quantity: int
+    # Nhúng Product details
+    product: ProductInCart 
     
     class Config:
         from_attributes = True
 
 # --- SCHEMAS CHO SHOPPING CART ---
 class ShoppingCart(BaseModel):
+    """Schema base của ShoppingCart (dùng để map từ SQL model)"""
     CartID: int
     UserID: int
     LastUpdated: datetime
+    # List of CartItem base (ít dùng)
     items: List[CartItem] = [] 
-
+    
     class Config:
         from_attributes = True
 
+class ShoppingCartOut(BaseModel):
+    """Schema ĐẦU RA API: Giỏ hàng có nhúng chi tiết các món hàng."""
+    CartID: int
+    UserID: int
+    LastUpdated: datetime
+    # List of CartItemOut (có nhúng Product details)
+    items: List[CartItemOut] = []
+    
+    class Config:
+        from_attributes = True
+class ShoppingCart(ShoppingCart): # Giữ nguyên tên cũ của bạn để tương thích
+    pass
+class CartItem(CartItem): # Giữ nguyên tên cũ của bạn để tương thích
+    pass
 # --- SCHEMAS CHO ORDER DETAIL ---
 class OrderDetailBase(BaseModel):
     ProductID: int
