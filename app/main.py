@@ -11,7 +11,7 @@ from app.initial_data import init_db
 from app.core.database import SessionLocal 
 from app.api.base import api_router
 from fastapi import APIRouter
-from app.api.endpoints import auth, products
+from app.api.endpoints import auth, products, categories
 
 
 # --- 🛠️ HÀM TẠO BẢNG DATABASE (ĐƯỢC KÍCH HOẠT LẠI) ---
@@ -57,15 +57,17 @@ def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 app.mount("/templates", StaticFiles(directory="app/templates"), name="templates")
 
-@app.get("/")
-def read_root(request: Request):
-    """Render trang cart.html."""
+@app.get("/cart") # Đổi đường dẫn
+def cart_page(request: Request):
     return templates.TemplateResponse("cart.html", {"request": request})
 
-@app.get("/")
-def read_root(request: Request):
-    """Render trang shop.html."""
+@app.get("/shop") # Đổi đường dẫn
+def shop_page(request: Request):
     return templates.TemplateResponse("shop.html", {"request": request})
+
+@app.get("/details") # Đổi đường dẫn
+def details_page(request: Request):
+    return templates.TemplateResponse("details.html", {"request": request})
 
 # Router Dashboard Người dùng Quản lý:
 @app.get("/user/seller_dashboard.html", response_class=HTMLResponse)
@@ -103,7 +105,6 @@ async def admin_users_page(request: Request): # Đổi tên hàm để tránh tr
 # ROUTE CHÍNH
 app.include_router(api_router, prefix=settings.API_V1_STR)
 app.include_router(products.router, prefix="/api/products")
-
 
 if __name__ == "__main__":
     # Đảm bảo uvicorn chạy đúng file app

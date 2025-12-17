@@ -20,19 +20,112 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="../templates/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="../templates/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="../templates/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="../templates/css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .card.border-secondary {
+            /* Dùng màu đỏ cam (#dc3545) hoặc màu chủ đạo của bạn */
+            border: 2px solid #dc3545 !important; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Thêm bóng nhẹ cho hiệu ứng 3D */
+        }
+
+        /* ĐIỀU CHỈNH ĐƯỜNG PHÂN CÁCH TRONG CARD (header và footer) */
+        .card-header, .card-footer {
+            border-color: #dee2e6 !important; /* Đảm bảo màu phân cách rõ ràng */
+        }
+        /* Đảm bảo khung nội dung có khoảng cách lớn với các thành phần ngoài */
+        .cart-page-wrapper {
+            padding-top: 50px; /* Khoảng cách trên */
+            padding-bottom: 50px; /* Khoảng cách dưới */
+        }
+        /* Buộc phần tóm tắt giỏ hàng phải có khoảng đệm bên trong (p-30 bị mất) */
+        .card-body, .card-footer {
+            padding: 2rem !important; /* Buộc padding lớn hơn */
+        }
+        /* Tinh chỉnh tiêu đề CART SUMMARY */
+        .card-header h4 {
+            color: #212529; /* Màu chữ tiêu đề */
+        }
+        /* Đảm bảo input quantity không bị lỗi */
+        .quantity .form-control {
+            border-radius: 0;
+            border: 1px solid #ced4da !important;
+        }
+        /* Đảm bảo nút Checkout màu vàng nổi bật */
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+            font-weight: bold;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+        .detail-img-container {
+            width: 100%;
+            height: 500px; /* Chiều cao cố định cho ảnh */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+        }
+        .detail-img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .custom-scroll {
+            max-height: 350px; /* Chiều cao cố định box mô tả */
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        /* Hiệu ứng rung khi vượt quá số lượng */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+        .apply-shake {
+            animation: shake 0.4s ease-in-out;
+            border: 2px solid #dc3545 !important;
+        }
+
+        /* Hiệu ứng hover cho nút Mua Ngay */
+        .btn-buy-now {
+            transition: all 0.3s ease;
+        }
+        .btn-buy-now:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(243, 139, 0, 0.4) !important;
+            filter: brightness(1.1);
+        }
+        .video-link-box {
+            background-color: #f8f9fa;
+            border: 1px dashed #dee2e6;
+            transition: all 0.3s ease;
+        }
+        .video-link-box:hover {
+            background-color: #e9ecef;
+            border-color: #f38b00;
+        }
+        /* Tuỳ chỉnh thanh cuộn cho đẹp */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+    </style>
 </head>
 
 <body>
-
     <!-- Spinner Start -->
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -71,7 +164,6 @@
                             <a href="/profile" class="dropdown-item d-none" id="uiProfileLink"><i class="fas fa-user-circle me-2"></i> Tài khoản của tôi</a>
                             <a href="../templates/cart.html" class="dropdown-item d-none" id="uiCartLink"><i class="fas fa-shopping-cart me-2"></i> Giỏ hàng của tôi</a>
                             <a href="/app/templates/user/seller_dashboard.html" class="dropdown-item d-none" id="uiStoreLink"><i class="fas fa-store me-2"></i> Cửa hàng của tôi</a>
-                            <a href="#" class="dropdown-item d-none" id="uiLogoutLink"><i class="fas fa-sign-out-alt me-2"></i> Đăng Xuất</a>
                         </div>
                     </div>
                 </div>
@@ -230,63 +322,29 @@
     </div>
     <!-- Navbar & Hero End -->
 
-    <!-- Carousel Start -->
-    <div class="container-fluid carousel bg-light px-0">
-        <div class="row g-0 justify-content-end">
-            <div class="col-12 col-lg-7 col-xl-9">
-                <div class="header-carousel owl-carousel bg-light py-5">
-                    <div class="row g-0 header-carousel-item align-items-center">
-                        <div class="col-xl-6 carousel-img wow fadeInLeft" data-wow-delay="0.1s">
-                            <img src="../templates/img/carousel-1.png" class="img-fluid w-100" alt="Image">
-                        </div>
-                        <div class="col-xl-6 carousel-content p-4">
-                            <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s"
-                                style="letter-spacing: 3px;">Save Up To A $400</h4>
-                            <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">On Selected
-                                Laptops & Desktop Or Smartphone</h1>
-                            <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Terms and Condition Apply</p>
-                            <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s"
-                                href="#">Shop Now</a>
-                        </div>
-                    </div>
-                    <div class="row g-0 header-carousel-item align-items-center">
-                        <div class="col-xl-6 carousel-img wow fadeInLeft" data-wow-delay="0.1s">
-                            <img src="../templates/img/carousel-2.png" class="img-fluid w-100" alt="Image">
-                        </div>
-                        <div class="col-xl-6 carousel-content p-4">
-                            <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s"
-                                style="letter-spacing: 3px;">Save Up To A $200</h4>
-                            <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">On Selected
-                                Laptops & Desktop Or Smartphone</h1>
-                            <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Terms and Condition Apply</p>
-                            <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s"
-                                href="#">Shop Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-5 col-xl-3 wow fadeInRight" data-wow-delay="0.1s">
-                <div class="carousel-header-banner h-100">
-                    <img src="../templates/img/header-img.jpg" class="img-fluid w-100 h-100" style="object-fit: cover;" alt="Image">
-                    <div class="carousel-banner-offer">
-                        <p class="bg-primary text-white rounded fs-5 py-2 px-4 mb-0 me-3">Save $48.00</p>
-                        <p class="text-primary fs-5 fw-bold mb-0">Special Offer</p>
-                    </div>
-                    <div class="carousel-banner">
-                        <div class="carousel-banner-content text-center p-4">
-                            <a href="#" class="d-block mb-2">SmartPhone</a>
-                            <a href="#" class="d-block text-white fs-3">Apple iPad Mini <br> G2356</a>
-                            <del class="me-2 text-white fs-5">$1,250.00</del>
-                            <span class="text-primary fs-5">$1,050.00</span>
-                        </div>
-                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4"><i
-                                class="fas fa-shopping-cart me-2"></i> Add To Cart</a>
-                    </div>
+    <!-- Single Page Header start -->
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Cart Page</h1>
+        <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+            <li class="breadcrumb-item active text-white">Cart Page</li>
+        </ol>
+    </div>
+    <!-- Single Page Header End -->
+
+    <!-- Details Page Start -->
+    <div class="container-fluid py-5 mt-5">
+        <div class="container py-5">
+            <div class="row g-5" id="product-detail-wrapper">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p>Đang tải thông tin sản phẩm...</p>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Carousel End -->
+    <!-- Details Page End -->
 
     <!-- Footer Start -->
     <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
@@ -346,8 +404,8 @@
                     <div class="footer-item d-flex flex-column">
                         <div class="footer-item">
                             <h4 class="text-primary mb-4">Newsletter</h4>
-                            <p class="mb-3">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum dolor sit
-                                amet, consectetur adipiscing elit consectetur adipiscing elit.</p>
+                            <p class="text-white mb-3">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum
+                                dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit.</p>
                             <div class="position-relative mx-auto rounded-pill">
                                 <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text"
                                     placeholder="Enter your email">
@@ -487,202 +545,340 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
 
-
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../templates/lib/wow/wow.min.js"></script>
-    <script src="../templates/lib/owlcarousel/owl.carousel.min.js"></script>
-
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="../templates/js/main.js"></script>
+    <script src="js/main.js"></script>
 
     <script>
-    /*** 1. CẤU HÌNH HẰNG SỐ & BIẾN TOÀN CỤC*/
-    const CONFIG = {
-        API: {
-            TOKEN: '/api/v1/auth/token',
-            REGISTER: '/api/v1/auth/register',
-            CATEGORIES: '/api/v1/categories/'
-        }
-    };
-
-    // Khởi tạo Bootstrap Modals
-    const UI_ELEMENTS = {
-        loginModal: document.getElementById('loginModal') ? new bootstrap.Modal(document.getElementById('loginModal')) : null,
-        registerModal: document.getElementById('registerModal') ? new bootstrap.Modal(document.getElementById('registerModal')) : null,
-        loginResult: document.getElementById('loginResult'),
-        registerResult: document.getElementById('registerResult')
-    };
-
-    /*** 2. MODULE QUẢN LÝ XÁC THỰC (AUTH MANAGER)*/
-    const AuthManager = {
-        // Cập nhật giao diện dựa trên trạng thái đăng nhập trong LocalStorage
-        updateUI: function() {
-            const token = localStorage.getItem('access_token');
-            const fullName = localStorage.getItem('full_name');
-            let roles = [];
-            try { roles = JSON.parse(localStorage.getItem('roles') || '[]'); } catch (e) {}
-
-            const links = {
-                login: document.getElementById('uiLoginLink'),
-                register: document.getElementById('uiRegisterLink'),
-                profile: document.getElementById('uiProfileLink'),
-                cart: document.getElementById('uiCartLink'),
-                store: document.getElementById('uiStoreLink'),
-                logout: document.getElementById('uiLogoutLink'),
-                dropdown: document.getElementById('dashboardDropdownLink')
-            };
-
-            if (token) {
-                // Hiển thị Menu khi ĐÃ ĐĂNG NHẬP
-                if (links.login) links.login.classList.add('d-none');
-                if (links.register) links.register.classList.add('d-none');
-                if (links.profile) links.profile.classList.remove('d-none');
-                if (links.cart) links.cart.classList.remove('d-none');
-                if (links.logout) links.logout.classList.remove('d-none');
-                if (links.store) {
-                    links.store.classList.remove('d-none');
-                    links.store.href = "/templates/user/seller_dashboard.html";
-                    
-                    // Điều hướng đặc biệt cho Admin/Mod
-                    if (roles.includes("Admin")) links.store.href = "/admin/dashboard_admin.html";
-                    else if (roles.includes("Moderator")) links.store.href = "/moderator/moderator_dashboard.html";
-                }
-                if (links.dropdown) {
-                    const name = fullName ? fullName.split(' ')[0] : 'Tài khoản';
-                    links.dropdown.innerHTML = `<small><i class="fa fa-user me-2"></i> ${name}</small>`;
-                }
-            } else {
-                // Hiển thị Menu khi CHƯA ĐĂNG NHẬP
-                if (links.login) links.login.classList.remove('d-none');
-                if (links.register) links.register.classList.remove('d-none');
-                if (links.profile) links.profile.classList.add('d-none');
-                if (links.cart) links.cart.classList.add('d-none');
-                if (links.store) links.store.classList.add('d-none');
-                if (links.logout) links.logout.classList.add('d-none');
-                if (links.dropdown) {
-                    links.dropdown.innerHTML = `<small><i class="fa fa-home me-2"></i> Bảng điều khiển</small>`;
-                }
+        /*** 1. KHAI BÁO CẤU HÌNH & BIẾN TOÀN CỤC */
+        const CONFIG = {
+            API: {
+                TOKEN: '/api/v1/auth/token',
+                REGISTER: '/api/v1/auth/register',
+                PRODUCTS: '/api/products/',       
+                CATEGORIES: '/api/v1/categories/',
+                PRODUCT_DETAIL: '/api/products', 
+                CART_ADD: '/api/v1/carts/add'
+            },
+            IMAGE: {
+                FALLBACK: 'https://placehold.co/300x200/f5f5f5/555555?text=No+Image'
             }
-        },
+        };
+        let GRID_CONTAINER = null;
+        let LIST_CONTAINER = null;
+        window.currentProducts = [];
+        window.currentView = 'grid';
 
-        // Xử lý thông báo trên Modal
-        showMessage: function(div, message, isSuccess) {
-            if (!div) return;
-            div.style.display = 'block';
-            div.textContent = message;
-            div.className = `mt-3 p-3 rounded alert ${isSuccess ? 'alert-success' : 'alert-danger'}`;
-        },
+        /*** 2. MODULE XỬ LÝ XÁC THỰC (AUTH)*/
+        const AuthManager = {
+            // Cập nhật giao diện dựa trên trạng thái đăng nhập
+            updateUI: function() {
+                const token = localStorage.getItem('access_token');
+                const fullName = localStorage.getItem('full_name');
+                
+                // Các phần tử UI cần điều khiển
+                const ui = {
+                    login: document.getElementById('uiLoginLink'),
+                    register: document.getElementById('uiRegisterLink'),
+                    profile: document.getElementById('uiProfileLink'),
+                    cart: document.getElementById('uiCartLink'),
+                    store: document.getElementById('uiStoreLink'),
+                    logout: document.getElementById('uiLogoutLink'),
+                    dropdown: document.getElementById('dashboardDropdownLink')
+                };
 
-        // Xử lý Đăng nhập / Đăng ký
-        handleAuthSubmit: async function(event, endpoint) {
-            event.preventDefault();
-            const isLogin = endpoint === CONFIG.API.TOKEN;
-            const resultDiv = isLogin ? UI_ELEMENTS.loginResult : UI_ELEMENTS.registerResult;
-            const formData = new FormData(event.target);
-
-            this.showMessage(resultDiv, 'Đang xử lý...', true);
-
-            try {
-                let response;
-                if (isLogin) {
-                    response = await fetch(endpoint, { method: 'POST', body: new URLSearchParams(formData) });
-                } else {
-                    const data = Object.fromEntries(formData.entries());
-                    response = await fetch(endpoint, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                    });
-                }
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    if (isLogin) {
-                        localStorage.setItem('access_token', result.access_token);
-                        localStorage.setItem('roles', JSON.stringify(result.roles || []));
-                        localStorage.setItem('full_name', result.full_name || result.username);
-                        this.showMessage(resultDiv, 'Đăng nhập thành công! Đang chuyển hướng...', true);
-                        
-                        setTimeout(() => {
-                            if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.hide();
-                            window.location.reload(); 
-                        }, 1000);
-                    } else {
-                        this.showMessage(resultDiv, 'Đăng ký thành công! Hãy đăng nhập.', true);
-                        event.target.reset();
-                        setTimeout(() => {
-                            if (UI_ELEMENTS.registerModal) UI_ELEMENTS.registerModal.hide();
-                            if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.show();
-                        }, 2000);
+                if (token) {
+                    if (ui.login) ui.login.classList.add('d-none');
+                    if (ui.register) ui.register.classList.add('d-none');
+                    if (ui.profile) ui.profile.classList.remove('d-none');
+                    if (ui.cart) ui.cart.classList.remove('d-none');
+                    if (ui.logout) ui.logout.classList.remove('d-none');
+                    if (ui.store) ui.store.classList.remove('d-none');
+                    
+                    if (ui.dropdown) {
+                        const name = fullName ? fullName.split(' ')[0] : 'Tài khoản';
+                        ui.dropdown.innerHTML = `<small><i class="fa fa-user me-2"></i> ${name}</small>`;
                     }
                 } else {
-                    this.showMessage(resultDiv, `Lỗi: ${result.detail || 'Thao tác thất bại'}`, false);
+                    if (ui.login) ui.login.classList.remove('d-none');
+                    if (ui.register) ui.register.classList.remove('d-none');
+                    if (ui.profile) ui.profile.classList.add('d-none');
+                    if (ui.cart) ui.cart.classList.add('d-none');
+                    if (ui.logout) ui.logout.classList.add('d-none');
+                    if (ui.store) ui.store.classList.add('d-none');
+                    
+                    if (ui.dropdown) {
+                        ui.dropdown.innerHTML = `<small><i class="fa fa-home me-2"></i> Bảng điều khiển</small>`;
+                    }
                 }
-            } catch (error) {
-                this.showMessage(resultDiv, 'Lỗi kết nối máy chủ.', false);
+            },
+
+            // Xử lý đăng xuất
+            logout: function(e) {
+                if(e) e.preventDefault();
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('roles');
+                localStorage.removeItem('full_name');
+                alert("Bạn đã đăng xuất thành công!");
+                window.location.reload();
+            },
+
+            // Hàm chung để xử lý Login/Register qua Fetch (Giải quyết lỗi Auto Fail)
+            handleSubmit: async function(event, endpoint) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                const isLogin = endpoint === CONFIG.API.TOKEN;
+                
+                try {
+                    let response;
+                    if (isLogin) {
+                        response = await fetch(endpoint, { 
+                            method: 'POST', 
+                            body: new URLSearchParams(formData) 
+                        });
+                    } else {
+                        const data = Object.fromEntries(formData.entries());
+                        response = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+                    }
+
+                    const result = await response.json();
+                    if (response.ok) {
+                        if (isLogin) {
+                            localStorage.setItem('access_token', result.access_token);
+                            localStorage.setItem('roles', JSON.stringify(result.roles || []));
+                            localStorage.setItem('full_name', result.full_name || result.username);
+                            window.location.reload();
+                        } else {
+                            alert("Đăng ký thành công! Hãy đăng nhập.");
+                            bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+                            new bootstrap.Modal(document.getElementById('loginModal')).show();
+                        }
+                    } else {
+                        alert("Thất bại: " + (result.detail || "Lỗi không xác định"));
+                    }
+                } catch (error) {
+                    console.error("Auth Error:", error);
+                }
             }
-        },
+        };
+        
+        /*** 3. MODULE CHI TIẾT SẢN PHẨM */
+        const DetailManager = {
+            currentStock: 0, 
 
-        logout: function(e) {
-            if(e) e.preventDefault();
-            localStorage.clear(); // Xóa sạch dữ liệu phiên làm việc
-            alert("Bạn đã đăng xuất thành công!");
-            window.location.reload();
-        }
-    };
+            getProductID: () => new URLSearchParams(window.location.search).get('id'),
+            formatCurrency: (amount) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount),
 
-    /*** 3. MODULE TIỆN ÍCH (UTILITIES)*/
-    const UtilsManager = {
-        loadCategories: async function() {
-            const selectElement = document.getElementById('category-select-topbar');
-            if (!selectElement) return;
-            try {
-                const res = await fetch(CONFIG.API.CATEGORIES);
-                const categories = await res.json();
-                if (Array.isArray(categories)) {
-                    selectElement.innerHTML = '<option value="">Các loại hàng hóa</option>';
-                    categories.forEach(cat => {
-                        const opt = document.createElement('option');
-                        opt.value = cat.CategoryID;
-                        opt.textContent = cat.CategoryName;
-                        selectElement.appendChild(opt);
-                    });
+            getCategoryLabel: (id) => {
+                const categories = { 1: "Đồ điện tử", 2: "Thời trang", 3: "Đồ gia dụng", 4: "Trang trí", 5: "Khác" };
+                return categories[id] || `Danh mục ${id}`;
+            },
+
+            // Xử lý tăng giảm số lượng: CHẶN 0, CHẶN ÂM, CHẶN VƯỢT KHO
+            changeQty: (step) => {
+                const input = document.getElementById('buy-quantity');
+                const inputGroup = input.closest('.input-group');
+                if (!input) return;
+
+                let current = parseInt(input.value) || 1;
+                let newValue = current + step;
+
+                if (newValue < 1) {
+                    newValue = 1; // Chặn số 0/âm
+                } else if (newValue > DetailManager.currentStock) {
+                    newValue = DetailManager.currentStock; // Chặn vượt kho
+                    
+                    // Hiệu ứng rung cảnh báo
+                    inputGroup.classList.add('apply-shake');
+                    setTimeout(() => inputGroup.classList.remove('apply-shake'), 300);
                 }
-            } catch (err) { console.error('Lỗi tải danh mục:', err); }
-        }
-    };
 
-    /*** 4. KHỞI TẠI KHI TẢI TRANG*/
-    document.addEventListener('DOMContentLoaded', () => {
-        // Cập nhật giao diện người dùng ngay lập tức
-        AuthManager.updateUI();
-        UtilsManager.loadCategories();
+                input.value = newValue;
+            },
 
-        // Gắn sự kiện Form
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) loginForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.TOKEN);
+            loadDetail: async function() {
+                const id = this.getProductID();
+                console.log("Đang lấy dữ liệu cho Product ID:", id);
+                if (!id) { window.location.href = "shop.html"; return; }
 
-        const registerForm = document.getElementById('registerForm');
-        if (registerForm) registerForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.REGISTER);
+                try {
+                    const res = await fetch(`${CONFIG.API.PRODUCT_DETAIL}/${id}`);
+                    if (!res.ok) throw new Error("Không lấy được dữ liệu");
+                    const p = await res.json();
+                    
+                    this.currentStock = p.Quantity; // Lưu kho để kiểm tra khi bấm nút
+                    this.renderDetail(p);
+                } catch (err) {
+                    console.error(err);
+                    document.getElementById('product-detail-wrapper').innerHTML = `<p class="text-center text-danger py-5">Lỗi tải dữ liệu.</p>`;
+                }
+            },
 
-        // Gắn sự kiện Logout
-        const logoutBtn = document.getElementById('uiLogoutLink');
-        if (logoutBtn) logoutBtn.onclick = AuthManager.logout;
+            handleBuyNow: async function(productId) {
+                const qty = parseInt(document.getElementById('buy-quantity').value) || 1;
+                const success = await CartManager.addToCart(productId, qty, false);
+                if (success) window.location.href = "checkout.html";
+            },
 
-        // Dọn dẹp thông báo khi đóng Modal
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('hidden.bs.modal', () => {
-                if (UI_ELEMENTS.loginResult) UI_ELEMENTS.loginResult.style.display = 'none';
-                if (UI_ELEMENTS.registerResult) UI_ELEMENTS.registerResult.style.display = 'none';
-            });
+            handleAddToCart: async function(productId) {
+                const qty = parseInt(document.getElementById('buy-quantity').value) || 1;
+                const success = await CartManager.addToCart(productId, qty, false);
+                if (success) window.location.href = "cart.html";
+            },
+
+            renderDetail: function(p) {
+                const wrapper = document.getElementById('product-detail-wrapper');
+                const img = p.PrimaryImageUrl || 'img/no-image.jpg';
+                const categoryName = this.getCategoryLabel(p.CategoryID);
+
+                wrapper.innerHTML = `
+                    <div class="col-lg-6">
+                        <div class="border rounded bg-white shadow-sm mb-3 detail-img-container">
+                            <img src="${img}" class="img-fluid" alt="${p.Title}">
+                        </div>
+                        
+                        ${p.VideoUrl ? `
+                        <div class="video-link-box p-3 rounded d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-video fa-2x text-danger"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <small class="text-muted d-block">Link video giới thiệu:</small>
+                                <a href="${p.VideoUrl}" target="_blank" class="text-primary text-decoration-none d-block text-truncate fw-bold">
+                                    ${p.VideoUrl}
+                                </a>
+                            </div>
+                        </div>` : ''}
+                    </div>
+
+                    <div class="col-lg-6 ps-lg-4">
+                        <nav class="small mb-2">
+                            <span class="text-primary fw-bold">${categoryName}</span>
+                        </nav>
+
+                        <h2 class="fw-bold mb-2">${p.Title}</h2>
+                        <h3 class="text-danger fw-bold mb-4">${this.formatCurrency(p.Price)}</h3>
+
+                        <div class="border rounded bg-light mb-4 shadow-sm" style="height: 250px; display: flex; flex-direction: column;">
+                            <div class="bg-white border-bottom px-3 py-2 fw-bold text-uppercase small">Mô tả sản phẩm</div>
+                            <div class="p-3 custom-scroll" style="flex-grow: 1; white-space: pre-line; color: #444; line-height: 1.7;">
+                                ${p.Description || 'Sản phẩm hiện chưa có mô tả chi tiết.'}
+                            </div>
+                        </div>
+
+                        <div class="p-4 border rounded bg-white shadow-sm">
+                            <div class="small mb-3">Tình trạng: 
+                                <span class="badge ${p.Quantity > 0 ? 'bg-success' : 'bg-danger'}">
+                                    ${p.Quantity > 0 ? `Còn ${p.Quantity} sản phẩm` : 'Hết hàng'}
+                                </span>
+                            </div>
+                            
+                            <div class="d-flex flex-column gap-3">
+                                <div class="d-flex gap-3 align-items-center">
+                                    <div class="input-group" style="width: 150px; height: 48px;">
+                                        <button class="btn btn-outline-secondary" onclick="DetailManager.changeQty(-1)"><i class="fa fa-minus"></i></button>
+                                        <input type="number" id="buy-quantity" class="form-control text-center border-0 fw-bold bg-light" value="1" readonly>
+                                        <button class="btn btn-outline-secondary" onclick="DetailManager.changeQty(1)"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                    
+                                    <button onclick="DetailManager.handleAddToCart(${p.ProductID})" 
+                                            class="btn btn-outline-primary fw-bold flex-grow-1" 
+                                            ${p.Quantity <= 0 ? 'disabled' : ''}
+                                            style="height: 48px; border-width: 2px;">
+                                        <i class="fa fa-cart-plus me-2"></i> THÊM GIỎ HÀNG
+                                    </button>
+                                </div>
+
+                                <button onclick="DetailManager.handleBuyNow(${p.ProductID})" 
+                                        class="btn fw-bold w-100 shadow btn-buy-now" 
+                                        ${p.Quantity <= 0 ? 'disabled' : ''}
+                                        style="background-color: #f38b00; color: white; border: none; height: 50px; font-size: 1.1rem; border-radius: 8px;">
+                                    ${p.Quantity > 0 ? 'MUA NGAY (THANH TOÁN)' : 'TẠM HẾT HÀNG'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        };
+        document.addEventListener('DOMContentLoaded', () => DetailManager.loadDetail());
+
+        /*** 4. MODULE GIỎ HÀNG (CART) */
+        const CartManager = {
+            addToCart: async function(productId, quantity = 1, redirect = true) {
+                const token = localStorage.getItem('access_token');
+                if (!token) {
+                    alert("Vui lòng đăng nhập để mua hàng!");
+                    // Mở modal login
+                    if (window.bootstrap && document.getElementById('loginModal')) {
+                        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                        loginModal.show();
+                    }
+                    return false;
+                }
+
+                try {
+                    const res = await fetch(CONFIG.API.CART_ADD, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}` 
+                        },
+                        // Gửi đúng quantity từ input details hoặc mặc định là 1 từ shop
+                        body: JSON.stringify({ ProductID: productId, Quantity: quantity })
+                    });
+
+                    const result = await res.json();
+                    
+                    if (res.ok) {
+                        if (redirect) {
+                            if (confirm("Đã thêm vào giỏ! Đi đến giỏ hàng ngay?")) {
+                                window.location.href = "cart.html";
+                            }
+                        }
+                        return true; // Trả về true để handleBuyNow biết đã add thành công
+                    } else {
+                        // Backend trả về lỗi "Vượt quá kho hàng" sẽ hiển thị ở đây
+                        alert("Lỗi: " + (result.detail || "Không thể thêm vào giỏ"));
+                        return false;
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Lỗi kết nối máy chủ.");
+                    return false;
+                }
+            }
+        };
+
+        // Tìm đoạn này ở cuối file details.html
+        document.addEventListener('DOMContentLoaded', () => {
+            // PHẢI THÊM DÒNG NÀY ĐỂ HIỆN TÊN USER/GIỎ HÀNG
+            AuthManager.updateUI(); 
+            
+            // Sau đó mới load chi tiết sản phẩm
+            DetailManager.loadDetail(); 
+
+            // Gắn sự kiện cho các form modal (để đăng nhập ngay tại trang details)
+            const loginForm = document.getElementById('loginForm');
+            if(loginForm) loginForm.onsubmit = (e) => AuthManager.handleSubmit(e, CONFIG.API.TOKEN);
+            
+            const regForm = document.getElementById('registerForm');
+            if(regForm) regForm.onsubmit = (e) => AuthManager.handleSubmit(e, CONFIG.API.REGISTER);
+
+            const logoutBtn = document.getElementById('uiLogoutLink');
+            if (logoutBtn) logoutBtn.onclick = AuthManager.logout;
         });
-    });
     </script>
 </body>
-
 </html>
 

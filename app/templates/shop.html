@@ -61,24 +61,6 @@
             <div class="col-lg-4 text-center text-lg-end">
                 <div class="d-inline-flex align-items-center" style="height: 45px;">
                     <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted me-2" data-bs-toggle="dropdown"><small>
-                                USD</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item"> Euro</a>
-                            <a href="#" class="dropdown-item"> Dolar</a>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <a href="#" class="dropdown-toggle text-muted mx-2" data-bs-toggle="dropdown"><small>
-                                English</small></a>
-                        <div class="dropdown-menu rounded">
-                            <a href="#" class="dropdown-item"> English</a>
-                            <a href="#" class="dropdown-item"> Turkish</a>
-                            <a href="#" class="dropdown-item"> Spanol</a>
-                            <a href="#" class="dropdown-item"> Italiano</a>
-                        </div>
-                    </div>
-                    <div class="dropdown">
                         <a href="#" class="dropdown-toggle text-muted ms-2" data-bs-toggle="dropdown" id="dashboardDropdownLink">
                             <small><i class="fa fa-home me-2"></i>Bảng điều khiển</small>
                         </a>
@@ -87,9 +69,8 @@
                             <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#registerModal" id="uiRegisterLink">Đăng Ký</a>
 
                             <a href="/profile" class="dropdown-item d-none" id="uiProfileLink"><i class="fas fa-user-circle me-2"></i> Tài khoản của tôi</a>
-                            <a href="/cart" class="dropdown-item d-none" id="uiCartLink"><i class="fas fa-shopping-cart me-2"></i> Giỏ hàng của tôi</a>
+                            <a href="../templates/cart.html" class="dropdown-item d-none" id="uiCartLink"><i class="fas fa-shopping-cart me-2"></i> Giỏ hàng của tôi</a>
                             <a href="/app/templates/user/seller_dashboard.html" class="dropdown-item d-none" id="uiStoreLink"><i class="fas fa-store me-2"></i> Cửa hàng của tôi</a>
-                            <a href="#" class="dropdown-item d-none" id="uiLogoutLink"><i class="fas fa-sign-out-alt me-2"></i> Đăng Xuất</a>
                         </div>
                     </div>
                 </div>
@@ -102,7 +83,7 @@
                 <div class="d-inline-flex align-items-center">
                     <a href="" class="navbar-brand p-0">
                         <h1 class="display-5 text-primary m-0"><i
-                                class="fas fa-shopping-bag text-secondary me-2"></i>Electro</h1>
+                                class="fas fa-shopping-bag text-secondary me-2"></i>Chợ đồ cũ</h1>
                         <!-- <img src="img/logo.png" alt="Logo"> -->
                     </a>
                 </div>
@@ -112,13 +93,6 @@
                     <div class="d-flex border rounded-pill">
                         <input class="form-control border-0 rounded-pill w-100 py-3" type="text"
                             data-bs-target="#dropdownToggle123" placeholder="Search Looking For?">
-                        <select class="form-select text-dark border-0 border-start rounded-0 p-3" style="width: 200px;">
-                            <option value="All Category">All Category</option>
-                            <option value="Pest Control-2">Category 1</option>
-                            <option value="Pest Control-3">Category 2</option>
-                            <option value="Pest Control-4">Category 3</option>
-                            <option value="Pest Control-5">Category 4</option>
-                        </select>
                         <button type="button" class="btn btn-primary rounded-pill py-3 px-5" style="border: 0;"><i
                                 class="fas fa-search"></i></button>
                     </div>
@@ -126,8 +100,6 @@
             </div>
             <div class="col-md-4 col-lg-3 text-center text-lg-end">
                 <div class="d-inline-flex align-items-center">
-                    <a href="#" class="text-muted d-flex align-items-center justify-content-center me-3"><span
-                            class="rounded-circle btn-md-square border"><i class="fas fa-random"></i></i></a>
                     <a href="#" class="text-muted d-flex align-items-center justify-content-center me-3"><span
                             class="rounded-circle btn-md-square border"><i class="fas fa-heart"></i></a>
                     <a href="#" class="text-muted d-flex align-items-center justify-content-center"><span
@@ -146,7 +118,7 @@
                 <nav class="navbar navbar-light position-relative" style="width: 250px;">
                     <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button"
                         data-bs-toggle="collapse" data-bs-target="#allCat">
-                        <h4 class="m-0"><i class="fa fa-bars me-2"></i>All Categories</h4>
+                        <h4 class="m-0"><i class="fa fa-bars me-2"></i>Loại sản phẩm</h4>
                     </button>
                     <div class="collapse navbar-collapse rounded-bottom" id="allCat">
                         <div class="navbar-nav ms-auto py-0">
@@ -190,7 +162,7 @@
                 <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
                     <a href="" class="navbar-brand d-block d-lg-none">
                         <h1 class="display-5 text-secondary m-0"><i
-                                class="fas fa-shopping-bag text-white me-2"></i>Electro</h1>
+                                class="fas fa-shopping-bag text-white me-2"></i>Chợ cũ</h1>
                         <!-- <img src="img/logo.png" alt="Logo"> -->
                     </a>
                     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
@@ -199,16 +171,14 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0">
-                            <a href="../templates/index.html" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="single.html" class="nav-item nav-link">Single Page</a>
+                            <a href="../templates/index.html" class="nav-item nav-link active">Trang chủ</a>
+                            <a href="../templates/shop.html" class="nav-item nav-link">Shop</a>
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Trang của tôi</a>
                                 <div class="dropdown-menu m-0">
-                                    <a href="bestseller.html" class="dropdown-item">Bestseller</a>
-                                    <a href="cart.html" class="dropdown-item">Cart Page</a>
-                                    <a href="cheackout.html" class="dropdown-item">Cheackout</a>
-                                    <a href="404.html" class="dropdown-item">404 Page</a>
+                                    <a href="" class="dropdown-item">Tài khoản của tôi</a>
+                                    <a href="../templates/cart.html" class="dropdown-item">Giỏ hàng của tôi</a>
+                                    <a href="../templates/user/seller_dashboard.html" class="dropdown-item">Cửa hàng của tôi</a>
                                 </div>
                             </div>
                             <a href="contact.html" class="nav-item nav-link me-2">Contact</a>
@@ -265,144 +235,39 @@
             <div class="row g-4">
                 <div class="col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="product-categories mb-4">
-                        <h4>Products Categories</h4>
-                        <ul class="list-unstyled">
+                        <h4>Danh mục sản phẩm</h4>
+                        <ul class="list-unstyled" id="category-list">
                             <li>
                                 <div class="categories-item">
-                                    <a href="#" class="text-dark"><i class="fas fa-apple-alt text-secondary me-2"></i>
-                                        Accessories</a>
-                                    <span>(3)</span>
+                                    <a href="#" class="text-dark"><i class="fas fa-laptop text-secondary me-2"></i> Đồ điện tử</a>
                                 </div>
                             </li>
                             <li>
                                 <div class="categories-item">
-                                    <a href="#" class="text-dark"><i class="fas fa-apple-alt text-secondary me-2"></i>
-                                        Electronics & Computer</a>
-                                    <span>(5)</span>
+                                    <a href="#" class="text-dark"><i class="fas fa-mobile-alt text-secondary me-2"></i> Trang trí</a>
                                 </div>
                             </li>
                             <li>
                                 <div class="categories-item">
-                                    <a href="#" class="text-dark"><i
-                                            class="fas fa-apple-alt text-secondary me-2"></i>Laptops & Desktops</a>
-                                    <span>(2)</span>
+                                    <a href="#" class="text-dark"><i class="fas fa-microchip text-secondary me-2"></i> Đồ gia dụng</a>
                                 </div>
                             </li>
                             <li>
                                 <div class="categories-item">
-                                    <a href="#" class="text-dark"><i
-                                            class="fas fa-apple-alt text-secondary me-2"></i>Mobiles & Tablets</a>
-                                    <span>(8)</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="categories-item">
-                                    <a href="#" class="text-dark"><i
-                                            class="fas fa-apple-alt text-secondary me-2"></i>SmartPhone & Smart TV</a>
-                                    <span>(5)</span>
+                                    <a href="#" class="text-dark"><i class="fas fa-headphones text-secondary me-2"></i> Thời trang</a>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                    <div class="additional-product mb-4">
-                        <h4>Additional Products</h4>
-                        <div class="additional-product-item">
-                            <input type="radio" class="me-2" id="Categories-1" name="Categories-1" value="Beverages">
-                            <label for="Categories-1" class="text-dark"> Accessories</label>
-                        </div>
-                        <div class="additional-product-item">
-                            <input type="radio" class="me-2" id="Categories-2" name="Categories-1" value="Beverages">
-                            <label for="Categories-2" class="text-dark"> Electronics & Computer</label>
-                        </div>
-                        <div class="additional-product-item">
-                            <input type="radio" class="me-2" id="Categories-3" name="Categories-1" value="Beverages">
-                            <label for="Categories-3" class="text-dark"> Laptops & Desktops</label>
-                        </div>
-                        <div class="additional-product-item">
-                            <input type="radio" class="me-2" id="Categories-4" name="Categories-1" value="Beverages">
-                            <label for="Categories-4" class="text-dark"> Mobiles & Tablets</label>
-                        </div>
-                        <div class="additional-product-item">
-                            <input type="radio" class="me-2" id="Categories-5" name="Categories-1" value="Beverages">
-                            <label for="Categories-5" class="text-dark"> SmartPhone & Smart TV</label>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-lg-9 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="rounded mb-4 position-relative">
-                        <img src="img/product-banner-3.jpg" class="img-fluid rounded w-100" style="height: 250px;"
-                            alt="Image">
-                        <div class="position-absolute rounded d-flex flex-column align-items-center justify-content-center text-center"
-                            style="width: 100%; height: 250px; top: 0; left: 0; background: rgba(242, 139, 0, 0.3);">
-                            <h4 class="display-5 text-primary">SALE</h4>
-                            <h3 class="display-4 text-white mb-4">Get UP To 50% Off</h3>
-                            <a href="#" class="btn btn-primary rounded-pill">Shop Now</a>
-                        </div>
-                    </div>
-                    <div class="row g-4">
-                        <div class="col-xl-7">
-                            <div class="input-group w-100 mx-auto d-flex">
-                                <input type="search" class="form-control p-3" placeholder="keywords"
-                                    aria-describedby="search-icon-1">
-                                <span id="search-icon-1" class="input-group-text p-3"><i
-                                        class="fa fa-search"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 text-end">
-                            <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between">
-                                <label for="electronics">Sort By:</label>
-                                <select id="electronics" name="electronicslist"
-                                    class="border-0 form-select-sm bg-light me-3" form="electronicsform">
-                                    <option value="volvo">Default Sorting</option>
-                                    <option value="volv">Nothing</option>
-                                    <option value="sab">Popularity</option>
-                                    <option value="saab">Newness</option>
-                                    <option value="opel">Average Rating</option>
-                                    <option value="audio">Low to high</option>
-                                    <option value="audi">High to low</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-xl-2">
-                            <ul class="nav nav-pills d-inline-flex text-center py-2 px-2 rounded bg-light mb-4">
-                                <li class="nav-item me-4">
-                                    <a class="bg-light" data-bs-toggle="pill" href="#tab-5">
-                                        <i class="fas fa-th fa-3x text-primary"></i>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="bg-light" data-bs-toggle="pill" href="#tab-6">
-                                        <i class="fas fa-bars fa-3x text-primary"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
                     <div class="tab-content">
-                        <!-- Tab 5: GRID VIEW (Mặc định active) -->
-                        <div id="tab-5" class="tab-pane fade show p-0 active">
-                            <!-- CONTAINER DẠNG LƯỚI -->
-                            <div class="row g-4 product" id="product-grid-container">
-                                <!-- Sản phẩm dạng Grid sẽ được inject vào đây -->
-                            </div>
-                            
-                            <!-- Phân trang -->
-                            <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
-                                <div class="pagination d-flex justify-content-center mt-5">
-                                    <a href="#" class="rounded">&laquo;</a>
-                                    <a href="#" class="active rounded">1</a>
-                                    <a href="#" class="rounded">2</a>
-                                    <!-- ... các nút phân trang khác ... -->
-                                    <a href="#" class="rounded">&raquo;</a>
-                                </div>
+                        <div id="tab-grid" class="tab-pane fade show p-0 active">
+                            <div class="row g-4" id="product-grid-container">
                             </div>
                         </div>
-                        
-                        <!-- Tab 6: LIST VIEW -->
-                        <div id="tab-6" class="tab-pane fade p-0">
-                            <!-- CONTAINER DẠNG DANH SÁCH (Đã thêm ID) -->
-                            <div class="row g-4 product" id="product-list-container">
-                                <!-- Sản phẩm dạng List sẽ được inject vào đây -->
+                        <div id="tab-list" class="tab-pane fade p-0">
+                            <div class="row g-4" id="product-list-container">
                             </div>
                         </div>
                     </div>
@@ -622,232 +487,236 @@
     <!-- Template Javascript -->
     <script src="../templates/js/main.js"></script>
 
-    <!-- Xử lý Đăng nhập và đăng ký -->
     <script>
-    // =================================================================
-    // 1. CÁC HẰNG SỐ VÀ KHAI BÁO BIẾN
-    // =================================================================
-    // --- HẰNG SỐ CHUNG (AUTH) --- 
-    const AUTH_API_TOKEN = '/api/v1/auth/token'; 
-    const AUTH_API_REGISTER = '/api/v1/auth/register'; 
-    // --- HẰNG SỐ SHOP --- 
-    const SHOP_API_URL = '/api/products/'; 
-    const FALLBACK_IMAGE_URL = 'https://placehold.co/300x200/f5f5f5/555555?text=No+Image';
-    
-    // --- KHAI BÁO BIẾN CONTAINER (Bây giờ là 'let' và được khởi tạo là null) --- 
-    let GRID_CONTAINER = null; 
-    let LIST_CONTAINER = null; 
-
-    // Khởi tạo biến lưu trữ dữ liệu sản phẩm toàn cục
-    window.currentProducts = [];
-    window.currentView = 'grid'; // Mặc định là 'grid'
-
-    // =================================================================
-    // 2. CÁC HÀM RENDER VÀ HIỂN THỊ
-    // =================================================================
-
-    // Helper: Định dạng tiền tệ VND
-    function formatCurrency(amount) {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    }
-
-    // A. Render sản phẩm dạng GRID
-    function renderProductGrid(product) {
-        const primaryImageUrl = product.PrimaryImageUrl || FALLBACK_IMAGE_URL;
-        const formattedPrice = formatCurrency(product.Price || 0);
-
-        return `
-            <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="bg-light rounded product-item">
-                    <div class="product-img d-flex flex-column align-items-center justify-content-center overflow-hidden">
-                        <img src="${primaryImageUrl}" class="rounded-top" 
-                             style="width: 260px; height: 260px;" 
-                             alt="${product.ProductName}" 
-                             onerror="this.onerror=null;this.src='${FALLBACK_IMAGE_URL}';">
-                        <div class="bg-primary rounded position-absolute end-0 top-0 m-4 py-1 px-3">
-                            <i class="fa fa-star text-white"></i>
-                        </div>
-                        <div class="bg-white border border-primary rounded px-3 py-1 position-absolute start-0 top-0 m-4">
-                            ${product.CategoryName || 'General'}
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center bg-white rounded-circle position-absolute bottom-0 end-0 m-3 py-2 px-3">
-                            <a href="#" class="btn-link" title="Thêm vào giỏ hàng"><i class="fa fa-shopping-bag text-primary"></i></a>
-                        </div>
-                    </div>
-                    <div class="p-4 border-primary border-top-0 rounded-bottom">
-                        <h4 class="mb-3">${product.Title}</h4>
-                        <div class="d-flex justify-content-between flex-lg-wrap">
-                            <p class="text-dark fs-5 fw-bold mb-0">${formattedPrice}</p>
-                            <a href="#" class="btn btn-primary rounded">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-    }
-
-    // B. Render sản phẩm dạng LIST (Đơn giản)
-    function renderProductList(product) {
-        const primaryImageUrl = product.PrimaryImageUrl || FALLBACK_IMAGE_URL;
-        const formattedPrice = formatCurrency(product.Price || 0);
-
-        return `
-            <div class="col-12 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="d-flex align-items-center border border-primary rounded p-3 mb-3 bg-white">
-                    <img src="${primaryImageUrl}" class="img-fluid rounded me-4" style="width: 100px; height: 100px; object-fit: cover;" alt="${product.ProductName}" onerror="this.onerror=null;this.src='${FALLBACK_IMAGE_URL}';">
-                    <div class="flex-grow-1">
-                        <h5 class="mb-2">${product.ProductName}</h5>
-                        <p class="text-primary fs-6 fw-bold mb-1">${formattedPrice}</p>
-                        <p class="text-muted small">${product.Description ? product.Description.substring(0, 100) + '...' : 'Không có mô tả.'}</p>
-                    </div>
-                    <a href="#" class="btn btn-primary rounded px-3 py-1">Chi tiết</a>
-                </div>
-            </div>
-        `;
-    }
-
-    // C. Hiển thị sản phẩm theo chế độ xem hiện tại
-    function displayProducts(products, viewMode) {
-        window.currentView = viewMode;
-        
-        // Chọn container để đổ dữ liệu vào
-        const container = viewMode === 'grid' ? GRID_CONTAINER : LIST_CONTAINER;
-        const renderer = viewMode === 'grid' ? renderProductGrid : renderProductList;
-        
-        if (!container) {
-            console.error(`LỖI RENDER: Không tìm thấy container cho chế độ '${viewMode}'.`);
-            return;
-        }
-
-        // Xóa nội dung hiện tại
-        container.innerHTML = '';
-
-        // Render từng sản phẩm
-        let htmlContent = products.map(renderer).join('');
-
-        // Đổ nội dung vào container
-        container.innerHTML = htmlContent;
-
-        // Nếu ở chế độ lưới, đảm bảo chế độ danh sách trống (và ngược lại)
-        if (viewMode === 'grid' && LIST_CONTAINER) {
-            LIST_CONTAINER.innerHTML = '';
-        } else if (viewMode === 'list' && GRID_CONTAINER) {
-            GRID_CONTAINER.innerHTML = '';
-        }
-    }
-
-
-    // =================================================================
-    // 3. HÀM CHÍNH TẢI DỮ LIỆU TỪ API
-    // =================================================================
-    async function loadProducts() { 
-        // DEBUG: Kiểm tra xem các container đã được tìm thấy chưa
-        console.log('DEBUG: GRID_CONTAINER:', GRID_CONTAINER);
-        console.log('DEBUG: LIST_CONTAINER:', LIST_CONTAINER);
-
-        if (!GRID_CONTAINER || !LIST_CONTAINER) {
-            console.error("LỖI: Container chưa được khởi tạo. Vui lòng kiểm tra lại sự kiện DOMContentLoaded.");
-            // Không cần return ở đây nữa vì đã được gọi bên trong DOMContentLoaded
-            // Nhưng vẫn giữ lại log cho an toàn
-            return; 
-        }
-
-        // Xóa nội dung tĩnh đang có 
-        GRID_CONTAINER.innerHTML = ''; 
-        LIST_CONTAINER.innerHTML = ''; 
-
-        // Hiển thị trạng thái tải 
-        const loadingMsg = '<p class="text-center col-12 py-5"><i class="fas fa-spinner fa-spin me-2"></i> Đang tải sản phẩm...</p>'; 
-        GRID_CONTAINER.innerHTML = loadingMsg; 
-        LIST_CONTAINER.innerHTML = loadingMsg; 
-
-        try { 
-            const response = await fetch(SHOP_API_URL, { method: 'GET' }); 
-
-            const rawText = await response.text();
-
-            if (!response.ok) {
-                const errorMsg = `<p class="text-danger text-center col-12">Lỗi tải dữ liệu: ${response.status} - ${rawText.substring(0, 100)}...</p>`; 
-                GRID_CONTAINER.innerHTML = errorMsg; 
-                LIST_CONTAINER.innerHTML = errorMsg; 
-                console.error('Lỗi phản hồi HTTP:', response.status, rawText);
-                return;
+        /*** 1. KHAI BÁO CẤU HÌNH & BIẾN TOÀN CỤC */
+        const CONFIG = {
+            API: {
+                TOKEN: '/api/v1/auth/token',
+                REGISTER: '/api/v1/auth/register',
+                PRODUCTS: '/api/products/',
+                CATEGORIES: '/api/v1/categories/',
+                CART_ADD: '/api/v1/carts/add'
+            },
+            IMAGE: {
+                FALLBACK: 'https://placehold.co/300x200/f5f5f5/555555?text=No+Image'
             }
-            
-            let products;
-            try {
-                // Cố gắng parse văn bản thành JSON
-                products = JSON.parse(rawText);
-            } catch (jsonError) {
-                // Nếu lỗi JSON, in phản hồi thô ra console
-                console.error('LỖI KHI PARSE JSON! Phản hồi thô:', rawText);
-                console.error('Chi tiết lỗi JSON:', jsonError);
-                const errorMsg = '<p class="text-danger text-center col-12 py-5">Lỗi định dạng dữ liệu từ máy chủ (JSON không hợp lệ).</p>';
-                GRID_CONTAINER.innerHTML = errorMsg; 
-                LIST_CONTAINER.innerHTML = errorMsg; 
-                return; 
+        };
+
+        let GRID_CONTAINER = null;
+        let LIST_CONTAINER = null;
+        window.currentProducts = [];
+        window.currentView = 'grid';
+
+        /*** 2. MODULE XỬ LÝ XÁC THỰC (AUTH)*/
+        const AuthManager = {
+            // Cập nhật giao diện dựa trên trạng thái đăng nhập
+            updateUI: function() {
+                const token = localStorage.getItem('access_token');
+                const fullName = localStorage.getItem('full_name');
+                
+                // Các phần tử UI cần điều khiển
+                const ui = {
+                    login: document.getElementById('uiLoginLink'),
+                    register: document.getElementById('uiRegisterLink'),
+                    profile: document.getElementById('uiProfileLink'),
+                    cart: document.getElementById('uiCartLink'),
+                    store: document.getElementById('uiStoreLink'),
+                    logout: document.getElementById('uiLogoutLink'),
+                    dropdown: document.getElementById('dashboardDropdownLink')
+                };
+
+                if (token) {
+                    if (ui.login) ui.login.classList.add('d-none');
+                    if (ui.register) ui.register.classList.add('d-none');
+                    if (ui.profile) ui.profile.classList.remove('d-none');
+                    if (ui.cart) ui.cart.classList.remove('d-none');
+                    if (ui.logout) ui.logout.classList.remove('d-none');
+                    if (ui.store) ui.store.classList.remove('d-none');
+                    
+                    if (ui.dropdown) {
+                        const name = fullName ? fullName.split(' ')[0] : 'Tài khoản';
+                        ui.dropdown.innerHTML = `<small><i class="fa fa-user me-2"></i> ${name}</small>`;
+                    }
+                } else {
+                    if (ui.login) ui.login.classList.remove('d-none');
+                    if (ui.register) ui.register.classList.remove('d-none');
+                    if (ui.profile) ui.profile.classList.add('d-none');
+                    if (ui.cart) ui.cart.classList.add('d-none');
+                    if (ui.logout) ui.logout.classList.add('d-none');
+                    if (ui.store) ui.store.classList.add('d-none');
+                    
+                    if (ui.dropdown) {
+                        ui.dropdown.innerHTML = `<small><i class="fa fa-home me-2"></i> Bảng điều khiển</small>`;
+                    }
+                }
+            },
+
+            // Xử lý đăng xuất
+            logout: function(e) {
+                if(e) e.preventDefault();
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('roles');
+                localStorage.removeItem('full_name');
+                alert("Bạn đã đăng xuất thành công!");
+                window.location.reload();
+            },
+
+            // Hàm chung để xử lý Login/Register qua Fetch (Giải quyết lỗi Auto Fail)
+            handleSubmit: async function(event, endpoint) {
+                event.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                const isLogin = endpoint === CONFIG.API.TOKEN;
+                
+                try {
+                    let response;
+                    if (isLogin) {
+                        response = await fetch(endpoint, { 
+                            method: 'POST', 
+                            body: new URLSearchParams(formData) 
+                        });
+                    } else {
+                        const data = Object.fromEntries(formData.entries());
+                        response = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+                    }
+
+                    const result = await response.json();
+                    if (response.ok) {
+                        if (isLogin) {
+                            localStorage.setItem('access_token', result.access_token);
+                            localStorage.setItem('roles', JSON.stringify(result.roles || []));
+                            localStorage.setItem('full_name', result.full_name || result.username);
+                            window.location.reload();
+                        } else {
+                            alert("Đăng ký thành công! Hãy đăng nhập.");
+                            bootstrap.Modal.getInstance(document.getElementById('registerModal')).hide();
+                            new bootstrap.Modal(document.getElementById('loginModal')).show();
+                        }
+                    } else {
+                        alert("Thất bại: " + (result.detail || "Lỗi không xác định"));
+                    }
+                } catch (error) {
+                    console.error("Auth Error:", error);
+                }
             }
+        };
 
-            // --- DEBUG: In ra dữ liệu đã tải thành công ---
-            console.log('✅ Dữ liệu sản phẩm đã tải thành công:', products);
-            
-            // Xóa loading message 
-            GRID_CONTAINER.innerHTML = ''; 
-            LIST_CONTAINER.innerHTML = ''; 
+        /*** 3. MODULE CỬA HÀNG (SHOP & PRODUCTS)*/
+        const ShopManager = {
+            formatCurrency: (amount) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount),
 
-            window.currentProducts = products || [];
+            renderGrid: function(p) {
+                const img = p.PrimaryImageUrl || CONFIG.IMAGE.FALLBACK;
+                return `
+                <div class="col-lg-4 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="bg-light rounded product-item">
+                        <div class="product-img d-flex flex-column align-items-center justify-content-center overflow-hidden">
+                            <img src="${img}" class="rounded-top" style="width: 260px; height: 260px; object-fit: cover;" alt="${p.Title}" onerror="this.src='${CONFIG.IMAGE.FALLBACK}'">
+                            <div class="bg-white border border-primary rounded px-3 py-1 position-absolute start-0 top-0 m-4">${p.CategoryName || 'General'}</div>
+                        </div>
+                        <div class="p-4 border-top-0 rounded-bottom">
+                            <h4 class="mb-3">${p.Title}</h4>
+                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                <p class="text-dark fs-5 fw-bold mb-0">${this.formatCurrency(p.Price)}</p>
+                                <a href="details.html?id=${p.ProductID}" class="btn btn-primary rounded">Chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            },
 
-            if (window.currentProducts.length === 0) { 
-                const noDataMsg = '<p class="text-center col-12 py-5">Chưa có sản phẩm nào được duyệt và hiển thị.</p>'; 
-                GRID_CONTAINER.innerHTML = noDataMsg; 
-                LIST_CONTAINER.innerHTML = noDataMsg; 
-                return; 
-            } 
-
-            // Render sản phẩm (mặc định là grid)
-            displayProducts(window.currentProducts, 'grid');
-
-        } catch (error) { 
-            console.error('Lỗi Fetch API (Mạng):', error); 
-            const errorMsg = '<p class="text-danger text-center col-12 py-5">Không thể kết nối đến máy chủ API. Vui lòng kiểm tra mạng hoặc Server.</p>'; 
-            GRID_CONTAINER.innerHTML = errorMsg; 
-            LIST_CONTAINER.innerHTML = errorMsg; 
-        } 
-    }
-
-    // =================================================================
-    // 4. GẮN SỰ KIỆN VÀ CHẠY KHI TẢI TRANG
-    // =================================================================
-    document.addEventListener('DOMContentLoaded', () => {
-        // ** FIX LỖI: Lấy tham chiếu đến Container sau khi DOM đã sẵn sàng **
-        GRID_CONTAINER = document.getElementById('product-grid-container'); 
-        LIST_CONTAINER = document.getElementById('product-list-container'); 
-
-        // Tải sản phẩm khi trang được tải hoàn tất
-        loadProducts();
-
-        // Gắn sự kiện chuyển đổi chế độ xem (GRID/LIST)
-        const gridBtn = document.getElementById('grid-btn');
-        const listBtn = document.getElementById('list-btn');
-
-        if (gridBtn) {
-            gridBtn.addEventListener('click', () => {
-                if (window.currentProducts.length > 0) {
-                    displayProducts(window.currentProducts, 'grid');
+            loadProducts: async function() {
+                try {
+                    const res = await fetch(CONFIG.API.PRODUCTS);
+                    const data = await res.json();
+                    window.currentProducts = data;
+                    this.display('grid');
+                } catch (err) {
+                    console.error("Load products error:", err);
                 }
-            });
-        }
+            },
+
+            display: function(viewMode) {
+                const container = viewMode === 'grid' ? GRID_CONTAINER : LIST_CONTAINER;
+                const other = viewMode === 'grid' ? LIST_CONTAINER : GRID_CONTAINER;
+                if (!container) return;
+                
+                container.innerHTML = window.currentProducts.map(p => this.renderGrid(p)).join(''); // Tạm thời dùng chung 1 render cho gọn
+                if(other) other.innerHTML = '';
+            }
+        };
+
+        /*** 4. MODULE GIỎ HÀNG (CART) - Cập nhật cho shop.html*/
+        const CartManager = {
+            addToCart: async function(productId, quantity = 1, redirect = true) {
+                const token = localStorage.getItem('access_token');
+                if (!token) {
+                    alert("Vui lòng đăng nhập để mua hàng!");
+                    if(window.bootstrap && document.getElementById('loginModal')) {
+                        new bootstrap.Modal(document.getElementById('loginModal')).show();
+                    }
+                    return false;
+                }
+
+                try {
+                    const res = await fetch(CONFIG.API.CART_ADD, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}` 
+                        },
+                        // Gửi đúng quantity từ input details hoặc mặc định là 1 từ shop
+                        body: JSON.stringify({ ProductID: productId, Quantity: quantity })
+                    });
+
+                    const result = await res.json();
+                    
+                    if (res.ok) {
+                        if (redirect) {
+                            if (confirm("Đã thêm vào giỏ! Đi đến giỏ hàng ngay?")) {
+                                window.location.href = "cart.html";
+                            }
+                        }
+                        return true; // Trả về true để handleBuyNow biết đã add thành công
+                    } else {
+                        // Backend trả về lỗi "Vượt quá kho hàng" sẽ hiển thị ở đây
+                        alert("Lỗi: " + (result.detail || "Không thể thêm vào giỏ"));
+                        return false;
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Lỗi kết nối máy chủ.");
+                    return false;
+                }
+            }
+        };
         
-        if (listBtn) {
-            listBtn.addEventListener('click', () => {
-                if (window.currentProducts.length > 0) {
-                    displayProducts(window.currentProducts, 'list');
-                }
-            });
-        }
+        /*** 5. KHỞI TẠI KHI TẢI TRANG*/
+        document.addEventListener('DOMContentLoaded', () => {
+        // Khởi tạo container
+        GRID_CONTAINER = document.getElementById('product-grid-container');
+        LIST_CONTAINER = document.getElementById('product-list-container');
+
+        // Chạy các module
+        AuthManager.updateUI();
+        ShopManager.loadProducts();
+
+        // Gắn sự kiện Logout
+        const logoutBtn = document.getElementById('uiLogoutLink');
+        if (logoutBtn) logoutBtn.onclick = AuthManager.logout;
+
+        // Gắn sự kiện Form Login/Register (Sửa lỗi Auto Fail)
+        const loginForm = document.getElementById('loginForm');
+        if(loginForm) loginForm.onsubmit = (e) => AuthManager.handleSubmit(e, CONFIG.API.TOKEN);
+
+        const regForm = document.getElementById('registerForm');
+        if(regForm) regForm.onsubmit = (e) => AuthManager.handleSubmit(e, CONFIG.API.REGISTER);
     });
-
-</script>
+    </script>
 </body>
 
 </html>

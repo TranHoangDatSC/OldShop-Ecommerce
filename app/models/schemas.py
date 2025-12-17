@@ -227,8 +227,9 @@ class CartItemCreate(BaseModel):
     Quantity: int = 1 # Mặc định thêm 1
 
 class CartItemUpdate(BaseModel):
-    """Schema dùng khi CẬP NHẬT số lượng sản phẩm."""
+    ProductID: int
     new_quantity: int
+    LastUpdated: datetime
 
 class CartItem(BaseModel):
     """Schema base của CartItem (dùng để map từ SQL model)"""
@@ -236,7 +237,7 @@ class CartItem(BaseModel):
     CartID: int
     ProductID: int
     Quantity: int
-    AddedDate: datetime
+    AddedDate: Optional[datetime] = None
     
     class Config:
         from_attributes = True
@@ -267,8 +268,7 @@ class ShoppingCartOut(BaseModel):
     """Schema ĐẦU RA API: Giỏ hàng có nhúng chi tiết các món hàng."""
     CartID: int
     UserID: int
-    LastUpdated: datetime
-    # List of CartItemOut (có nhúng Product details)
+    LastUpdated: Optional[datetime] = None # Chấp nhận nếu DB trả về NULL
     items: List[CartItemOut] = []
     
     class Config:
