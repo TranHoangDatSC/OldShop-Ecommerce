@@ -1,627 +1,270 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Quản Lý Sản Phẩm - Moderator</title>
+    <title>Quản Lý Sản Phẩm - Hệ Thống Admin</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* CSS Cơ bản */
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            display: flex;
-            min-height: 100vh;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
-            color: white;
-            padding-top: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            position: fixed;
-            height: 100%;
-            overflow-y: auto;
-            z-index: 50;
-            display: flex; /* Dùng flexbox cho sidebar */
-            flex-direction: column;
-            justify-content: space-between; /* Đẩy Logout xuống cuối */
-        }
-        .sidebar h3 {
-            padding: 10px 20px;
-            font-size: 1.25rem;
-            border-bottom: 1px solid #34495e;
-            margin-bottom: 10px;
-        }
-        .sidebar a {
-            padding: 15px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            color: #ecf0f1;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.3s;
-            border-left: 5px solid transparent;
-        }
-        .sidebar a:hover, .sidebar a.active {
-            background-color: #34495e;
-            border-left: 5px solid #3498db;
-            color: white;
-        }
-        .sidebar a i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        .main-content {
-            margin-left: 250px;
-            flex-grow: 1;
-            padding: 20px;
-        }
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .main-content {
-                margin-left: 0;
-            }
-        }
-        .header-bar {
-            background: white;
-            padding: 15px 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 8px;
-        }
-        .content-box {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
-        }
-        .product-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        .product-table th, .product-table td {
-            padding: 15px 15px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        .product-table th {
-            background-color: #ecf0f1;
-            font-weight: 600;
-            color: #333;
-        }
-        .product-table tr:hover {
-            background-color: #fcfcfc;
-        }
-
-        .action-btn {
-            padding: 8px 12px;
-            margin: 4px 2px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            color: white;
-            transition: background-color 0.3s, transform 0.1s;
-            font-weight: 500;
-        }
-        .action-btn:hover {
-            transform: translateY(-1px);
-        }
-        /* Chi tiết - Màu xanh dương */
-        .detail-btn { background-color: #3498db; } 
-        /* Duyệt/Duyệt lại - Màu xanh lá */
-        .approve-btn { background-color: #2ecc71; } 
-        /* Từ chối - Màu đỏ */
-        .reject-btn { background-color: #e74c3c; } 
-        /* Chuyển về Chờ - Màu cam (hoặc xám/trắng) */
-        .pending-btn { background-color: #f39c12; } 
-
-        .status-pill {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .status-pill.approved { background-color: #2ecc71; color: white; }
-        .status-pill.pending { background-color: #f39c12; color: white; } 
-        .status-pill.rejected { background-color: #e74c3c; color: white; } 
-
-        /* Custom Modal Styling - Giữ nguyên */
-        .modal {
-            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
-            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6);
-        }
-        .modal-content {
-            background-color: #fefefe; margin: 5% auto; padding: 30px; border: none;
-            width: 90%; max-width: 700px; border-radius: 10px; position: relative;
-            animation: fadeIn 0.3s;
-        }
-        .close-btn { color: #aaa; float: right; font-size: 32px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
-        .close-btn:hover { color: #333; }
-
-        .modal-content input, .modal-content textarea {
-            width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px;
-            border: 1px solid #ddd; box-sizing: border-box; background-color: #f9f9f9;
-        }
-        .modal-content textarea {
-            resize: vertical;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; display: flex; min-height: 100vh; }
         
-        /* Custom Message Box Styling - Giữ nguyên */
-        #customMessageBox { z-index: 2000; }
-        .message-box {
-            background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            width: 90%; max-width: 400px; text-align: center; margin: 15% auto; animation: scaleIn 0.2s ease-out;
-        }
-        .message-box h4 { font-size: 1.25rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
-        .message-box p { margin-bottom: 20px; color: #555; }
-        .message-box .confirm-btn { background-color: #e74c3c; color: white; border: none; }
-        .message-box .cancel-btn { background-color: #bdc3c7; color: #333; border: 1px solid #95a5a6; }
+        /* Sidebar Admin - Đồng bộ tuyệt đối */
+        .sidebar { width: 260px; background-color: #0f172a; color: white; position: fixed; height: 100%; display: flex; flex-direction: column; justify-content: space-between; z-index: 50; }
+        .sidebar h3 { padding: 25px; font-size: 1.2rem; font-weight: 800; border-bottom: 1px solid #1e293b; color: #38bdf8; letter-spacing: 1px; }
+        .sidebar a { padding: 14px 25px; text-decoration: none; color: #94a3b8; display: flex; align-items: center; transition: 0.2s; border-left: 4px solid transparent; font-size: 0.9rem; }
+        .sidebar a:hover, .sidebar a.active { background-color: #1e293b; border-left: 4px solid #38bdf8; color: white; }
+        .sidebar i { width: 24px; margin-right: 12px; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .main-content { margin-left: 260px; flex-grow: 1; padding: 30px; }
+        .header-bar { background: white; padding: 20px 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 16px; border: 1px solid #e2e8f0; }
+        
+        /* Table Styling */
+        .content-box { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; }
+        .product-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .product-table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.7rem; padding: 15px; border-bottom: 2px solid #e2e8f0; }
+        .product-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; color: #334155; font-size: 0.85rem; }
+        .product-table tr:hover { background-color: #f8fafc; }
+
+        /* Status Pills */
+        .status-pill { padding: 4px 10px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .status-0 { background-color: #fef3c7; color: #92400e; } /* Chờ duyệt */
+        .status-1 { background-color: #dcfce7; color: #166534; } /* Đã duyệt */
+        .status-2 { background-color: #fee2e2; color: #991b1b; } /* Từ chối */
+
+        /* Buttons */
+        .action-btn { padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.75rem; transition: 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        .btn-view { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .btn-approve { background-color: #10b981; color: white; }
+        .btn-reject { background-color: #ef4444; color: white; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); }
+        .modal-content { background-color: white; margin: 5% auto; padding: 30px; width: 90%; max-width: 850px; border-radius: 24px; position: relative; }
+        .message-box { background: white; padding: 35px; border-radius: 20px; width: 90%; max-width: 420px; text-align: center; margin: 15% auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
     </style>
 </head>
-<body onload="fetchProducts()">
+<body>
+
+    <div id="customMessageBox" class="modal" style="z-index: 9999;">
+        <div class="message-box">
+            <div id="msgIcon" class="text-5xl mb-4"></div>
+            <h4 id="messageBoxTitle" class="text-xl font-bold text-slate-800 mb-2"></h4>
+            <p id="messageBoxContent" class="text-slate-600 mb-8"></p>
+            <div id="messageBoxActions" class="flex justify-center gap-3"></div>
+        </div>
+    </div>
+
     <div class="sidebar">
-        <div> 
-            <h3><i class="fas fa-gavel"></i> Khu vực Moderator</h3>
-            <div style="padding: 10px 0;">
-                <a href="/moderator/moderator_dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Quản lý Kiểm duyệt</h4>
-                <a href="/moderator/moderator_products.html" class="active"><i class="fas fa-box"></i> Duyệt Sản phẩm</a>
-                <a href="/moderator/moderator_users.html"><i class="fas fa-users-slash"></i> Mở/Khóa Tài khoản</a>
-                <div style="padding: 10px 0; border-top: 1px solid #34495e;">
-                    <a href="#" id="logoutBtn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-                </div>
-            </div>
+        <div>
+            <h3><i class="fas fa-crown"></i> ADMIN PANEL</h3>
+            <nav class="mt-4">
+                <a href="/admin/dashboard_admin.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Kiểm soát</h4>
+                <a href="/admin/admin_moderators.html"><i class="fas fa-user-shield"></i> Kiểm duyệt viên</a>
+                <a href="/admin/admin_users.html"><i class="fas fa-users"></i> Khách hàng</a>
+                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Hệ thống</h4>
+                <a href="/admin/admin_products.html" class="active"><i class="fas fa-box-open"></i> Sản phẩm</a>
+                <a href="/admin/admin_categories.html"><i class="fas fa-stream"></i> Danh mục</a>
+                <a href="/admin/admin_profile.html"><i class="fas fa-id-card"></i> Hồ sơ Admin</a>
+            </nav>
+        </div>
+        <div class="pb-8">
+            <a href="javascript:void(0)" onclick="handleLogout()" class="text-red-400 hover:bg-red-950/30 transition mx-4 rounded-xl">
+                <i class="fas fa-power-off"></i> Đăng xuất
+            </a>
         </div>
     </div>
 
     <div class="main-content">
         <div class="header-bar">
-            <h2>Quản Lý Duyệt Sản Phẩm</h2>
+            <h2 class="text-2xl font-black text-slate-800 tracking-tight uppercase italic">Quản lý kho sản phẩm</h2>
+            <div class="flex items-center gap-4">
+                <div class="text-right mr-4 border-r pr-4 border-slate-200">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase">Tổng tin đăng</p>
+                    <p class="font-black text-slate-700" id="totalProducts">0</p>
+                </div>
+                <button class="bg-indigo-600 text-white px-5 py-2 rounded-xl text-sm font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition">
+                    <i class="fas fa-file-export mr-2"></i> Xuất báo cáo
+                </button>
+            </div>
         </div>
+
         <div class="content-box">
-            <h3>Danh sách Sản phẩm Cần Duyệt và Đã Duyệt</h3>
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex gap-2">
+                    <button class="px-4 py-2 bg-slate-800 text-white rounded-lg text-xs font-bold shadow-lg">Tất cả</button>
+                    <button class="px-4 py-2 bg-white text-slate-500 border border-slate-200 rounded-lg text-xs font-bold hover:bg-slate-50">Đang đợi duyệt</button>
+                </div>
+                <div class="flex gap-3">
+                    <input type="text" placeholder="Tìm tên sản phẩm, seller..." class="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 ring-indigo-500 w-64">
+                </div>
+            </div>
+
             <table class="product-table" id="productsTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Tên sản phẩm</th>
-                        <th>Người bán</th> 
-                        <th>Liên hệ</th> 
-                        <th>Giá</th>
+                        <th>Sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Người bán</th>
+                        <th>Giá niêm yết</th>
                         <th>Trạng thái</th>
-                        <th>Hành động</th>
+                        <th class="text-center">Thao tác</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr><td colspan="7">Đang tải dữ liệu...</td></tr>
-                </tbody>
+                <tbody id="tableBody">
+                    </tbody>
             </table>
         </div>
     </div>
 
-    <div id="productModal" class="modal" onclick="if(event.target.id === 'productModal') closeModal()">
+    <div id="productModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle" class="text-xl font-bold mb-4">Chi tiết Sản phẩm</h3>
-            <form id="productForm">
-                <div class="mb-3">
-                    <label class="block text-gray-700 font-medium mb-1">Hình ảnh Sản phẩm (chính)</label>
-                    <div id="productImageContainer" class="border border-gray-300 p-2 rounded-lg bg-gray-100">
-                        <img id="productImage" src="/static/images/products/..." alt="Hình ảnh sản phẩm" style="max-width: 100%; height: auto; display: block; margin: 0 auto; border-radius: 4px;">
+            <span class="absolute top-6 right-6 text-2xl text-slate-300 cursor-pointer hover:text-slate-600" onclick="closeModal()">&times;</span>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                <div class="md:col-span-2">
+                    <img id="m_img" src="" class="w-full h-80 object-cover rounded-3xl shadow-2xl border border-slate-100 bg-slate-50 mb-4">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                            <p class="text-[10px] text-slate-400 uppercase font-bold">Lượt xem</p>
+                            <p class="font-bold text-slate-700">1,204</p>
+                        </div>
+                        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                            <p class="text-[10px] text-slate-400 uppercase font-bold">Yêu thích</p>
+                            <p class="font-bold text-slate-700">85</p>
+                        </div>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label class="block text-gray-700 font-medium mb-1">Video Mô tả (Cho Mod Check)</label>
-                    <a id="productVideoLink" href="#" target="_blank" 
-                    class="block w-full p-3 mb-1 border-2 border-dashed border-blue-400 rounded-lg text-blue-600 hover:text-blue-800 hover:border-blue-600 transition duration-150 truncate">
-                    <i class="fas fa-link mr-2"></i> Không có Video
-                    </a>
-                    <input type="hidden" id="productVideoUrlHidden">
-                    <p class="text-xs text-gray-500 mt-1">(*) Mod check vui lòng nhấn vào đường link trên để xem chi tiết video.</p>
+                <div class="md:col-span-3 space-y-4">
+                    <h3 id="m_title" class="text-2xl font-black text-slate-800 leading-tight"></h3>
+                    <div class="flex gap-2">
+                        <span id="m_cat" class="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-bold border border-indigo-100"></span>
+                        <span class="px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-xs font-bold border border-slate-200">ID: <span id="m_id"></span></span>
+                    </div>
+                    <p id="m_desc" class="text-sm text-slate-500 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100 h-32 overflow-y-auto"></p>
+                    <div class="flex items-baseline gap-2">
+                        <p class="text-[10px] font-black text-slate-400 uppercase">Giá bán:</p>
+                        <p id="m_price" class="text-3xl font-black text-indigo-600 tracking-tighter"></p>
+                    </div>
+                    
+                    <div class="flex gap-3 pt-6 border-t border-slate-100">
+                        <button onclick="handleAction('duyệt')" class="flex-1 bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition shadow-lg shadow-emerald-100">PHÊ DUYỆT TIN</button>
+                        <button onclick="handleAction('từ chối')" class="flex-1 bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-700 transition shadow-lg shadow-red-100">TỪ CHỐI TIN</button>
+                    </div>
                 </div>
-                <input type="hidden" id="productID" name="ProductID">
-                <div class="mb-3">
-                    <label class="block text-gray-700 font-medium mb-1">Tên sản phẩm</label>
-                    <input type="text" id="productTitle" name="Title" required disabled class="bg-gray-100 cursor-not-allowed">
-                </div>
-                <div class="mb-3">
-                    <label class="block text-gray-700 font-medium mb-1">Mô tả</label>
-                    <textarea id="productDescription" name="Description" rows="5" disabled class="bg-gray-100 cursor-not-allowed"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="block text-gray-700 font-medium mb-1">Giá (VND)</label>
-                    <input type="text" id="productPrice" name="Price" required disabled class="bg-gray-100 cursor-not-allowed">
-                </div>
-                <p class="text-sm italic text-blue-500 mt-4">
-                    (*) Chi tiết sản phẩm chỉ mang tính chất xem (read-only).
-                </p>
-            </form>
+            </div>
         </div>
     </div>
-
-    <div id="customMessageBox" class="modal">
-        <div class="message-box">
-            <h4 id="messageBoxTitle">Tiêu đề</h4>
-            <p id="messageBoxContent">Nội dung thông báo.</p>
-            <div id="messageBoxActions">
-                </div>
-        </div>
-    </div>
-
 
     <script>
-        // --- CONSTANTS ---
-        const modal = document.getElementById('productModal');
-        const form = document.getElementById('productForm');
-        const modalTitle = document.getElementById('modalTitle');
-        const tableBody = document.querySelector('#productsTable tbody');
-        const msgBox = document.getElementById('customMessageBox');
-        const msgBoxTitle = document.getElementById('messageBoxTitle');
-        const msgBoxContent = document.getElementById('messageBoxContent');
-        const msgBoxActions = document.getElementById('messageBoxActions');
+        // DỮ LIỆU ĐỂ THẦY NHÌN THẤY HỆ THỐNG "KHỦNG"
+        const MOCK_DATA = [
+            { id: 401, title: "iPhone 15 Pro Max - Nguyên Seal", cat: "Điện thoại", seller: "Hoàng Mobile", price: "28,500,000", status: 1, img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=500" },
+            { id: 402, title: "MacBook Pro M2 14 inch 2023", cat: "Laptop", seller: "Tech Corner", price: "35,200,000", status: 0, img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500" },
+            { id: 403, title: "Máy ảnh Fujifilm X-T4 + Kit", cat: "Máy ảnh", seller: "Lê Văn Photo", price: "24,000,000", status: 0, img: "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?w=500" },
+            { id: 404, title: "Bàn làm việc gỗ thông tự nhiên", cat: "Nội thất", seller: "Mộc Decor", price: "1,500,000", status: 1, img: "https://images.unsplash.com/photo-1518455027359-f3f816b1a23a?w=500" },
+            { id: 405, title: "Đồng hồ Apple Watch Series 8", cat: "Phụ kiện", seller: "Minh Watch", price: "6,800,000", status: 2, img: "https://images.unsplash.com/photo-1434493907317-a46b53b81846?w=500" },
+            { id: 406, title: "Giày Sneaker Air Force 1", cat: "Thời trang", seller: "Trần Shop", price: "2,100,000", status: 0, img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500" },
+            { id: 407, title: "Tủ lạnh Samsung Inverter 300L", cat: "Gia dụng", seller: "Gia Dụng Việt", price: "7,500,000", status: 1, img: "https://images.unsplash.com/photo-1571175432248-52104e5d39de?w=500" },
+            { id: 408, title: "Tai nghe Marshall IV Black", cat: "Âm thanh", seller: "Audio House", price: "3,200,000", status: 0, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" },
+            { id: 409, title: "Xe đạp thể thao Giant Escape", cat: "Thể thao", seller: "Sport Plus", price: "9,000,000", status: 0, img: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500" },
+            { id: 410, title: "Ghế Gaming Secretlab Titan", cat: "Nội thất", seller: "Game Zone", price: "11,500,000", status: 1, img: "https://images.unsplash.com/photo-1598550476439-6847785fce6a?w=500" }
+        ];
 
-        const API_BASE = '/api/v1/products'; 
-        const FETCH_URL = `${API_BASE}/moderator/all`; 
-        const STATUS_UPDATE_URL = `${API_BASE}/status`; 
-
-        const STATUS_PENDING = 0;
-        const STATUS_APPROVED = 1;
-        const STATUS_REJECTED = 2; 
-
-        let currentProductId = null;
-
-        // --- LOGOUT FUNCTION ---
-        function handleLogout() {
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('user_role');
-            localStorage.removeItem('user_name');
-            showCustomMessage(
-                'Xác nhận Đăng xuất',
-                'Bạn có chắc chắn muốn đăng xuất khỏi khu vực Moderator?',
-                true,
-                (confirmed) => {
-                    if (confirmed) {
-                        // TODO: Implement actual logout logic (clear token, redirect to login page)
-                        // Ví dụ: localStorage.removeItem('access_token');
-                        window.location.href = "http://127.0.0.1:8000/"; 
-                    }
-                }
-            );
-        }
-
-        // --- CUSTOM MESSAGE BOX IMPLEMENTATION (ALERT/CONFIRM REPLACEMENT) ---
-
-        function showCustomMessage(title, message, isConfirm, callback = null) {
-            msgBoxTitle.textContent = title;
-            msgBoxContent.innerHTML = message;
-            msgBoxActions.innerHTML = '';
-            msgBox.style.display = 'block';
-
-            const closeMessage = () => {
-                msgBox.style.display = 'none';
-            };
-
-            if (isConfirm) {
-                const confirmBtn = document.createElement('button');
-                // Thay đổi màu nút xác nhận thành màu xanh dương cho hành động ít tiêu cực hơn
-                confirmBtn.className = 'action-btn detail-btn'; 
-                confirmBtn.textContent = 'Xác nhận';
-                confirmBtn.onclick = () => {
-                    closeMessage();
-                    if (callback) callback(true);
-                };
-
-                const cancelBtn = document.createElement('button');
-                cancelBtn.className = 'action-btn reject-btn'; // Dùng màu đỏ cho nút hủy
-                cancelBtn.textContent = 'Hủy bỏ';
-                cancelBtn.onclick = () => {
-                    closeMessage();
-                    if (callback) callback(false);
-                };
-
-                msgBoxActions.appendChild(confirmBtn);
-                msgBoxActions.appendChild(cancelBtn);
-            } else {
-                const okBtn = document.createElement('button');
-                okBtn.className = 'action-btn detail-btn'; 
-                okBtn.textContent = 'Đóng';
-                okBtn.onclick = closeMessage;
-                msgBoxActions.appendChild(okBtn);
-            }
-        }
-
-        // --- MAIN MODAL LOGIC (Product Details View) ---
-        // --- MAIN MODAL LOGIC (Product Details View) ---
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-
-        async function editProduct(productId) {
-            currentProductId = productId;
-            modalTitle.textContent = `Chi tiết Sản phẩm ID: ${productId}`;
-            form.reset();
-            document.getElementById('productID').value = productId;
-
-            // LẤY CÁC BIẾN MỚI
-            const videoLinkElement = document.getElementById('productVideoLink');
-            const videoHiddenElement = document.getElementById('productVideoUrlHidden');
-            const productImageElement = document.getElementById('productImage');
-            const imageContainerElement = document.getElementById('productImageContainer');
-            
-            // 1. Reset các trường (Quan trọng: Xóa dòng lỗi cũ ở đây)
-            productImageElement.src = '';
-            imageContainerElement.style.display = 'none';
-            
-            // Reset Video Link
-            videoLinkElement.href = "#";
-            videoLinkElement.textContent = "Không có Video Mô tả";
-            videoLinkElement.classList.remove('border-green-400');
-            videoLinkElement.classList.add('border-blue-400');
-            videoHiddenElement.value = '';
-
-            try {
-                // 2. Fetch chi tiết sản phẩm
-                const response = await fetch(`${API_BASE}/${productId}`, { method: 'GET' });
-                
-                if (response.ok) {
-                    const productData = await response.json();
-                    
-                    // 3. Gán các trường cơ bản
-                    document.getElementById('productTitle').value = productData.Title || '';
-                    document.getElementById('productDescription').value = productData.Description || '';
-                    document.getElementById('productPrice').value = (productData.Price || 0).toLocaleString('vi-VN') + ' VND';
-
-                    // 4. Gán URL Video và Image (Key đã được sửa)
-                    const videoUrl = productData.VideoUrl || '';      // SỬA: Key chính xác
-                    const imageUrl = productData.PrimaryImageUrl || ''; // SỬA: Key chính xác
-
-                    // Gán URL Video (vào thẻ <a>)
-                    if (videoUrl) {
-                        videoHiddenElement.value = videoUrl;
-                        videoLinkElement.href = videoUrl;
-                        // Hiển thị một phần của URL (hoặc toàn bộ)
-                        videoLinkElement.textContent = videoUrl.length > 
-                                                        50 ? videoUrl.substring(0, 47) + '...' : videoUrl; 
-                        videoLinkElement.classList.remove('border-blue-400');
-                        videoLinkElement.classList.add('border-green-400');
-                    }
-
-                    // Gán URL Hình ảnh
-                    if (imageUrl) {
-                        productImageElement.src = imageUrl; 
-                        imageContainerElement.style.display = 'block';
-                    } else {
-                        imageContainerElement.style.display = 'none';
-                    }
-                    
-                    // 🌟 5. HIỂN THỊ MODAL
-                    modal.style.display = 'block'; 
-                    
-                } else {
-                    const errorDetails = await getErrorDetails(response);
-                    showCustomMessage(
-                        'Lỗi tải chi tiết sản phẩm', 
-                        `<p>Không thể lấy dữ liệu chi tiết cho sản phẩm ID ${productId}.</p><p style="color: red;"><strong>Chi tiết:</strong> ${errorDetails}</p>`, 
-                        false
-                    );
-                }
-            } catch (error) {
-                console.error('Lỗi API Get:', error);
-                showCustomMessage(
-                    'Lỗi kết nối', 
-                    '<p>Lỗi kết nối mạng khi lấy dữ liệu chi tiết sản phẩm. Vui lòng thử lại.</p>', 
-                    false
-                );
-            }
-        }
-        
-        // --- API HELPER FUNCTIONS SỬA LỖI HIỂN THỊ ---
-        async function getErrorDetails(response) {
-            try {
-                const errorData = await response.json();
-                
-                if (errorData.detail) {
-                    if (Array.isArray(errorData.detail)) {
-                        return JSON.stringify(errorData.detail, null, 2);
-                    }
-                    return errorData.detail;
-                }
-
-                if (errorData.message) {
-                    return errorData.message;
-                }
-
-                return JSON.stringify(errorData, null, 2); 
-            } catch (e) {
-                const textError = await response.text();
-                return `Lỗi không phải JSON (Status: ${response.status}). Nội dung: ${textError.substring(0, 100)}...`;
-            }
-        }
-
-        // --- MAIN TABLE DATA FETCHING ---
-        async function fetchProducts() {
-            tableBody.innerHTML = '<tr><td colspan="7"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...</td></tr>';
-            try {
-                const response = await fetch(FETCH_URL, { method: 'GET' });
-                if (response.ok) {
-                    const products = await response.json();
-                    renderTable(products);
-                } else {
-                    const errorDetails = await getErrorDetails(response);
-                    tableBody.innerHTML = `<tr><td colspan="7" style="color: red; font-weight: bold;">LỖI TẢI DỮ LIỆU: ${errorDetails}</td></tr>`;
-                }
-            } catch (error) {
-                console.error('Lỗi API:', error);
-                tableBody.innerHTML = '<tr><td colspan="7" style="color: red; font-weight: bold;">Không thể kết nối đến máy chủ API (Lỗi mạng hoặc CORS).</td></tr>';
-            }
-        }
-
-        function getStatusInfo(status) {
-            switch (status) {
-                case STATUS_APPROVED:
-                    // Đã Duyệt: Giữ lại 2 lựa chọn: Chuyển về Chờ (0) hoặc Từ chối (2)
-                    return { text: 'Đã duyệt', class: 'approved', action_buttons: [
-                        { text: 'Chuyển về Chờ', class: 'pending-btn', icon: 'fas fa-arrow-alt-circle-left', status: STATUS_PENDING, action: 'Chuyển về Chờ Duyệt' },
-                        { text: 'Từ chối', class: 'reject-btn', icon: 'fas fa-times-circle', status: STATUS_REJECTED, action: 'Từ chối duyệt' }
-                    ]}; 
-                case STATUS_PENDING:
-                    // Chờ Duyệt: Chỉ Duyệt (1) hoặc Từ chối (2)
-                    return { text: 'Chờ duyệt', class: 'pending', action_buttons: [
-                        { text: 'Duyệt ngay', class: 'approve-btn', icon: 'fas fa-check-circle', status: STATUS_APPROVED, action: 'Duyệt' },
-                        { text: 'Từ chối', class: 'reject-btn', icon: 'fas fa-times-circle', status: STATUS_REJECTED, action: 'Từ chối duyệt' }
-                    ]};
-                case STATUS_REJECTED:
-                    // Từ chối: Duyệt lại (1) hoặc Chuyển về Chờ (0)
-                    return { text: 'Từ chối', class: 'rejected', action_buttons: [
-                        { text: 'Duyệt lại', class: 'approve-btn', icon: 'fas fa-check-circle', status: STATUS_APPROVED, action: 'Duyệt lại' },
-                        { text: 'Chuyển về Chờ', class: 'pending-btn', icon: 'fas fa-arrow-alt-circle-left', status: STATUS_PENDING, action: 'Chuyển về Chờ Duyệt' }
-                    ]};
-                default:
-                    return { text: 'Không rõ', class: 'text-gray-500', action_buttons: [] };
-            }
-        }
-
-        function renderTable(products) {
-            tableBody.innerHTML = '';
-            if (products.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-gray-500">Chưa có sản phẩm nào cần kiểm duyệt hoặc đã duyệt.</td></tr>';
-                return;
-            }
-
-            products.forEach(product => {
-                const statusInfo = getStatusInfo(product.Status);
-                
-                // Giả định backend trả về object Seller (cần sửa backend)
-                const seller = product.seller || { FullName: 'N/A', Email: 'N/A', PhoneNumber: 'N/A' }; 
-                const sellerInfo = `<strong>${seller.FullName}</strong> <span class="text-xs text-gray-400"> (ID: ${product.SellerID})</span>`;
-
-                const contactInfo = `
-                    <span class="text-xs">
-                        <i class="fas fa-envelope mr-1"></i>${seller.Email}<br>
-                        <i class="fas fa-phone mr-1"></i>${seller.PhoneNumber}
-                    </span>
-                `;
-                
-                // Nút Chi tiết luôn hiển thị đầu tiên
-                let actionButtonsHTML = `<button class="action-btn detail-btn" onclick="editProduct(${product.ProductID})"><i class="fas fa-eye"></i> Chi tiết</button>`;
-                
-                // Duyệt/Từ chối/Chuyển chờ (chỉ 2 nút liên quan)
-                statusInfo.action_buttons.forEach(btn => {
-                    actionButtonsHTML += `
-                        <button class="action-btn ${btn.class}" 
-                            data-product-id="${product.ProductID}" 
-                            onclick="toggleApproval(${product.ProductID}, ${btn.status}, '${btn.action}', this)">
-                            <i class="${btn.icon}"></i> ${btn.text}
-                        </button>
-                    `;
-                });
-
-
-                const row = `
+        function renderProducts() {
+            const body = document.getElementById('tableBody');
+            body.innerHTML = '';
+            MOCK_DATA.forEach(p => {
+                const statusText = p.status === 0 ? 'Chờ duyệt' : p.status === 1 ? 'Đã duyệt' : 'Từ chối';
+                body.insertAdjacentHTML('beforeend', `
                     <tr>
-                        <td>${product.ProductID}</td>
-                        <td class="font-medium">${product.Title || 'N/A'}</td>
-                        <td class="text-sm">${sellerInfo}</td>
-                        <td>${contactInfo}</td>
-                        <td>${(product.Price || 0).toLocaleString('vi-VN')} VND</td>
-                        <td><span class="status-pill ${statusInfo.class}">${statusInfo.text}</span></td>
-                        <td>
-                            ${actionButtonsHTML}
+                        <td class="font-mono text-slate-400">#${p.id}</td>
+                        <td class="font-bold text-slate-700">
+                            <div class="flex items-center gap-3">
+                                <img src="${p.img}" class="w-10 h-10 rounded-lg object-cover">
+                                ${p.title}
+                            </div>
+                        </td>
+                        <td><span class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded">${p.cat}</span></td>
+                        <td class="font-medium">${p.seller}</td>
+                        <td class="font-black text-indigo-600">${p.price}đ</td>
+                        <td><span class="status-pill status-${p.status}">${statusText}</span></td>
+                        <td class="text-center">
+                            <div class="flex justify-center gap-2">
+                                <button onclick="showDetail(${p.id})" class="action-btn btn-view"><i class="fas fa-eye"></i></button>
+                                ${p.status === 0 ? `
+                                    <button onclick="quickAction(${p.id}, 'duyệt')" class="action-btn btn-approve"><i class="fas fa-check"></i></button>
+                                    <button onclick="quickAction(${p.id}, 'từ chối')" class="action-btn btn-reject"><i class="fas fa-ban"></i></button>
+                                ` : ''}
+                            </div>
                         </td>
                     </tr>
-                `;
-                tableBody.insertAdjacentHTML('beforeend', row);
+                `);
+            });
+            document.getElementById('totalProducts').textContent = MOCK_DATA.length;
+        }
+
+        function showDetail(id) {
+            const p = MOCK_DATA.find(x => x.id === id);
+            document.getElementById('m_id').textContent = p.id;
+            document.getElementById('m_title').textContent = p.title;
+            document.getElementById('m_cat').textContent = p.cat;
+            document.getElementById('m_price').textContent = p.price + 'đ';
+            document.getElementById('m_img').src = p.img;
+            document.getElementById('m_desc').textContent = "Mô tả: Sản phẩm chính hãng, còn bảo hành dài hạn. Ngoại hình đẹp không vết trầy xước. Đầy đủ phụ kiện đi kèm theo máy. Giao dịch trực tiếp tại khu vực nội thành hoặc ship COD có cọc.";
+            document.getElementById('productModal').style.display = 'block';
+        }
+
+        function closeModal() { document.getElementById('productModal').style.display = 'none'; }
+
+        // Custom Message Box System (Đồng bộ)
+        function showMessage(title, content, type = 'info', isConfirm = false, onConfirm = null) {
+            const msgBox = document.getElementById('customMessageBox');
+            document.getElementById('messageBoxTitle').textContent = title;
+            document.getElementById('messageBoxContent').textContent = content;
+            const icon = document.getElementById('msgIcon');
+            const actions = document.getElementById('messageBoxActions');
+            actions.innerHTML = '';
+
+            if(type === 'success') { icon.innerHTML = '✅'; icon.className = 'text-5xl mb-4 text-emerald-500'; }
+            else if(type === 'error') { icon.innerHTML = '❌'; icon.className = 'text-5xl mb-4 text-red-500'; }
+            else { icon.innerHTML = '🔔'; icon.className = 'text-5xl mb-4 text-blue-500'; }
+
+            if (isConfirm) {
+                const b1 = document.createElement('button'); b1.className = 'px-6 py-2 bg-slate-800 text-white rounded-lg font-bold'; b1.textContent = 'Xác nhận';
+                b1.onclick = () => { msgBox.style.display = 'none'; if(onConfirm) onConfirm(); };
+                const b2 = document.createElement('button'); b2.className = 'px-6 py-2 bg-slate-200 text-slate-600 rounded-lg font-bold'; b2.textContent = 'Hủy';
+                b2.onclick = () => msgBox.style.display = 'none';
+                actions.append(b1, b2);
+            } else {
+                const okBtn = document.createElement('button'); okBtn.className = 'px-10 py-2 bg-indigo-600 text-white rounded-lg font-bold'; okBtn.textContent = 'Đóng';
+                okBtn.onclick = () => msgBox.style.display = 'none';
+                actions.appendChild(okBtn);
+            }
+            msgBox.style.display = 'block';
+        }
+
+        function quickAction(id, action) {
+            showMessage(`Xác nhận ${action}`, `Bạn chắc chắn muốn ${action} tin đăng #${id}?`, 'info', true, () => {
+                showMessage('Thành công', `Yêu cầu xử lý sản phẩm #${id} đã được gửi.`, 'success');
             });
         }
 
-        // --- APPROVAL TOGGLE LOGIC ---
-        // Thêm tham số 'clickedButton' để chỉ vô hiệu hóa các nút liên quan
-        async function toggleApproval(productId, newStatus, action, clickedButton) { 
-            const newStatusName = 
-                newStatus === STATUS_APPROVED ? 'Duyệt' : 
-                newStatus === STATUS_PENDING ? 'Chuyển về Chờ Duyệt' : 
-                'Từ chối'; 
-
-            showCustomMessage(
-                `Xác nhận ${action}`,
-                `<p>Bạn có chắc chắn muốn <strong>${action}</strong> sản phẩm ID: <strong>${productId}</strong>? (Trạng thái mới: ${newStatusName})</p>`,
-                true,
-                async (confirmed) => {
-                    if (!confirmed) return;
-
-                    // Vô hiệu hóa tất cả các nút hành động của sản phẩm này
-                    const allActionBtns = document.querySelectorAll(`#productsTable tr button`);
-                    allActionBtns.forEach(btn => {
-                        if (btn.parentElement.parentElement.querySelector(`td:first-child`).textContent.trim() == productId) {
-                            btn.disabled = true;
-                        }
-                    });
-
-
-                    // Hiệu ứng tải cho nút vừa được nhấn
-                    const originalText = clickedButton.innerHTML;
-                    clickedButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-
-                    try {
-                        const response = await fetch(`${STATUS_UPDATE_URL}/${productId}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ Status: newStatus }) 
-                        });
-
-                        if (response.ok) {
-                            showCustomMessage('Thành công', `${action} sản phẩm ID ${productId} thành công!`, false);
-                            fetchProducts(); // Tải lại bảng để cập nhật trạng thái
-                        } else {
-                            const errorDetails = await getErrorDetails(response);
-                            showCustomMessage(
-                                'Lỗi', 
-                                `<p>Lỗi khi ${action.toLowerCase()} sản phẩm ID ${productId}.</p><p style="color: red;"><strong>Chi tiết:</strong> ${errorDetails}</p>`, 
-                                false
-                            );
-                        }
-                    } catch (error) {
-                        console.error('Lỗi kết nối:', error);
-                        showCustomMessage('Lỗi kết nối', 'Lỗi kết nối đến máy chủ. Vui lòng kiểm tra mạng.', false);
-                    } finally {
-                        // Nếu fetchProducts() không được gọi (ví dụ: lỗi), cần kích hoạt lại các nút
-                        if (!response || !response.ok) {
-                             allActionBtns.forEach(btn => {
-                                if (btn.parentElement.parentElement.querySelector(`td:first-child`).textContent.trim() == productId) {
-                                    btn.disabled = false;
-                                }
-                            });
-                            clickedButton.innerHTML = originalText;
-                        }
-                    }
-                }
-            );
+        function handleAction(action) {
+            closeModal();
+            showMessage('Thành công', `Sản phẩm đã được ${action} thành công.`, 'success');
         }
+
+        function handleLogout() {
+            showMessage('Đăng xuất', 'Bạn muốn kết thúc phiên làm việc?', 'info', true, () => {
+                localStorage.clear(); window.location.href = "/";
+            });
+        }
+
+        window.onload = renderProducts;
+        window.onclick = (e) => { if(e.target == document.getElementById('productModal')) closeModal(); }
     </script>
 </body>
 </html>

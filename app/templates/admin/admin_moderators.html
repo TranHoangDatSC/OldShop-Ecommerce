@@ -3,85 +3,107 @@
 <head>
     <title>Quản Lý Kiểm Duyệt Viên - Admin</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* CSS Cơ bản (Chỉ giữ lại những style quan trọng nhất) */
-        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; display: flex; min-height: 100vh; }
-        .sidebar { width: 250px; background-color: #2c3e50; color: white; padding-top: 20px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); position: fixed; height: 100%; overflow-y: auto; }
-        .sidebar a { padding: 15px 20px; text-decoration: none; font-size: 16px; color: #ecf0f1; display: block; transition: background-color 0.3s; border-left: 5px solid transparent; }
-        .sidebar a:hover, .sidebar a.active { background-color: #34495e; border-left: 5px solid #3498db; color: white; }
-        .sidebar a i { margin-right: 10px; width: 20px; text-align: center; }
-        .main-content { margin-left: 250px; flex-grow: 1; padding: 20px; }
-        .header-bar { background: white; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; }
-        .content-box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-        .mod-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .mod-table th, .mod-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
-        .mod-table th { background-color: #f8f8f8; font-weight: bold; color: #333; }
-        .action-btn { padding: 5px 10px; margin: 2px; border: none; border-radius: 4px; cursor: pointer; color: white; transition: background-color 0.3s; }
-        .edit-btn { background-color: #3498db; }
-        .toggle-status-btn.active { background-color: #e74c3c; } 
-        .toggle-status-btn.inactive { background-color: #2ecc71; } 
-        .status-pill { padding: 4px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
-        .status-pill.active { background-color: #2ecc71; color: white; }
-        .status-pill.inactive { background-color: #e74c3c; color: white; }
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
-        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 40%; border-radius: 8px; position: relative; }
-        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .modal-content input, .modal-content button { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box; }
-        .modal-content button.primary { background-color: #3498db; color: white; border: none; }
+        body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; display: flex; min-height: 100vh; }
+        
+        /* Sidebar Admin - Dark Slate */
+        .sidebar { width: 260px; background-color: #0f172a; color: white; position: fixed; height: 100%; display: flex; flex-direction: column; justify-content: space-between; z-index: 50; }
+        .sidebar h3 { padding: 25px; font-size: 1.2rem; font-weight: 800; border-bottom: 1px solid #1e293b; color: #38bdf8; letter-spacing: 1px; }
+        .sidebar a { padding: 14px 25px; text-decoration: none; color: #94a3b8; display: flex; align-items: center; transition: 0.2s; border-left: 4px solid transparent; font-size: 0.95rem; }
+        .sidebar a:hover, .sidebar a.active { background-color: #1e293b; border-left: 4px solid #38bdf8; color: white; }
+        .sidebar i { width: 24px; margin-right: 12px; font-size: 1.1rem; }
+
+        .main-content { margin-left: 260px; flex-grow: 1; padding: 30px; }
+        .header-bar { background: white; padding: 20px 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 16px; }
+        
+        /* Content & Table */
+        .content-box { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .mod-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .mod-table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; padding: 15px; border-bottom: 2px solid #e2e8f0; }
+        .mod-table td { padding: 16px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+        
+        /* Status & Buttons */
+        .status-pill { padding: 5px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .status-pill.active { background-color: #dcfce7; color: #166534; }
+        .status-pill.inactive { background-color: #fee2e2; color: #991b1b; }
+
+        .action-btn { padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-create { background-color: #3b82f6; color: white; }
+        .btn-edit { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .btn-edit:hover { background-color: #e2e8f0; }
+        
+        /* Custom Modal System */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); }
+        .modal-content { background-color: white; margin: 5% auto; padding: 30px; width: 90%; max-width: 500px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; }
+        
+        .message-box { background: white; padding: 35px; border-radius: 20px; width: 90%; max-width: 420px; text-align: center; margin: 15% auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+        
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; margin-top: 15px; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; outline: none; transition: 0.2s; font-size: 0.95rem; }
+        .input-group input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
     </style>
 </head>
-<body>
+<body onload="fetchModerators()">
+
+    <div id="customMessageBox" class="modal" style="z-index: 9999;">
+        <div class="message-box">
+            <div id="msgIcon" class="text-5xl mb-4"></div>
+            <h4 id="messageBoxTitle" class="text-xl font-bold text-slate-800 mb-2"></h4>
+            <p id="messageBoxContent" class="text-slate-600 mb-8"></p>
+            <div id="messageBoxActions" class="flex justify-center gap-3"></div>
+        </div>
+    </div>
 
     <div class="sidebar">
-    <h3><i class="fas fa-store"></i> Chợ Đồ Cũ</h3>
-    
-        <div style="padding: 10px 0;">
-            <a href="/admin/dashboard_admin.html"><i class="fas fa-chart-line"></i> Dashboard</a>
-            
-            <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Quản lý Chung</h4>
-            
-            <a href="/admin/admin_moderators.html" class="active"><i class="fas fa-user-tie"></i> Quản lý Kiểm duyệt viên</a>
-            
-            <a href="/admin/admin_users.html"><i class="fas fa-users"></i> Quản lý Khách hàng</a>
-            
-            <a href="/admin/orders.html"><i class="fas fa-file-invoice"></i> Quản lý Hóa đơn</a>
-            
-            <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Quản lý Sản phẩm</h4>
-            
-            <a href="/admin/products.html"><i class="fas fa-box"></i> Quản lý Sản phẩm</a>
-            
-            <a href="/admin/categories.html"><i class="fas fa-tags"></i> Quản lý Danh mục</a>
-            
-            <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Khác</h4>
-            
-            <a href="/admin/settings.html"><i class="fas fa-cog"></i> Cài đặt</a>
+        <div>
+            <h3><i class="fas fa-crown"></i> ADMIN PANEL</h3>
+            <nav class="mt-4">
+                <a href="/admin/dashboard_admin.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Quản lý nhân sự</h4>
+                <a href="/admin/admin_moderators.html" class="active"><i class="fas fa-user-shield"></i> Kiểm duyệt viên</a>
+                <a href="/admin/admin_users.html"><i class="fas fa-users"></i> Khách hàng</a>
+                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Hệ thống</h4>
+                <a href="/admin/admin_products.html"><i class="fas fa-box-open"></i> Sản phẩm</a>
+                <a href="/admin/admin_categories.html"><i class="fas fa-stream"></i> Danh mục</a>
+                <a href="/admin/admin_profile.html"><i class="fas fa-id-card"></i> Hồ sơ Admin</a>
+            </nav>
+        </div>
+        <div class="pb-8">
+            <a href="javascript:void(0)" onclick="handleLogout()" class="text-red-400 hover:bg-red-950/30 transition mx-4 rounded-xl">
+                <i class="fas fa-power-off"></i> Đăng xuất
+            </a>
         </div>
     </div>
 
     <div class="main-content">
         <div class="header-bar">
-            <h2>Quản Lý Kiểm Duyệt Viên</h2>
-            <button class="action-btn edit-btn" onclick="openCreateModeratorModal()">
-                <i class="fas fa-plus"></i> Tạo Moderator Mới
+            <h2 class="text-2xl font-black text-slate-800 tracking-tight italic">QUẢN LÝ MODERATORS</h2>
+            <button class="action-btn btn-create px-6 py-3" onclick="openCreateModeratorModal()">
+                <i class="fas fa-user-plus"></i> Thêm Moderator
             </button>
         </div>
-        
+
         <div class="content-box">
-            <h3>Danh sách Tài khoản Moderator</h3>
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-bold text-slate-700">Danh sách nhân sự thực thi</h3>
+                <span class="text-xs font-medium bg-slate-100 text-slate-500 px-3 py-1 rounded-full">Tổng cộng: <span id="modCount">0</span></span>
+            </div>
             <table class="mod-table" id="moderatorsTable">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Username</th>
+                        <th>Tài khoản</th>
                         <th>Email</th>
-                        <th>Tên đầy đủ</th>
+                        <th>Tên hiển thị</th>
                         <th>Trạng thái</th>
-                        <th>Hành động</th>
+                        <th class="text-center">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td colspan="6">Đang tải dữ liệu...</td></tr>
+                    <tr><td colspan="6" class="text-center py-12 text-slate-400 italic">Đang tải dữ liệu nhân sự...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -89,275 +111,182 @@
 
     <div id="moderatorModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h3 id="modalTitle">Tạo Tài khoản Moderator Mới</h3>
-            
-            <form id="moderatorForm">
-                <input type="hidden" id="modUserID" name="UserID">
-
-                <input type="text" id="modUsername" name="Username" placeholder="Username" required>
-                <input type="email" id="modEmail" name="Email" placeholder="Email" required>
-                <input type="text" id="modFullName" name="FullName" placeholder="Tên đầy đủ" required>
+            <span class="absolute top-6 right-6 text-2xl text-slate-400 cursor-pointer hover:text-slate-600" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle" class="text-2xl font-black text-slate-800 mb-6">Tạo Moderator</h3>
+            <form id="moderatorForm" class="input-group">
+                <input type="hidden" id="modUserID">
                 
-                <input type="password" id="modPassword" name="Password" placeholder="Mật khẩu (tối thiểu 6 ký tự)" required>
+                <label>Username</label>
+                <input type="text" id="modUsername" required placeholder="Nhập tên đăng nhập...">
                 
-                <div style="margin-bottom: 10px; font-style: italic; color: #7f8c8d;">
-                    Vai trò mặc định: Moderator (RoleID=2).
+                <label>Email liên lạc</label>
+                <input type="email" id="modEmail" required placeholder="example@mod.com">
+                
+                <label>Tên đầy đủ</label>
+                <input type="text" id="modFullName" required placeholder="Họ và tên kiểm duyệt viên">
+                
+                <label>Mật khẩu hệ thống</label>
+                <input type="password" id="modPassword" placeholder="Tối thiểu 6 ký tự">
+                
+                <div class="mt-8 flex gap-3">
+                    <button type="submit" id="submitBtn" class="flex-1 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-200">Xác nhận lưu</button>
+                    <button type="button" onclick="closeModal()" class="flex-1 bg-slate-100 text-slate-600 font-bold py-3 rounded-xl hover:bg-slate-200 transition">Hủy</button>
                 </div>
-
-                <button type="submit" class="primary" id="submitBtn">Tạo & Kích hoạt</button>
             </form>
         </div>
     </div>
 
     <script>
-    const modal = document.getElementById('moderatorModal');
-    const form = document.getElementById('moderatorForm');
-    const modalTitle = document.getElementById('modalTitle');
-    const submitBtn = document.getElementById('submitBtn');
-    const tableBody = document.querySelector('#moderatorsTable tbody');
+        // --- CUSTOM UI SYSTEM ---
+        function showMessage(title, content, type = 'info', isConfirm = false, onConfirm = null) {
+            const msgBox = document.getElementById('customMessageBox');
+            const titleEl = document.getElementById('messageBoxTitle');
+            const contentEl = document.getElementById('messageBoxContent');
+            const actionsEl = document.getElementById('messageBoxActions');
+            const iconEl = document.getElementById('msgIcon');
 
-    // Biến toàn cục để theo dõi UserID đang được chỉnh sửa/tạo mới
-    let currentUserId = null; 
-
-    // --- CÁC HÀM XỬ LÝ GIAO DIỆN CHUNG ---
-
-    function openCreateModeratorModal() {
-        modalTitle.textContent = 'Tạo Tài khoản Moderator Mới';
-        submitBtn.textContent = 'Tạo & Kích hoạt';
-        form.reset(); 
-        
-        // Thiết lập cho chế độ TẠO MỚI (POST)
-        currentUserId = null; 
-        document.getElementById('modUserID').value = '';
-        document.getElementById('modPassword').placeholder = "Mật khẩu (tối thiểu 6 ký tự)";
-        // Mật khẩu là bắt buộc khi tạo mới
-        document.getElementById('modPassword').required = true; 
-        
-        modal.style.display = 'block';
-    }
-
-    function closeModal() {
-        modal.style.display = 'none';
-        // Đặt lại trạng thái required sau khi đóng
-        document.getElementById('modPassword').required = false; 
-    }
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
-        }
-    }
-
-    // --- HÀM LẤY VÀ ĐIỀN DỮ LIỆU ĐỂ SỬA ---
-
-    async function editModerator(userId) {
-        currentUserId = userId;
-        modalTitle.textContent = `Sửa Tài khoản Moderator ID: ${userId}`;
-        submitBtn.textContent = 'Cập nhật';
-        form.reset();
-        
-        // Thiết lập cho chế độ CHỈNH SỬA (PUT)
-        document.getElementById('modUserID').value = userId;
-        document.getElementById('modPassword').placeholder = "Mật khẩu (để trống nếu không đổi)";
-        // Mật khẩu không bắt buộc khi chỉnh sửa
-        document.getElementById('modPassword').required = false; 
-
-        try {
-            const response = await fetch(`/api/v1/users/moderator/${userId}`, { method: 'GET' });
+            titleEl.textContent = title;
+            contentEl.innerHTML = content;
+            actionsEl.innerHTML = '';
             
-            if (response.ok) {
-                const modData = await response.json();
+            // Set Icon & Color based on type
+            if(type === 'success') { iconEl.innerHTML = '✅'; iconEl.className = 'text-5xl mb-4 text-green-500'; }
+            else if(type === 'error') { iconEl.innerHTML = '❌'; iconEl.className = 'text-5xl mb-4 text-red-500'; }
+            else { iconEl.innerHTML = '🔔'; iconEl.className = 'text-5xl mb-4 text-blue-500'; }
+
+            if (isConfirm) {
+                const cBtn = document.createElement('button');
+                cBtn.className = 'px-6 py-2 bg-slate-800 text-white rounded-lg font-bold';
+                cBtn.textContent = 'Xác nhận';
+                cBtn.onclick = () => { msgBox.style.display = 'none'; if(onConfirm) onConfirm(); };
                 
-                // Điền dữ liệu vào Form
-                document.getElementById('modUsername').value = modData.Username;
-                document.getElementById('modEmail').value = modData.Email;
-                document.getElementById('modFullName').value = modData.FullName;
+                const aBtn = document.createElement('button');
+                aBtn.className = 'px-6 py-2 bg-slate-200 text-slate-600 rounded-lg font-bold';
+                aBtn.textContent = 'Để sau';
+                aBtn.onclick = () => msgBox.style.display = 'none';
                 
-                modal.style.display = 'block';
+                actionsEl.append(cBtn, aBtn);
             } else {
-                const errorData = await response.json();
-                alert(`Lỗi khi lấy dữ liệu: ${errorData.detail || 'Không tìm thấy Moderator.'}`);
+                const okBtn = document.createElement('button');
+                okBtn.className = 'px-10 py-2 bg-blue-600 text-white rounded-lg font-bold';
+                okBtn.textContent = 'Đã hiểu';
+                okBtn.onclick = () => msgBox.style.display = 'none';
+                actionsEl.appendChild(okBtn);
             }
-        } catch (error) {
-            console.error('Lỗi API Get:', error);
-            alert('Lỗi kết nối khi lấy dữ liệu.');
+            msgBox.style.display = 'block';
         }
-    }
 
-    // --- HÀM TẢI DỮ LIỆU BẢNG ---
+        // --- LOGIC GIỮ NGUYÊN NHƯNG THAY ALERT ---
+        async function fetchModerators() {
+            try {
+                const response = await fetch('/api/v1/users/moderator');
+                if (response.ok) {
+                    const moderators = await response.json();
+                    document.getElementById('modCount').textContent = moderators.length;
+                    renderTable(moderators);
+                }
+            } catch (e) { showMessage('Lỗi hệ thống', 'Không thể kết nối API', 'error'); }
+        }
 
-    async function fetchModerators() {
-        tableBody.innerHTML = '<tr><td colspan="6">Đang tải dữ liệu...</td></tr>';
-        // ... (Giữ nguyên logic fetchModerators và renderTable)
-        try {
-            const response = await fetch('/api/v1/users/moderator', {
-                method: 'GET',
+        function renderTable(moderators) {
+            const tableBody = document.querySelector('#moderatorsTable tbody');
+            tableBody.innerHTML = moderators.length ? '' : '<tr><td colspan="6" class="text-center py-10">Trống</td></tr>';
+            
+            moderators.forEach(mod => {
+                const isAct = mod.IsActive;
+                tableBody.insertAdjacentHTML('beforeend', `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="font-mono text-slate-400">#${mod.UserID}</td>
+                        <td class="font-bold text-slate-700">${mod.Username}</td>
+                        <td class="text-sm text-slate-500">${mod.Email}</td>
+                        <td class="font-medium">${mod.FullName}</td>
+                        <td><span class="status-pill ${isAct ? 'active' : 'inactive'}">${isAct ? 'Đang trực' : 'Tạm dừng'}</span></td>
+                        <td class="text-center">
+                            <button class="action-btn btn-edit" onclick="editModerator(${mod.UserID})"><i class="fas fa-pen"></i></button>
+                            <button class="action-btn ${isAct ? 'text-red-500 bg-red-50' : 'text-green-500 bg-green-50'} px-3" onclick="toggleStatus(${mod.UserID}, ${isAct})">
+                                <i class="fas ${isAct ? 'fa-user-slash' : 'fa-user-check'}"></i> ${isAct ? 'Vô hiệu' : 'Mở khóa'}
+                            </button>
+                        </td>
+                    </tr>
+                `);
             });
-
-            if (response.ok) {
-                const moderators = await response.json();
-                renderTable(moderators);
-            } else {
-                const errorData = await response.json();
-                tableBody.innerHTML = `<tr><td colspan="6" style="color: red;">Lỗi tải dữ liệu: ${errorData.detail || 'Lỗi không xác định'}</td></tr>`;
-            }
-        } catch (error) {
-            console.error('Lỗi API:', error);
-            tableBody.innerHTML = '<tr><td colspan="6" style="color: red;">Không thể kết nối đến máy chủ API.</td></tr>';
-        }
-    }
-
-    function renderTable(moderators) {
-        tableBody.innerHTML = ''; 
-        if (moderators.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="6">Chưa có tài khoản Moderator nào.</td></tr>';
-            return;
         }
 
-        moderators.forEach(mod => {
-            const statusText = mod.IsActive ? 'Active' : 'Inactive';
-            const statusClass = mod.IsActive ? 'active' : 'inactive';
-            const actionText = mod.IsActive ? 'Deactivate' : 'Activate';
-            const actionIcon = mod.IsActive ? 'fas fa-ban' : 'fas fa-check';
-            const actionClass = mod.IsActive ? 'active' : 'inactive';
+        async function toggleStatus(id, current) {
+            showMessage('Xác nhận thay đổi', `Bạn muốn ${current ? 'ngưng quyền' : 'khôi phục quyền'} cho Mod #${id}?`, 'info', true, async () => {
+                try {
+                    const res = await fetch(`/api/v1/users/moderator/${id}`, {
+                        method: 'PUT',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ IsActive: !current })
+                    });
+                    if(res.ok) { showMessage('Thành công', 'Đã cập nhật trạng thái nhân sự', 'success'); fetchModerators(); }
+                } catch(e) { showMessage('Lỗi', 'Không thể thực hiện', 'error'); }
+            });
+        }
 
-            const row = `
-                <tr>
-                    <td>${mod.UserID}</td>
-                    <td>${mod.Username}</td>
-                    <td>${mod.Email}</td>
-                    <td>${mod.FullName}</td>
-                    <td><span class="status-pill ${statusClass}">${statusText}</span></td>
-                    <td>
-                        <button class="action-btn edit-btn" onclick="editModerator(${mod.UserID})"><i class="fas fa-edit"></i> Sửa</button>
-                        <button class="action-btn toggle-status-btn ${actionClass}" data-user-id="${mod.UserID}" data-status="${statusClass}" onclick="toggleStatus(${mod.UserID}, ${mod.IsActive})">
-                            <i class="${actionIcon}"></i> ${actionText}
-                        </button>
-                    </td>
-                </tr>
-            `;
-            tableBody.insertAdjacentHTML('beforeend', row);
-        });
-    }
+        function handleLogout() {
+            showMessage('Đăng xuất', 'Bạn muốn rời khỏi hệ thống quản trị?', 'info', true, () => {
+                localStorage.clear();
+                window.location.href = "/";
+            });
+        }
 
-    // --- XỬ LÝ SUBMIT FORM (Tạo HOẶC Sửa Moderator) ---
+        // --- CÁC HÀM FORM GIỮ NGUYÊN ID ---
+        const modal = document.getElementById('moderatorModal');
+        function openCreateModeratorModal() { 
+            document.getElementById('modalTitle').textContent = 'Tạo Moderator Mới';
+            document.getElementById('moderatorForm').reset();
+            document.getElementById('modUserID').value = '';
+            modal.style.display = 'block'; 
+        }
+        function closeModal() { modal.style.display = 'none'; }
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData(form);
-        const userData = Object.fromEntries(formData.entries());
-        
-        const isEditing = currentUserId !== null;
-        let url = '/api/v1/users/moderator';
-        let method = 'POST';
+        async function editModerator(id) {
+            try {
+                const res = await fetch(`/api/v1/users/moderator/${id}`);
+                if(res.ok) {
+                    const data = await res.json();
+                    document.getElementById('modalTitle').textContent = 'Cập nhật Mod #' + id;
+                    document.getElementById('modUserID').value = id;
+                    document.getElementById('modUsername').value = data.Username;
+                    document.getElementById('modEmail').value = data.Email;
+                    document.getElementById('modFullName').value = data.FullName;
+                    modal.style.display = 'block';
+                }
+            } catch(e) { showMessage('Lỗi', 'Không lấy được dữ liệu', 'error'); }
+        }
 
-        let userPayload = {
-            Username: userData.Username,
-            Email: userData.Email,
-            FullName: userData.FullName,
+        document.getElementById('moderatorForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('modUserID').value;
+            const payload = {
+                Username: document.getElementById('modUsername').value,
+                Email: document.getElementById('modEmail').value,
+                FullName: document.getElementById('modFullName').value,
+            };
+            const pass = document.getElementById('modPassword').value;
+            if(pass) payload.Password = pass;
+
+            const url = id ? `/api/v1/users/moderator/${id}` : '/api/v1/users/moderator';
+            const method = id ? 'PUT' : 'POST';
+
+            try {
+                const res = await fetch(url, {
+                    method,
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                if(res.ok) {
+                    showMessage('Thành công', 'Dữ liệu đã được lưu vào hệ thống', 'success');
+                    closeModal();
+                    fetchModerators();
+                } else {
+                    const err = await res.json();
+                    showMessage('Thất bại', err.detail || 'Có lỗi xảy ra', 'error');
+                }
+            } catch(e) { showMessage('Lỗi', 'Lỗi kết nối server', 'error'); }
         };
-        
-        // Chỉ thêm Password nếu có giá trị (PUT) hoặc bắt buộc (POST)
-        if (userData.Password) {
-            userPayload.Password = userData.Password;
-        }
-
-        if (isEditing) {
-            url = `/api/v1/users/moderator/${currentUserId}`;
-            method = 'PUT';
-            
-            // Xóa trường username/email nếu không thay đổi (Để tránh lỗi unique khi trùng với chính nó)
-            // Tốt nhất là backend nên tự xử lý, nhưng frontend loại bỏ các trường trống/không đổi là một cách an toàn.
-            // Tuy nhiên, vì form luôn điền các trường ngoại trừ Password, chúng ta chỉ cần đảm bảo backend xử lý logic unique đúng.
-        } else {
-            // Đảm bảo Password có khi tạo mới
-            if (!userPayload.Password) {
-                alert("Vui lòng nhập mật khẩu cho tài khoản mới.");
-                return;
-            }
-        }
-        
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Đang xử lý...';
-
-        try {
-            const response = await fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userPayload)
-            });
-
-            if (response.ok) {
-                alert(`Thao tác ${isEditing ? 'Cập nhật' : 'Tạo'} tài khoản Moderator thành công!`);
-                closeModal();
-                fetchModerators(); 
-            } else {
-                const errorData = await response.json();
-                alert(`Lỗi: ${errorData.detail || 'Không thể thực hiện thao tác.'}`);
-            }
-        } catch (error) {
-            console.error('Lỗi kết nối:', error);
-            alert('Lỗi kết nối đến máy chủ.');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = isEditing ? 'Cập nhật' : 'Tạo & Kích hoạt';
-        }
-    });
-
-    // --- HÀM HÀNH ĐỘNG KHÁC (Chưa triển khai API) ---
-    function toggleStatus(userId, isActive) {
-        const action = isActive ? 'Deactivate' : 'Activate';
-        alert(`Chức năng ${action} tài khoản ID: ${userId} đang được phát triển.`);
-    }
-    // admin_moderators.html (Phần Script)
-
-// ... (các hàm fetchModerators, renderTable, editModerator, openCreateModeratorModal, closeModal)
-
-    // --- HÀM HÀNH ĐỘNG KÍCH HOẠT/VÔ HIỆU HÓA ---
-    async function toggleStatus(userId, currentIsActive) {
-        const newIsActive = !currentIsActive;
-        const action = newIsActive ? 'Kích hoạt' : 'Vô hiệu hóa';
-
-        if (!confirm(`Bạn có chắc chắn muốn ${action} tài khoản Moderator ID: ${userId}?`)) {
-            return;
-        }
-
-        const toggleBtn = document.querySelector(`button[data-user-id="${userId}"]`);
-        toggleBtn.disabled = true;
-        const originalText = toggleBtn.innerHTML;
-        toggleBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
-
-
-        try {
-            const response = await fetch(`/api/v1/users/moderator/${userId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ IsActive: newIsActive }) // CHỈ GỬI TRƯỜNG IsActive
-            });
-
-            if (response.ok) {
-                alert(`${action} tài khoản ID ${userId} thành công!`);
-                fetchModerators(); // Tải lại bảng để cập nhật trạng thái
-            } else {
-                const errorData = await response.json();
-                alert(`Lỗi khi ${action.toLowerCase()}: ${errorData.detail || 'Không thể cập nhật trạng thái.'}`);
-            }
-        } catch (error) {
-            console.error('Lỗi kết nối:', error);
-            alert('Lỗi kết nối đến máy chủ.');
-        } finally {
-            toggleBtn.disabled = false;
-            toggleBtn.innerHTML = originalText; // Khôi phục trạng thái nút (sẽ bị ghi đè bởi fetchModerators)
-        }
-    }
-    // --- KHỞI TẠO ---
-    document.addEventListener('DOMContentLoaded', fetchModerators);
-</script>
+    </script>
 </body>
 </html>

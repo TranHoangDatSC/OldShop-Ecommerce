@@ -5,133 +5,94 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            display: flex;
-            min-height: 100vh;
-        }
-        /* ---------------------------------- */
-        /* Thanh Sidebar */
-        /* ---------------------------------- */
-        .sidebar {
-            width: 250px;
-            background-color: #34495e; /* Màu nền tối hơn, chuyên nghiệp hơn */
-            color: white;
-            padding-top: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            position: fixed;
-            height: 100%;
-            overflow-y: auto;
-        }
-        .sidebar a {
-            padding: 15px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            color: #ecf0f1;
-            display: block;
-            transition: background-color 0.3s;
-            border-left: 5px solid transparent;
-        }
-        .sidebar a:hover, .sidebar a.active {
-            background-color: #4f6f8f; /* Màu hover nhẹ */
-            border-left: 5px solid #f39c12; /* Màu cam nổi bật (thương hiệu) */
-            color: white;
-        }
-        .sidebar h3 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #f39c12; /* Màu tiêu đề cam */
-            padding: 0 20px;
-            font-size: 1.5em;
-        }
-        .sidebar a i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        /* ---------------------------------- */
-        /* Phần Header và Nội dung chính */
-        /* ---------------------------------- */
-        .main-content {
-            margin-left: 250px;
-            flex-grow: 1;
-            padding: 20px;
-        }
-        .header-bar {
-            background: white;
-            padding: 15px 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 5px;
-        }
-        .header-bar h2 {
-            margin: 0;
-            color: #333;
-        }
-        /* ---------------------------------- */
-        /* Box chức năng chính */
-        /* ---------------------------------- */
-        .function-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
-        /* Table Products */
-        .product-table th {
-            background-color: #e6e6e6;
-        }
-        /* Nút Tình trạng & Cập nhật (Chưa xử lý chức năng) */
-        .action-button {
-            margin-right: 5px;
-        }
+        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background-color: #34495e; color: white; padding-top: 20px; box-shadow: 2px 0 5px rgba(0,0,0,0.1); position: fixed; height: 100%; overflow-y: auto; z-index: 1000; }
+        .sidebar a { padding: 15px 20px; text-decoration: none; font-size: 16px; color: #ecf0f1; display: block; transition: background-color 0.3s; border-left: 5px solid transparent; }
+        .sidebar a:hover, .sidebar a.active { background-color: #4f6f8f; border-left: 5px solid #f39c12; color: white; }
+        .sidebar h3 { text-align: center; margin-bottom: 30px; color: #f39c12; padding: 0 20px; font-size: 1.5em; }
+        .sidebar a i { margin-right: 10px; width: 20px; text-align: center; }
+        .main-content { margin-left: 250px; flex-grow: 1; padding: 20px; width: calc(100% - 250px); }
+        .header-bar { background: white; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; }
+        .header-bar h2 { margin: 0; color: #333; }
+        .function-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .product-table th { background-color: #f8f9fa; }
+        .table td { vertical-align: middle !important; }
+        .btn-action { display: inline-flex; align-items: center; gap: 5px; font-weight: 500; transition: all 0.2s; }
+        .badge { min-width: 100px; padding: 8px 10px; font-weight: 500; }
+        .stat-card { border-radius: 10px; padding: 20px; color: white; position: relative; overflow: hidden; margin-bottom: 20px;}
+        .stat-card i { position: absolute; right: 10px; bottom: 10px; font-size: 2.5rem; opacity: 0.2; }
+        .chart-container { position: relative; height: 300px; width: 100%; }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <h4 style="color:#f39c12"><i class="fas fa-warehouse"></i> Cửa hàng của tôi</h4>
+        <h5 style="color:#f39c12; padding: 0 20px;"><i class="fas fa-warehouse"></i> Cửa hàng của tôi</h5>
         <div style="padding: 10px 0;">
             <a href="#" class="active" data-content="dashboard"><i class="fas fa-chart-line"></i> Bảng điều khiển</a>
             <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Quản lý Bán hàng</h4>
             <a href="#" data-content="create-product"><i class="fas fa-plus-circle"></i> Đăng bán Sản phẩm</a>
             <a href="#" data-content="manage-products"><i class="fas fa-box"></i> Quản lý Sản phẩm</a>
             <a href="#" data-content="manage-orders"><i class="fas fa-file-invoice-dollar"></i> Quản lý Đơn hàng</a>
-            <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Tài khoản</h4>
-            <a href="/profile"><i class="fas fa-user-circle"></i> Hồ sơ cá nhân</a>
-            <a href="#" id="logoutButton"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
+            <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Điều khiển</h4>
+            <a href="../index.html"><i class="fas fa-user-circle"></i> Quay lại trang chủ</a>
+            <a href="#" id="logoutButton" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</a>
         </div>
     </div>
 
     <div class="main-content">
         <div class="header-bar">
             <h2 id="currentTitle">Bảng điều khiển</h2>
-            <div id="sellerName">Xin chào, Người bán</div>
+            <div id="sellerName">Xin chào, USER...</div>
         </div>
 
         <div id="dashboard-content" class="content-area">
-            <h3>📊 Thống kê nhanh</h3>
-            <div class="d-flex gap-3 mb-4">
-                <div class="p-3 bg-primary text-white rounded shadow-sm flex-grow-1">
-                    <div class="h4">0</div><small>Sản phẩm đang chờ duyệt</small>
+            <h3>📊 Phân tích kinh doanh</h3>
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="stat-card bg-success shadow">
+                        <h6>Tổng doanh thu tháng 12</h6>
+                        <h3>32,850,000 đ</h3>
+                        <p class="mb-0 small"><i class="fas fa-arrow-up"></i> +15% so với tháng trước</p>
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
                 </div>
-                <div class="p-3 bg-success text-white rounded shadow-sm flex-grow-1">
-                    <div class="h4">0</div><small>Đơn hàng mới chờ xử lý</small>
+                <div class="col-md-4">
+                    <div class="stat-card bg-primary shadow">
+                        <h6>Đơn hàng hoàn tất</h6>
+                        <h3>58</h3>
+                        <p class="mb-0 small">Tỉ lệ hài lòng: 98%</p>
+                        <i class="fas fa-shopping-basket"></i>
+                    </div>
                 </div>
-                <div class="p-3 bg-warning text-dark rounded shadow-sm flex-grow-1">
-                    <div class="h4">0</div><small>Tổng sản phẩm đang bán</small>
+                <div class="col-md-4">
+                    <div class="stat-card bg-dark shadow">
+                        <h6>Sản phẩm HOT nhất</h6>
+                        <h5>Macbook Air M1</h5>
+                        <p class="mb-0 small">Lượt xem: 1,204</p>
+                        <i class="fas fa-fire"></i>
+                    </div>
                 </div>
             </div>
-            <div class="function-card">
-                <h4>Hoạt động gần đây</h4>
-                <p>Nơi hiển thị các đơn hàng/cập nhật sản phẩm gần nhất...</p>
+
+            <div class="row mb-4">
+                <div class="col-lg-8">
+                    <div class="function-card h-100">
+                        <h5><i class="fas fa-chart-area me-2 text-primary"></i> Biến động doanh thu (6 tháng gần nhất)</h5>
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="function-card h-100">
+                        <h5><i class="fas fa-chart-pie me-2 text-warning"></i> Sản phẩm theo danh mục</h5>
+                        <div class="chart-container">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -168,7 +129,6 @@
                     <div class="mb-3">
                         <label for="productImages" class="form-label">Ảnh Sản Phẩm (Tối đa 3 ảnh):</label>
                         <input class="form-control" type="file" id="productImages" name="files" multiple accept="image/*" required>
-                        <div class="form-text text-danger">Bắt buộc phải có ít nhất 1 ảnh.</div>
                     </div>
                     <div class="mb-3">
                         <label for="desc" class="form-label">Mô Tả Chi Tiết:</label>
@@ -183,50 +143,20 @@
         <div id="manage-products-content" class="content-area" style="display: none;">
             <div class="function-card">
                 <h4><i class="fas fa-list-alt me-2"></i> Danh sách Sản phẩm của tôi</h4>
-                <div class="mb-3">
-                    <select class="form-select w-auto d-inline-block" id="productStatusFilter">
-                        <option value="">Tất cả trạng thái</option>
-                        <option value="pending">Chờ duyệt (Pending)</option>
-                        <option value="approved">Đang bán (Approved)</option>
-                        <option value="rejected">Bị từ chối (Rejected)</option>
-                    </select>
-                </div>
                 <div class="table-responsive">
-                    <table class="table table-hover product-table">
+                    <table class="table table-hover product-table border">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Tên Sản phẩm</th>
-                                <th>Giá</th>
-                                <th>Số lượng</th>
+                                <th>Giá (VNĐ)</th>
+                                <th>Kho</th>
                                 <th>Trạng thái</th>
-                                <th>Thao tác</th>
+                                <th>Ẩn/Hiện</th>
+                                <th class="text-center">Thao tác</th>
                             </tr>
                         </thead>
-                        <tbody id="productTableBody">
-                            <tr>
-                                <td>101</td>
-                                <td>Bàn phím cơ cũ Razer</td>
-                                <td>500,000</td>
-                                <td>1</td>
-                                <td><span class="badge bg-warning">Chờ duyệt</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-info action-button">Xem</button>
-                                    <button class="btn btn-sm btn-primary action-button" disabled>Cập nhật</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>102</td>
-                                <td>Ghế xoay văn phòng</td>
-                                <td>800,000</td>
-                                <td>3</td>
-                                <td><span class="badge bg-success">Đang bán</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-info action-button">Xem</button>
-                                    <button class="btn btn-sm btn-primary action-button">Cập nhật</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody id="productTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -235,7 +165,64 @@
         <div id="manage-orders-content" class="content-area" style="display: none;">
             <div class="function-card">
                 <h4><i class="fas fa-file-invoice-dollar me-2"></i> Quản lý Đơn hàng (Bán)</h4>
-                <p>Nơi liệt kê các đơn hàng người mua đã đặt từ cửa hàng của bạn. (Chức năng chưa xử lý)</p>
+                <div class="table-responsive">
+                    <table class="table table-hover border">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Ngày đặt</th>
+                                <th>Khách hàng</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTableBody">
+                            <tr>
+                                <td class="fw-bold">#ORD-9901</td>
+                                <td>18/12/2025</td>
+                                <td>Lê Minh Tâm</td>
+                                <td class="text-primary fw-bold">1,200,000đ</td>
+                                <td><span class="badge bg-primary">Đang giao</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-info">Chi tiết</button>
+                                    <button class="btn btn-sm btn-success">Hoàn tất</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">#ORD-8822</td>
+                                <td>20/12/2025</td>
+                                <td>Nguyễn Văn Bình</td>
+                                <td class="text-primary fw-bold">5,500,000đ</td>
+                                <td><span class="badge bg-warning text-dark">Chờ xác nhận</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-primary">Xác nhận</button>
+                                    <button class="btn btn-sm btn-danger">Hủy đơn</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">#ORD-7761</td>
+                                <td>15/12/2025</td>
+                                <td>Trần Thị Hoa</td>
+                                <td class="text-primary fw-bold">850,000đ</td>
+                                <td><span class="badge bg-success">Đã giao</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-info">Xem lại</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">#ORD-6610</td>
+                                <td>10/12/2025</td>
+                                <td>Phạm Quốc Hùng</td>
+                                <td class="text-primary fw-bold">12,000,000đ</td>
+                                <td><span class="badge bg-danger">Đã hủy</span></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-secondary">Xem lý do</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -244,180 +231,189 @@
     <script>
         const apiBase = "http://127.0.0.1:8000/api/v1";
 
-        // Hàm hiển thị thông báo
-        function displayMessage(message, type = 'info') {
-            const messageBox = document.getElementById('sellResult');
-            if (!messageBox) return;
+        function initCharts() {
+            const ctxRev = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctxRev, {
+                type: 'line',
+                data: {
+                    labels: ['Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: [15000000, 22000000, 18000000, 31000000, 26000000, 32850000],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
 
-            messageBox.classList.remove('d-none', 'alert-success', 'alert-danger', 'alert-info');
-            messageBox.classList.add('d-block');
-            messageBox.textContent = message;
-
-            if (type === 'error') {
-                messageBox.classList.add('alert-danger');
-            } else if (type === 'success') {
-                messageBox.classList.add('alert-success');
-            } else {
-                messageBox.classList.add('alert-info');
-            }
-
-            // Tự động ẩn sau 5 giây
-            setTimeout(() => {
-                messageBox.classList.add('d-none');
-            }, 5000);
+            const ctxCat = document.getElementById('categoryChart').getContext('2d');
+            new Chart(ctxCat, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Điện tử', 'Đồ gia dụng', 'Thời trang', 'Sách/Phụ kiện'],
+                    datasets: [{
+                        data: [55, 15, 20, 10],
+                        backgroundColor: ['#3498db', '#2ecc71', '#e74c3c', '#f1c40f']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
         }
 
-        // --- 1. Quản lý Chuyển đổi nội dung ---
-        const contentAreas = document.querySelectorAll('.content-area');
-        const sidebarLinks = document.querySelectorAll('.sidebar a[data-content]');
-        const currentTitle = document.getElementById('currentTitle');
+        function getMyUserId() {
+            const token = localStorage.getItem('access_token');
+            if (!token) return null;
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const payload = JSON.parse(window.atob(base64));
+                return parseInt(payload.sub);
+            } catch (e) { return null; }
+        }
 
         function showContent(contentId) {
-            contentAreas.forEach(area => area.style.display = 'none');
-            const targetArea = document.getElementById(contentId + '-content');
-            
-            if (targetArea) {
-                targetArea.style.display = 'block';
-                const link = document.querySelector(`.sidebar a[data-content="${contentId}"]`);
-                currentTitle.textContent = link ? link.textContent.trim() : 'Bảng điều khiển';
-            }
-
-            sidebarLinks.forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.content-area').forEach(area => area.style.display = 'none');
+            const target = document.getElementById(contentId + '-content');
+            if (target) target.style.display = 'block';
+            document.querySelectorAll('.sidebar a').forEach(link => link.classList.remove('active'));
             const activeLink = document.querySelector(`.sidebar a[data-content="${contentId}"]`);
             if (activeLink) activeLink.classList.add('active');
 
-            if (contentId === 'create-product') {
-                loadCategories();
-            }
+            if (contentId === 'dashboard') initCharts();
+            if (contentId === 'create-product') loadCategories();
+            if (contentId === 'manage-products') renderProductTable();
         }
 
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const contentId = e.currentTarget.getAttribute('data-content');
-                showContent(contentId);
+        async function renderProductTable() {
+            const token = localStorage.getItem('access_token');
+            const myId = getMyUserId();
+            const tbody = document.getElementById('productTableBody');
+            if (!token || !tbody) return;
+            try {
+                const res = await fetch(`${apiBase}/products/`, { headers: { "Authorization": "Bearer " + token } });
+                const products = await res.json();
+                const myProducts = products.filter(p => p.SellerID === myId);
+                tbody.innerHTML = '';
+                myProducts.forEach(p => {
+                    const isOnline = p.Status === 1;
+                    const statusBadge = isOnline ? '<span class="badge bg-success">Đang bán</span>' : '<span class="badge bg-danger">Đã ẩn</span>';
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${p.ProductID}</td>
+                            <td class="fw-bold">${p.Title}</td>
+                            <td>${parseFloat(p.Price).toLocaleString()} đ</td>
+                            <td><span class="badge bg-light text-dark border">${p.Quantity}</span></td>
+                            <td>${statusBadge}</td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" ${isOnline ? 'checked' : ''} onclick="toggleProductStatus(${p.ProductID}, ${p.Status})">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <button class="btn btn-sm btn-primary btn-action" onclick="addStock(${p.ProductID}, ${p.Quantity})">
+                                        <i class="fas fa-plus"></i> Nhập kho
+                                    </button>
+                                    <button class="btn btn-sm btn-info text-white btn-action" onclick="alert('Xem chi tiết: ${p.ProductID}')">
+                                        <i class="fas fa-eye"></i> Xem
+                                    </button>
+                                    <button class="btn btn-sm btn-warning text-white btn-action" onclick="alert('Sửa: ${p.ProductID}')">
+                                        <i class="fas fa-edit"></i> Sửa
+                                    </button>
+                                    <button class="btn btn-sm btn-danger btn-action" onclick="deleteProduct(${p.ProductID})">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>`;
+                });
+            } catch (err) { console.error(err); }
+        }
+
+        async function toggleProductStatus(productId, currentStatus) {
+            const token = localStorage.getItem('access_token');
+            const newStatus = currentStatus === 1 ? 0 : 1;
+            try {
+                await fetch(`${apiBase}/products/${productId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                    body: JSON.stringify({ Status: newStatus })
+                });
+                renderProductTable();
+            } catch (err) {}
+        }
+
+        async function addStock(productId, currentQty) {
+            const addVal = prompt(`Số lượng hiện tại: ${currentQty}. Nhập số lượng thêm:`, "10");
+            if (!addVal || isNaN(addVal)) return;
+            const token = localStorage.getItem('access_token');
+            try {
+                await fetch(`${apiBase}/products/${productId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+                    body: JSON.stringify({ Quantity: parseInt(currentQty) + parseInt(addVal) })
+                });
+                renderProductTable();
+            } catch (err) {}
+        }
+
+        async function deleteProduct(productId) {
+            if(!confirm("Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này?")) return;
+            const token = localStorage.getItem('access_token');
+            try {
+                const res = await fetch(`${apiBase}/products/${productId}`, {
+                    method: "DELETE",
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                if(res.ok) renderProductTable();
+            } catch (err) {}
+        }
+
+        async function loadCategories() {
+            const select = document.getElementById("category");
+            if (select.options.length > 1) return;
+            try {
+                const res = await fetch(`${apiBase}/categories/`);
+                const data = await res.json();
+                data.forEach(cat => { select.innerHTML += `<option value="${cat.CategoryID}">${cat.CategoryName}</option>`; });
+            } catch (err) {}
+        }
+
+        async function handleProductSubmission(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const token = localStorage.getItem('access_token');
+            try {
+                const res = await fetch(`${apiBase}/products/upload/`, {
+                    method: "POST",
+                    headers: { "Authorization": "Bearer " + token },
+                    body: formData
+                });
+                if (res.ok) { 
+                    const sellResult = document.getElementById('sellResult');
+                    sellResult.className = "alert alert-success d-block";
+                    sellResult.textContent = "✅ Đã đăng sản phẩm thành công!";
+                    event.target.reset(); 
+                    setTimeout(() => sellResult.classList.replace('d-block', 'd-none'), 3000);
+                }
+            } catch (err) {}
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showContent('dashboard');
+            const form = document.getElementById('sellForm');
+            if (form) form.addEventListener('submit', handleProductSubmission);
+            const user = localStorage.getItem('user_name');
+            if (user) document.getElementById('sellerName').innerHTML = `<i class="fas fa-user-circle"></i> ${user}`;
+            document.querySelectorAll('.sidebar a[data-content]').forEach(link => {
+                link.addEventListener('click', (e) => showContent(e.currentTarget.dataset.content));
             });
         });
 
-        // Mặc định hiển thị Dashboard khi load
-        showContent('dashboard');
-
-        // --- 2. Xử lý Đăng xuất ---
-        document.getElementById('logoutButton').addEventListener('click', () => {
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('user_name'); 
-            displayMessage('Bạn đã đăng xuất khỏi cửa hàng.', 'info');
-            setTimeout(() => {
-                window.location.href = "/";
-            }, 1500);
-        });
-
-        // --- 3. Logic Tải Danh mục ---
-        async function loadCategories() {
-            try {
-                const select = document.getElementById("category");
-                // Kiểm tra nếu danh mục đã được load rồi thì không load lại
-                if (select.options.length > 1) return; 
-
-                const res = await fetch(`${apiBase}/categories/`);
-                if (!res.ok) throw new Error("Không thể tải danh mục");
-                
-                const data = await res.json();
-                select.innerHTML = '<option value="">-- Chọn danh mục --</option>';
-                
-                data.forEach(cat => {
-                    const opt = document.createElement("option");
-                    opt.value = cat.CategoryID;
-                    opt.textContent = cat.CategoryName;
-                    select.appendChild(opt);
-                });
-            } catch (err) {
-                console.error("Lỗi tải danh mục:", err);
-                displayMessage("⚠️ Lỗi tải danh mục! Vui lòng thử lại.", 'error');
-            }
-        }
-
-        // --- 4. Logic Xử lý Gửi Form Đăng bán (ĐÃ SỬA) ---
-        async function handleProductSubmission(event) {
-            event.preventDefault();
-            
-            // Dùng event.target để lấy form
-            const form = event.target; 
-            const productImages = document.getElementById("productImages").files;
-            const submitButton = form.querySelector('button[type="submit"]');
-
-            // 1. Kiểm tra ảnh
-            if (productImages.length === 0 || productImages.length > 3) {
-                displayMessage("❌ Vui lòng chọn từ 1 đến 3 ảnh.", 'error');
-                return;
-            }
-
-            // 2. Lấy token
-            const token = localStorage.getItem('access_token');
-            if (!token) {
-                displayMessage("❌ Lỗi xác thực: Vui lòng đăng nhập lại.", "error");
-                return;
-            }
-
-            // 3. Chuẩn bị FormData (Dữ liệu form được thu thập tự động nhờ thuộc tính name)
-            const formData = new FormData(form); 
-
-            // 4. Gửi Request
-            try {
-                submitButton.disabled = true;
-                submitButton.textContent = 'Đang tải lên...';
-                displayMessage('Đang tải lên sản phẩm...', 'info');
-
-                const res = await fetch(`${apiBase}/products/upload/`, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": "Bearer " + token
-                    },
-                    body: formData
-                });
-
-                const data = await res.json();
-                
-                if (res.ok) {
-                    displayMessage(`✅ Sản phẩm "${data.Title}" đã được đăng! Vui lòng chờ kiểm duyệt.`, 'success');
-                    form.reset(); // Đặt lại form sau khi đăng thành công
-                } else if (res.status === 401) {
-                    displayMessage("❌ Lỗi đăng sản phẩm: Vui lòng đăng nhập lại. (Token không hợp lệ hoặc đã hết hạn)", "error");
-                } else {
-                    let detail = data.detail || JSON.stringify(data);
-                    displayMessage(`❌ Lỗi [${res.status}]: ${detail}`, "error");
-                }
-            } catch (err) {
-                console.error('Lỗi mạng hoặc fetch:', err);
-                displayMessage("❌ Lỗi kết nối mạng đến Server.", "error");
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Đăng Bán Sản Phẩm';
-            }
-        }
-
-        // --- Gắn sự kiện cho form (ĐÃ SỬA ID FORM) ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // SỬA LỖI: Dùng ID 'sellForm'
-            const form = document.getElementById('sellForm');
-            if (form) {
-                form.addEventListener('submit', handleProductSubmission);
-            }
-        });
-
-        // --- 5. Logic Tải sản phẩm (Chưa xử lý) ---
-        async function loadSellerProducts() {
-            // Sẽ cần một API endpoint như /api/v1/products/seller để lấy danh sách sản phẩm của người bán.
-            console.log("Đang tải danh sách sản phẩm...");
-            // Ví dụ: const token = localStorage.getItem('access_token');
-            // const res = await fetch(`${apiBase}/products/seller?status=${statusFilter}`, {headers: {'Authorization': `Bearer ${token}`}});
-        }
-
-        // --- 6. Hiển thị tên người bán ---
-        const storedUserName = localStorage.getItem('user_name');
-        if (storedUserName) {
-            document.getElementById('sellerName').innerHTML = `<i class="fas fa-user-circle me-2"></i> ${storedUserName}`;
-        }
+        function handleLogout() { localStorage.clear(); window.location.href = "/"; }
     </script>
 </body>
 </html>

@@ -8,7 +8,11 @@ from app.core.constants import ProductStatus
 
 class CRUDCart:
     def get_user_cart(self, db: Session, user_id: int) -> Optional[ShoppingCart]:
-        cart = db.query(ShoppingCart).filter(ShoppingCart.UserID == user_id).options(joinedload(ShoppingCart.items)).first()
+        # SỬA DÒNG NÀY: Load items VÀ Load luôn product nằm trong item đó
+        cart = db.query(ShoppingCart).filter(ShoppingCart.UserID == user_id).options(
+            joinedload(ShoppingCart.items).joinedload(ShoppingCartItem.product)
+        ).first()
+        
         if not cart:
             cart = self.create_cart(db, user_id)
         return cart

@@ -37,7 +37,7 @@
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only">Đang tải...</span>
         </div>
     </div>
     <!-- Spinner End -->
@@ -47,14 +47,14 @@
         <div class="row gx-0 align-items-center">
             <div class="col-lg-4 text-center text-lg-start mb-lg-0">
                 <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <a href="#" class="text-muted me-2"> Help</a><small> / </small>
-                    <a href="#" class="text-muted mx-2"> Support</a><small> / </small>
-                    <a href="#" class="text-muted ms-2"> Contact</a>
+                    <a href="#" class="text-muted me-2"> Luật lệ</a><small> / </small>
+                    <a href="#" class="text-muted mx-2"> Giúp đỡ</a><small> / </small>
+                    <a href="#" class="text-muted ms-2"> Liên hệ</a>
 
                 </div>
             </div>
             <div class="col-lg-4 text-center d-flex align-items-center justify-content-center">
-                <small class="text-dark">Call Us:</small>
+                <small class="text-dark">Liên hệ với chúng tôi:</small>
                 <a href="#" class="text-muted">(+012) 1234 567890</a>
             </div>
 
@@ -68,7 +68,7 @@
                             <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#loginModal" id="uiLoginLink">Đăng Nhập</a>
                             <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#registerModal" id="uiRegisterLink">Đăng Ký</a>
 
-                            <a href="/profile" class="dropdown-item d-none" id="uiProfileLink"><i class="fas fa-user-circle me-2"></i> Tài khoản của tôi</a>
+                            <a href="../templates/user_acc_manage.html" class="dropdown-item d-none" id="uiProfileLink"><i class="fas fa-user-circle me-2"></i> Tài khoản của tôi</a>
                             <a href="../templates/cart.html" class="dropdown-item d-none" id="uiCartLink"><i class="fas fa-shopping-cart me-2"></i> Giỏ hàng của tôi</a>
                             <a href="/app/templates/user/seller_dashboard.html" class="dropdown-item d-none" id="uiStoreLink"><i class="fas fa-store me-2"></i> Cửa hàng của tôi</a>
                             <a href="#" class="dropdown-item d-none" id="uiLogoutLink"><i class="fas fa-sign-out-alt me-2"></i> Đăng Xuất</a>
@@ -89,7 +89,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-4 col-lg-6 text-center">
+            <!-- <div class="col-md-4 col-lg-6 text-center">
                 <div class="position-relative ps-4">
                     <div class="d-flex border rounded-pill">
                         <input class="form-control border-0 rounded-pill w-100 py-3" type="text"
@@ -107,7 +107,7 @@
                             class="rounded-circle btn-md-square border"><i class="fas fa-shopping-cart"></i></span>
                         <span class="text-dark ms-2">$0.00</span></a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- Topbar End -->
@@ -119,39 +119,33 @@
                 <nav class="navbar navbar-light position-relative" style="width: 250px;">
                     <button class="navbar-toggler border-0 fs-4 w-100 px-0 text-start" type="button"
                         data-bs-toggle="collapse" data-bs-target="#allCat">
-                        <h4 class="m-0"><i class="fa fa-bars me-2"></i>Loại sản phẩm</h4>
+                        <h4 class="m-0"><i class="fa fa-bars me-2"></i>Danh mục</h4>
                     </button>
                     <div class="collapse navbar-collapse rounded-bottom" id="allCat">
                         <div class="navbar-nav ms-auto py-0">
                             <ul class="list-unstyled categories-bars">
                                 <li>
                                     <div class="categories-bars-item">
-                                        <a href="#">Accessories</a>
-                                        <span>(3)</span>
+                                        <a href="#">Đồ điện tử</a>
+                                        <span>(37)</span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="categories-bars-item">
-                                        <a href="#">Electronics & Computer</a>
-                                        <span>(5)</span>
+                                        <a href="#">Thời trang</a>
+                                        <span>(55)</span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="categories-bars-item">
-                                        <a href="#">Laptops & Desktops</a>
-                                        <span>(2)</span>
+                                        <a href="#">Trang trí</a>
+                                        <span>(42)</span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="categories-bars-item">
-                                        <a href="#">Mobiles & Tablets</a>
-                                        <span>(8)</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="categories-bars-item">
-                                        <a href="#">SmartPhone & Smart TV</a>
-                                        <span>(5)</span>
+                                        <a href="#">Đồ gia dụng</a>
+                                        <span>(28)</span>
                                     </div>
                                 </li>
                             </ul>
@@ -173,23 +167,23 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0">
                             <a href="../templates/index.html" class="nav-item nav-link active">Trang chủ</a>
-                            <a href="../templates/shop.html" class="nav-item nav-link">Shop</a>
+                            <a href="../templates/shop.html" class="nav-item nav-link">Cửa hàng</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Trang của tôi</a>
                                 <div class="dropdown-menu m-0">
-                                    <a href="" class="dropdown-item">Tài khoản của tôi</a>
+                                    <a href="../templates/user_acc_manage.html" class="dropdown-item">Tài khoản của tôi</a>
                                     <a href="../templates/cart.html" class="dropdown-item">Giỏ hàng của tôi</a>
                                     <a href="../templates/user/seller_dashboard.html" class="dropdown-item">Cửa hàng của tôi</a>
                                 </div>
                             </div>
-                            <a href="contact.html" class="nav-item nav-link me-2">Contact</a>
+                            <a href="../templates/contact.html" class="nav-item nav-link me-2">Liên hệ</a>
                             <div class="nav-item dropdown d-block d-lg-none mb-3">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">All Category</a>
                                 <div class="dropdown-menu m-0">
                                     <ul class="list-unstyled categories-bars">
                                         <li>
                                             <div class="categories-bars-item">
-                                                <a href="#">Accessories</a>
+                                                <a href="#">Đồ điện tử</a>
                                                 <span>(3)</span>
                                             </div>
                                         </li>
@@ -230,6 +224,15 @@
     </div>
     <!-- Navbar & Hero End -->
 
+    <!-- Single Page Header start -->
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">CHÀO MỪNG ĐẾN VỚI TRANG CHỦ</h1>
+        <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
+            <li class="breadcrumb-item"><a href="../templates/index.html">Trang chủ</a></li>
+        </ol>
+    </div>
+    <!-- Single Page Header End -->
+
     <!-- Carousel Start -->
     <div class="container-fluid carousel bg-light px-0">
         <div class="row g-0 justify-content-end">
@@ -240,13 +243,10 @@
                             <img src="../templates/img/carousel-1.png" class="img-fluid w-100" alt="Image">
                         </div>
                         <div class="col-xl-6 carousel-content p-4">
-                            <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s"
-                                style="letter-spacing: 3px;">Save Up To A $400</h4>
-                            <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">On Selected
-                                Laptops & Desktop Or Smartphone</h1>
-                            <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Terms and Condition Apply</p>
-                            <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s"
-                                href="#">Shop Now</a>
+                            <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s" style="letter-spacing: 3px;">Tiết kiệm đến 40%</h4>
+                            <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">Săn Laptop & Máy tính cũ giá cực rẻ</h1>
+                            <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Hàng thanh lý chính hãng, bảo hành uy tín tại cửa hàng.</p>
+                            <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s" href="#">Xem Ngay</a>
                         </div>
                     </div>
                     <div class="row g-0 header-carousel-item align-items-center">
@@ -254,13 +254,10 @@
                             <img src="../templates/img/carousel-2.png" class="img-fluid w-100" alt="Image">
                         </div>
                         <div class="col-xl-6 carousel-content p-4">
-                            <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s"
-                                style="letter-spacing: 3px;">Save Up To A $200</h4>
-                            <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">On Selected
-                                Laptops & Desktop Or Smartphone</h1>
-                            <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Terms and Condition Apply</p>
-                            <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s"
-                                href="#">Shop Now</a>
+                            <h4 class="text-uppercase fw-bold mb-4 wow fadeInRight" data-wow-delay="0.1s" style="letter-spacing: 3px;">Xả kho Smartphone</h4>
+                            <h1 class="display-3 text-capitalize mb-4 wow fadeInRight" data-wow-delay="0.3s">Máy Cũ - Chạy mượt như mới</h1>
+                            <p class="text-dark wow fadeInRight" data-wow-delay="0.5s">Giá chỉ bằng 1/2 máy mới. Kiểm tra hàng trước khi thanh toán.</p>
+                            <a class="btn btn-primary rounded-pill py-3 px-5 wow fadeInRight" data-wow-delay="0.7s" href="#">Xem Ngay</a>
                         </div>
                     </div>
                 </div>
@@ -269,18 +266,17 @@
                 <div class="carousel-header-banner h-100">
                     <img src="../templates/img/header-img.jpg" class="img-fluid w-100 h-100" style="object-fit: cover;" alt="Image">
                     <div class="carousel-banner-offer">
-                        <p class="bg-primary text-white rounded fs-5 py-2 px-4 mb-0 me-3">Save $48.00</p>
-                        <p class="text-primary fs-5 fw-bold mb-0">Special Offer</p>
+                        <p class="bg-primary text-white rounded fs-5 py-2 px-4 mb-0 me-3">Giảm 4 triệu đồng!</p>
+                        <p class="text-primary fs-5 fw-bold mb-0">Ưu Đãi Đặc Biệt</p>
                     </div>
                     <div class="carousel-banner">
                         <div class="carousel-banner-content text-center p-4">
-                            <a href="#" class="d-block mb-2">SmartPhone</a>
-                            <a href="#" class="d-block text-white fs-3">Apple iPad Mini <br> G2356</a>
-                            <del class="me-2 text-white fs-5">$1,250.00</del>
-                            <span class="text-primary fs-5">$1,050.00</span>
+                            <a href="#" class="d-block mb-2">Điện Thoại</a>
+                            <a href="#" class="d-block text-white fs-3">Điện thoại giá tốt <br> Cũ 99%</a>
+                            <del class="me-2 text-white fs-5">12.500.000đ</del>
+                            <span class="text-primary fs-5">8.500.000đ</span>
                         </div>
-                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4"><i
-                                class="fas fa-shopping-cart me-2"></i> Add To Cart</a>
+                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4"><i class="fas fa-shopping-cart me-2"></i> Mua ngay nào!</a>
                     </div>
                 </div>
             </div>
@@ -294,49 +290,45 @@
             <div class="row g-4 rounded mb-5" style="background: rgba(255, 255, 255, .03);">
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
                             <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
                         </div>
                         <div>
-                            <h4 class="text-white">Address</h4>
-                            <p class="mb-2">123 Street New York.USA</p>
+                            <h4 class="text-white">Địa Chỉ</h4>
+                            <p class="mb-2">Số 123 Đường ABC, Hà Nội/TP.HCM</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
                             <i class="fas fa-envelope fa-2x text-primary"></i>
                         </div>
                         <div>
-                            <h4 class="text-white">Mail Us</h4>
-                            <p class="mb-2">info@example.com</p>
+                            <h4 class="text-white">Email</h4>
+                            <p class="mb-2">hotro@chocu.vn</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
                             <i class="fa fa-phone-alt fa-2x text-primary"></i>
                         </div>
                         <div>
-                            <h4 class="text-white">Telephone</h4>
-                            <p class="mb-2">(+012) 3456 7890</p>
+                            <h4 class="text-white">Hotline</h4>
+                            <p class="mb-2">0123 456 789</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="rounded p-4">
-                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
-                            style="width: 70px; height: 70px;">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
                             <i class="fab fa-firefox-browser fa-2x text-primary"></i>
                         </div>
                         <div>
-                            <h4 class="text-white">Yoursite@ex.com</h4>
-                            <p class="mb-2">(+012) 3456 7890</p>
+                            <h4 class="text-white">Website</h4>
+                            <p class="mb-2">www.chocu.vn</p>
                         </div>
                     </div>
                 </div>
@@ -344,53 +336,47 @@
             <div class="row g-5">
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="footer-item d-flex flex-column">
-                        <div class="footer-item">
-                            <h4 class="text-primary mb-4">Newsletter</h4>
-                            <p class="mb-3">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum dolor sit
-                                amet, consectetur adipiscing elit consectetur adipiscing elit.</p>
-                            <div class="position-relative mx-auto rounded-pill">
-                                <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text"
-                                    placeholder="Enter your email">
-                                <button type="button"
-                                    class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">SignUp</button>
-                            </div>
+                        <h4 class="text-primary mb-4">Bản Tin</h4>
+                        <p class="mb-3">Đăng ký nhận thông báo sớm nhất khi có hàng thanh lý giá hời đổ bộ vào kho.</p>
+                        <div class="position-relative mx-auto rounded-pill">
+                            <input class="form-control rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Nhập email của bạn">
+                            <button type="button" class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 mt-2 me-2">Đăng ký</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Customer Service</h4>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Contact Us</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Returns</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Site Map</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Testimonials</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> My Account</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Unsubscribe Notification</a>
+                        <h4 class="text-primary mb-4">Hỗ Trợ Khách Hàng</h4>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Liên Hệ</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Chính Sách Đổi Trả</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Lịch Sử Đơn Hàng</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Sơ Đồ Trang Web</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Đánh Giá Khách Hàng</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Tài Khoản Của Tôi</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Hủy Nhận Thông Báo</a>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Information</h4>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> About Us</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Delivery infomation</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Privacy Policy</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Terms & Conditions</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Warranty</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> FAQ</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Seller Login</a>
+                        <h4 class="text-primary mb-4">Thông Tin</h4>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Về Chúng Tôi</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Thông Tin Giao Hàng</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Chính Sách Bảo Mật</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Điều Khoản Sử Dụng</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Chính Sách Bảo Hành</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Câu Hỏi Thường Gặp</a>
+                        <a href="#" class="text-warning fw-bold"><i class="fas fa-angle-right me-2"></i> Kênh Người Bán</a>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6 col-xl-3">
                     <div class="footer-item d-flex flex-column">
-                        <h4 class="text-primary mb-4">Extras</h4>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Brands</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Gift Vouchers</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Affiliates</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Wishlist</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Order History</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
-                        <a href="#" class=""><i class="fas fa-angle-right me-2"></i> Track Your Order</a>
+                        <h4 class="text-primary mb-4">Dịch Vụ Khác</h4>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Thương Hiệu</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Voucher Giảm Giá</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Cộng Tác Viên</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Sản Phẩm Yêu Thích</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Theo Dõi Đơn Hàng</a>
+                        <a href="#"><i class="fas fa-angle-right me-2"></i> Tra Cứu Bảo Hành</a>
                     </div>
                 </div>
             </div>
@@ -499,188 +485,194 @@
     <script src="../templates/js/main.js"></script>
 
     <script>
-    /*** 1. CẤU HÌNH HẰNG SỐ & BIẾN TOÀN CỤC*/
-    const CONFIG = {
-        API: {
-            TOKEN: '/api/v1/auth/token',
-            REGISTER: '/api/v1/auth/register',
-            CATEGORIES: '/api/v1/categories/'
-        }
-    };
-
-    // Khởi tạo Bootstrap Modals
-    const UI_ELEMENTS = {
-        loginModal: document.getElementById('loginModal') ? new bootstrap.Modal(document.getElementById('loginModal')) : null,
-        registerModal: document.getElementById('registerModal') ? new bootstrap.Modal(document.getElementById('registerModal')) : null,
-        loginResult: document.getElementById('loginResult'),
-        registerResult: document.getElementById('registerResult')
-    };
-
-    /*** 2. MODULE QUẢN LÝ XÁC THỰC (AUTH MANAGER)*/
-    const AuthManager = {
-        // Cập nhật giao diện dựa trên trạng thái đăng nhập trong LocalStorage
-        updateUI: function() {
-            const token = localStorage.getItem('access_token');
-            const fullName = localStorage.getItem('full_name');
-            let roles = [];
-            try { roles = JSON.parse(localStorage.getItem('roles') || '[]'); } catch (e) {}
-
-            const links = {
-                login: document.getElementById('uiLoginLink'),
-                register: document.getElementById('uiRegisterLink'),
-                profile: document.getElementById('uiProfileLink'),
-                cart: document.getElementById('uiCartLink'),
-                store: document.getElementById('uiStoreLink'),
-                logout: document.getElementById('uiLogoutLink'),
-                dropdown: document.getElementById('dashboardDropdownLink')
-            };
-
-            if (token) {
-                // Hiển thị Menu khi ĐÃ ĐĂNG NHẬP
-                if (links.login) links.login.classList.add('d-none');
-                if (links.register) links.register.classList.add('d-none');
-                if (links.profile) links.profile.classList.remove('d-none');
-                if (links.cart) links.cart.classList.remove('d-none');
-                if (links.logout) links.logout.classList.remove('d-none');
-                if (links.store) {
-                    links.store.classList.remove('d-none');
-                    links.store.href = "/templates/user/seller_dashboard.html";
-                    
-                    // Điều hướng đặc biệt cho Admin/Mod
-                    if (roles.includes("Admin")) links.store.href = "/admin/dashboard_admin.html";
-                    else if (roles.includes("Moderator")) links.store.href = "/moderator/moderator_dashboard.html";
-                }
-                if (links.dropdown) {
-                    const name = fullName ? fullName.split(' ')[0] : 'Tài khoản';
-                    links.dropdown.innerHTML = `<small><i class="fa fa-user me-2"></i> ${name}</small>`;
-                }
-            } else {
-                // Hiển thị Menu khi CHƯA ĐĂNG NHẬP
-                if (links.login) links.login.classList.remove('d-none');
-                if (links.register) links.register.classList.remove('d-none');
-                if (links.profile) links.profile.classList.add('d-none');
-                if (links.cart) links.cart.classList.add('d-none');
-                if (links.store) links.store.classList.add('d-none');
-                if (links.logout) links.logout.classList.add('d-none');
-                if (links.dropdown) {
-                    links.dropdown.innerHTML = `<small><i class="fa fa-home me-2"></i> Bảng điều khiển</small>`;
-                }
+        /*** 1. CẤU HÌNH HẰNG SỐ & BIẾN TOÀN CỤC*/
+        const CONFIG = {
+            API: {
+                TOKEN: '/api/v1/auth/token',
+                REGISTER: '/api/v1/auth/register',
+                CATEGORIES: '/api/v1/categories/'
             }
-        },
+        };
 
-        // Xử lý thông báo trên Modal
-        showMessage: function(div, message, isSuccess) {
-            if (!div) return;
-            div.style.display = 'block';
-            div.textContent = message;
-            div.className = `mt-3 p-3 rounded alert ${isSuccess ? 'alert-success' : 'alert-danger'}`;
-        },
+        // Khởi tạo Bootstrap Modals
+        const UI_ELEMENTS = {
+            loginModal: document.getElementById('loginModal') ? new bootstrap.Modal(document.getElementById('loginModal')) : null,
+            registerModal: document.getElementById('registerModal') ? new bootstrap.Modal(document.getElementById('registerModal')) : null,
+            loginResult: document.getElementById('loginResult'),
+            registerResult: document.getElementById('registerResult')
+        };
 
-        // Xử lý Đăng nhập / Đăng ký
-        handleAuthSubmit: async function(event, endpoint) {
-            event.preventDefault();
-            const isLogin = endpoint === CONFIG.API.TOKEN;
-            const resultDiv = isLogin ? UI_ELEMENTS.loginResult : UI_ELEMENTS.registerResult;
-            const formData = new FormData(event.target);
+        /*** 2. MODULE QUẢN LÝ XÁC THỰC (AUTH MANAGER)*/
+        const AuthManager = {
+            updateUI: function() {
+                const token = localStorage.getItem('access_token');
+                const fullName = localStorage.getItem('full_name');
+                let roles = [];
+                try { 
+                    roles = JSON.parse(localStorage.getItem('roles') || '[]'); 
+                } catch (e) { roles = []; }
 
-            this.showMessage(resultDiv, 'Đang xử lý...', true);
+                const links = {
+                    login: document.getElementById('uiLoginLink'),
+                    register: document.getElementById('uiRegisterLink'),
+                    profile: document.getElementById('uiProfileLink'),
+                    cart: document.getElementById('uiCartLink'),
+                    store: document.getElementById('uiStoreLink'),
+                    logout: document.getElementById('uiLogoutLink'),
+                    dropdown: document.getElementById('dashboardDropdownLink')
+                };
 
-            try {
-                let response;
-                if (isLogin) {
-                    response = await fetch(endpoint, { method: 'POST', body: new URLSearchParams(formData) });
-                } else {
-                    const data = Object.fromEntries(formData.entries());
-                    response = await fetch(endpoint, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
+                if (token) {
+                    // ĐÃ ĐĂNG NHẬP: Hiện tất cả menu chức năng
+                    if (links.login) links.login.classList.add('d-none');
+                    if (links.register) links.register.classList.add('d-none');
+                    
+                    // Hiện các nút tương tác
+                    ['profile', 'cart', 'logout', 'store'].forEach(key => {
+                        if (links[key]) links[key].classList.remove('d-none');
                     });
-                }
 
-                const result = await response.json();
+                    // LOGIC CŨ CỦA ÔNG: Mặc định là Seller Dashboard, Admin/Mod thì đổi link
+                    if (links.store) {
+                        links.store.href = "/templates/user/seller_dashboard.html"; 
+                        links.store.innerHTML = '<i class="fa fa-store me-1"></i> Kênh Người Bán';
 
-                if (response.ok) {
-                    if (isLogin) {
-                        localStorage.setItem('access_token', result.access_token);
-                        localStorage.setItem('roles', JSON.stringify(result.roles || []));
-                        localStorage.setItem('full_name', result.full_name || result.username);
-                        this.showMessage(resultDiv, 'Đăng nhập thành công! Đang chuyển hướng...', true);
-                        
-                        setTimeout(() => {
-                            if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.hide();
-                            window.location.reload(); 
-                        }, 1000);
-                    } else {
-                        this.showMessage(resultDiv, 'Đăng ký thành công! Hãy đăng nhập.', true);
-                        event.target.reset();
-                        setTimeout(() => {
-                            if (UI_ELEMENTS.registerModal) UI_ELEMENTS.registerModal.hide();
-                            if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.show();
-                        }, 2000);
+                        if (roles.includes("Admin") || roles.includes(1)) {
+                            links.store.href = "/admin/dashboard_admin.html";
+                            links.store.innerHTML = '<i class="fa fa-cogs me-1"></i> Admin';
+                        } else if (roles.includes("Moderator") || roles.includes(2)) {
+                            links.store.href = "/moderator/moderator_dashboard.html";
+                            links.store.innerHTML = '<i class="fa fa-user-shield me-1"></i> Mod';
+                        }
+                    }
+
+                    if (links.dropdown) {
+                        const name = (fullName && fullName !== "undefined" && fullName !== "") ? fullName : 'Tài khoản';
+                        links.dropdown.innerHTML = `<small><i class="fa fa-user me-2"></i> ${name}</small>`;
                     }
                 } else {
-                    this.showMessage(resultDiv, `Lỗi: ${result.detail || 'Thao tác thất bại'}`, false);
+                    // CHƯA ĐĂNG NHẬP: Chỉ hiện Login/Register
+                    Object.values(links).forEach(link => link && link.classList.add('d-none'));
+                    if (links.login) links.login.classList.remove('d-none');
+                    if (links.register) links.register.classList.remove('d-none');
+                    if (links.dropdown) {
+                        links.dropdown.classList.remove('d-none');
+                        links.dropdown.innerHTML = `<small><i class="fa fa-home me-2"></i> Bảng điều khiển</small>`;
+                    }
                 }
-            } catch (error) {
-                this.showMessage(resultDiv, 'Lỗi kết nối máy chủ.', false);
+            },
+
+            handleAuthSubmit: async function(event, endpoint) {
+                event.preventDefault();
+                const isLogin = endpoint === CONFIG.API.TOKEN;
+                const resultDiv = isLogin ? UI_ELEMENTS.loginResult : UI_ELEMENTS.registerResult;
+                const formData = new FormData(event.target);
+
+                try {
+                    const response = isLogin 
+                        ? await fetch(endpoint, { method: 'POST', body: new URLSearchParams(formData) })
+                        : await fetch(endpoint, { 
+                            method: 'POST', 
+                            headers: { 'Content-Type': 'application/json' }, 
+                            body: JSON.stringify(Object.fromEntries(formData)) 
+                        });
+
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.detail || 'Thao tác thất bại');
+
+                    if (isLogin) {
+                        localStorage.setItem('access_token', result.access_token);
+                        const roles = result.roles || [];
+                        localStorage.setItem('roles', JSON.stringify(roles));
+                        localStorage.setItem('full_name', result.full_name || result.username || 'Tài khoản');
+
+                        // THÔNG BÁO VÀ CHUYỂN HƯỚNG
+                        if (resultDiv) {
+                            resultDiv.style.display = 'block';
+                            resultDiv.textContent = 'Đăng nhập thành công!';
+                            resultDiv.className = 'alert alert-success mt-3';
+                        }
+
+                        setTimeout(() => {
+                            // Chỉ Admin và Mod mới bị "đá" đi trang khác
+                            if (roles.includes("Admin") || roles.includes(1)) {
+                                window.location.href = "/admin/dashboard_admin.html";
+                            } else if (roles.includes("Moderator") || roles.includes(2)) {
+                                window.location.href = "/moderator/moderator_dashboard.html";
+                            } else {
+                                // USER 3 HOẶC CÁC TRƯỜNG HỢP KHÁC: Ở LẠI TRANG HIỆN TẠI
+                                if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.hide();
+                                window.location.reload(); 
+                            }
+                        }, 800);
+                    } else {
+                        // Đăng ký thành công thì hiện modal login
+                        alert("Đăng ký thành công! Hãy đăng nhập.");
+                        UI_ELEMENTS.registerModal.hide();
+                        UI_ELEMENTS.loginModal.show();
+                    }
+                } catch (error) {
+                    if (resultDiv) {
+                        resultDiv.style.display = 'block';
+                        resultDiv.textContent = error.message;
+                        resultDiv.className = 'alert alert-danger mt-3';
+                    }
+                }
+            },
+
+            logout: function(e) {
+                if(e) e.preventDefault();
+                localStorage.clear();
+                window.location.href = "/"; 
             }
-        },
+        };
 
-        logout: function(e) {
-            if(e) e.preventDefault();
-            localStorage.clear(); // Xóa sạch dữ liệu phiên làm việc
-            alert("Bạn đã đăng xuất thành công!");
-            window.location.reload();
-        }
-    };
+        /*** 3. MODULE TIỆN ÍCH (UTILITIES)*/
+        const UtilsManager = {
+            loadCategories: async function() {
+                const selectElement = document.getElementById('category-select-topbar');
+                if (!selectElement) return;
+                try {
+                    const res = await fetch(CONFIG.API.CATEGORIES);
+                    const categories = await res.json();
+                    if (Array.isArray(categories)) {
+                        selectElement.innerHTML = '<option value="">Các loại hàng hóa</option>';
+                        categories.forEach(cat => {
+                            const opt = document.createElement('option');
+                            opt.value = cat.CategoryID;
+                            opt.textContent = cat.CategoryName;
+                            selectElement.appendChild(opt);
+                        });
+                    }
+                } catch (err) { console.error('Lỗi tải danh mục:', err); }
+            }
+        };
 
-    /*** 3. MODULE TIỆN ÍCH (UTILITIES)*/
-    const UtilsManager = {
-        loadCategories: async function() {
-            const selectElement = document.getElementById('category-select-topbar');
-            if (!selectElement) return;
-            try {
-                const res = await fetch(CONFIG.API.CATEGORIES);
-                const categories = await res.json();
-                if (Array.isArray(categories)) {
-                    selectElement.innerHTML = '<option value="">Các loại hàng hóa</option>';
-                    categories.forEach(cat => {
-                        const opt = document.createElement('option');
-                        opt.value = cat.CategoryID;
-                        opt.textContent = cat.CategoryName;
-                        selectElement.appendChild(opt);
-                    });
-                }
-            } catch (err) { console.error('Lỗi tải danh mục:', err); }
-        }
-    };
+        /*** 4. KHỞI TẠI KHI TẢI TRANG*/
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cập nhật giao diện người dùng ngay lập tức
+            AuthManager.updateUI();
+            UtilsManager.loadCategories();
 
-    /*** 4. KHỞI TẠI KHI TẢI TRANG*/
-    document.addEventListener('DOMContentLoaded', () => {
-        // Cập nhật giao diện người dùng ngay lập tức
-        AuthManager.updateUI();
-        UtilsManager.loadCategories();
+            // Gắn sự kiện Form
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) loginForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.TOKEN);
 
-        // Gắn sự kiện Form
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) loginForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.TOKEN);
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) registerForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.REGISTER);
 
-        const registerForm = document.getElementById('registerForm');
-        if (registerForm) registerForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.REGISTER);
+            // Gắn sự kiện Logout
+            const logoutBtn = document.getElementById('uiLogoutLink');
+            if (logoutBtn) logoutBtn.onclick = AuthManager.logout;
 
-        // Gắn sự kiện Logout
-        const logoutBtn = document.getElementById('uiLogoutLink');
-        if (logoutBtn) logoutBtn.onclick = AuthManager.logout;
-
-        // Dọn dẹp thông báo khi đóng Modal
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('hidden.bs.modal', () => {
-                if (UI_ELEMENTS.loginResult) UI_ELEMENTS.loginResult.style.display = 'none';
-                if (UI_ELEMENTS.registerResult) UI_ELEMENTS.registerResult.style.display = 'none';
+            // Dọn dẹp thông báo khi đóng Modal
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('hidden.bs.modal', () => {
+                    if (UI_ELEMENTS.loginResult) UI_ELEMENTS.loginResult.style.display = 'none';
+                    if (UI_ELEMENTS.registerResult) UI_ELEMENTS.registerResult.style.display = 'none';
+                });
             });
         });
-    });
     </script>
 </body>
 

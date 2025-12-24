@@ -20,70 +20,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../templates/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../templates/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../templates/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
-
-    <style>
-        .cart-page-wrapper img {
-            object-fit: cover;
-            aspect-ratio: 1/1;
-            background: #f8f9fa; /* Hiện nền xám trong lúc ảnh đang load */
-        }
-        /* Tránh bảng bị co giãn khi nội dung thay đổi */
-        .cart-page-wrapper table {
-            table-layout: fixed;
-            width: 100%;
-        }
-        .card.border-secondary {
-            /* Dùng màu đỏ cam (#dc3545) hoặc màu chủ đạo của bạn */
-            border: 2px solid #dc3545 !important; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Thêm bóng nhẹ cho hiệu ứng 3D */
-        }
-
-        /* ĐIỀU CHỈNH ĐƯỜNG PHÂN CÁCH TRONG CARD (header và footer) */
-        .card-header, .card-footer {
-            border-color: #dee2e6 !important; /* Đảm bảo màu phân cách rõ ràng */
-        }
-        /* Đảm bảo khung nội dung có khoảng cách lớn với các thành phần ngoài */
-        .cart-page-wrapper {
-            padding-top: 50px; /* Khoảng cách trên */
-            padding-bottom: 50px; /* Khoảng cách dưới */
-        }
-        /* Buộc phần tóm tắt giỏ hàng phải có khoảng đệm bên trong (p-30 bị mất) */
-        .card-body, .card-footer {
-            padding: 2rem !important; /* Buộc padding lớn hơn */
-        }
-        /* Tinh chỉnh tiêu đề CART SUMMARY */
-        .card-header h4 {
-            color: #212529; /* Màu chữ tiêu đề */
-        }
-        /* Đảm bảo input quantity không bị lỗi */
-        .quantity .form-control {
-            border-radius: 0;
-            border: 1px solid #ced4da !important;
-        }
-        /* Đảm bảo nút Checkout màu vàng nổi bật */
-        .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #212529;
-            font-weight: bold;
-        }
-        .btn-warning:hover {
-            background-color: #e0a800;
-            border-color: #d39e00;
-        }
-    </style>
+    <link href="../templates/css/style.css" rel="stylesheet">
 </head>
 
 <body>
+
     <!-- Spinner Start -->
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -277,69 +226,132 @@
 
     <!-- Single Page Header start -->
     <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Giỏ hàng của tôi</h1>
+        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Liên hệ với chúng tôi</h1>
         <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
             <li class="breadcrumb-item"><a href="../templates/index.html">Trang chủ</a></li>
-            <li class="breadcrumb-item active text-white">Giỏ hàng của tôi</li>
+            <li class="breadcrumb-item active text-white">Liên hệ</li>
         </ol>
     </div>
     <!-- Single Page Header End -->
 
-    <!-- Cart Page Start -->
-    <div class="container-fluid cart-page-wrapper py-5">
-        <div class="row px-xl-5">
-            <div class="col-lg-8 table-responsive mb-5">
-                <table class="table table-light table-borderless table-hover text-center mb-0">
-                    <thead style="background-color: #343a40; color: white;">
-                        <tr>
-                            <th style="background-color: #0b0d0f;">Sản phẩm</th>
-                            <th style="background-color: #0b0d0f;">Giá</th>
-                            <th style="background-color: #0b0d0f;">Số lượng</th>
-                            <th style="background-color: #0b0d0f;">Tổng cộng</th>
-                            <th style="background-color: #0b0d0f;">Xóa</th>
-                        </tr>
-                    </thead>
-                    <tbody class="align-middle">
-                        <tr>
-                            <td colspan="5" class="py-5">
-                                <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
-                                <p>Đang tải giỏ hàng...</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-lg-4">  
-                <div class="card border-secondary mb-5 rounded">
-                    <div class="card-header border-0" style="background-color: #f8f9fa !important; border-bottom: 1px solid #dee2e6 !important;">
-                        <h4 class="font-weight-semi-bold m-0">TỔNG GIỎ HÀNG</h4>
+    <!-- Contucts Start -->
+    <div class="container-fluid contact py-5">
+        <div class="container py-5">
+        <div class="p-5 bg-light rounded">
+            <div class="row g-4">
+                <div class="col-12">
+                    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 900px;">
+                        <h4 class="text-primary border-bottom border-primary border-2 d-inline-block pb-2">Liên Hệ Với Chúng Tôi</h4>
+                        <p class="mb-5 fs-5 text-dark">Chúng tôi luôn sẵn sàng hỗ trợ bạn! Hãy cho chúng tôi biết bạn đang cần gì?</p>
                     </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Tạm tính</h6>
-                            <h6 class="font-weight-medium" id="cart-subtotal">0₫</h6>
+                </div>
+                <div class="col-lg-7">
+                    <h5 class="text-primary wow fadeInUp" data-wow-delay="0.1s">Kết Nối Ngay</h5>
+                    <h1 class="display-5 mb-4 wow fadeInUp" data-wow-delay="0.3s">Gửi Tin Nhắn Cho Chợ Cũ</h1>
+                    <p class="mb-4 wow fadeInUp" data-wow-delay="0.5s">Nếu bạn có thắc mắc về tình trạng sản phẩm, chính sách ký gửi hoặc cần hỗ trợ về đơn hàng, hãy để lại thông tin. Đội ngũ hỗ trợ sẽ phản hồi bạn trong vòng 24h làm việc.</p>
+                    <form>
+                        <div class="row g-4 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="col-lg-12 col-xl-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="name" placeholder="Họ và tên">
+                                    <label for="name">Họ và tên của bạn</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-xl-6">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="email" placeholder="Email">
+                                    <label for="email">Địa chỉ Email</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-xl-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="phone" placeholder="Số điện thoại">
+                                    <label for="phone">Số điện thoại</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-xl-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="subject" placeholder="Chủ đề">
+                                    <label for="subject">Bạn cần hỗ trợ? (VD: Mua/Bán hàng,...)</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Nội dung lời nhắn" id="message" style="height: 160px"></textarea>
+                                    <label for="message">Nội dung chi tiết</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3">Gửi Tin Nhắn</button>
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-between" style="border-bottom: 1px solid #dee2e6; padding-bottom: 1rem;">
-                            <h6 class="font-weight-medium">Phí vận chuyển</h6>
-                            <h6 class="font-weight-medium" id="cart-shipping">10.000₫</h6>
-                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-5 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="h-100 rounded">
+                        <iframe class="rounded w-100" style="height: 100%; min-height: 400px; border:0;"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.651036444645!2d106.680000!3d10.761400!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1b91dddf0b%3A0xb0b044c944448812!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBTxrAgcGjhuqFtIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaA!5e0!3m2!1svi!2s!4v1700000000000!5m2!1svi!2s"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
-                    <div class="card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Tổng tiền</h5>
-                            <h5 class="font-weight-bold text-primary" id="cart-total">0₫</h5>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row g-4 align-items-center justify-content-center">
+                        <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="rounded p-4 bg-white shadow-sm">
+                                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                                    style="width: 70px; height: 70px;">
+                                    <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4>Văn Phòng</h4>
+                                    <p class="mb-2">123 A, Sài Gòn</p>
+                                </div>
+                            </div>
                         </div>
-                        <button id="btn-checkout" class="btn btn-block btn-warning font-weight-bold my-3 py-3 w-100" 
-                                onclick="CartPageManager.goToCheckout()">
-                            TIẾN HÀNH THANH TOÁN
-                        </button>
+                        <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.3s">
+                            <div class="rounded p-4 bg-white shadow-sm">
+                                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                                    style="width: 70px; height: 70px;">
+                                    <i class="fas fa-envelope fa-2x text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4>Gửi Mail</h4>
+                                    <p class="mb-2">hotro@chocu.vn</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.5s">
+                            <div class="rounded p-4 bg-white shadow-sm">
+                                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                                    style="width: 70px; height: 70px;">
+                                    <i class="fa fa-phone-alt fa-2x text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4>Điện Thoại</h4>
+                                    <p class="mb-2">0123 456 789</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.7s">
+                            <div class="rounded p-4 bg-white shadow-sm">
+                                <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center mb-4"
+                                    style="width: 70px; height: 70px;">
+                                    <i class="fab fa-facebook-messenger fa-2x text-primary"></i>
+                                </div>
+                                <div>
+                                    <h4>Hỗ Trợ Online</h4>
+                                    <p class="mb-2">m.me/chocuonline</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
     </div>
-    <!-- Cart Page End -->
+    <!-- Contuct End -->
 
     <!-- Footer Start -->
     <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
@@ -530,51 +542,44 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
 
+
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../templates/lib/wow/wow.min.js"></script>
+    <script src="../templates/lib/owlcarousel/owl.carousel.min.js"></script>
+
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="../templates/js/main.js"></script>
 
     <script>
-        /*** 0. CẤU HÌNH API */
-        const CART_CONFIG = {
-            API: {
-                GET_CART: '/api/v1/carts/',
-                UPDATE_CART: '/api/v1/carts/update',
-                REMOVE_CART: '/api/v1/carts/remove/' // Nhớ có dấu / ở cuối
-            }
-        };
-        /*** 1. KHAI BÁO CẤU HÌNH & BIẾN TOÀN CỤC */
+        /*** 1. CẤU HÌNH HẰNG SỐ & BIẾN TOÀN CỤC*/
         const CONFIG = {
             API: {
                 TOKEN: '/api/v1/auth/token',
                 REGISTER: '/api/v1/auth/register',
-                PRODUCTS: '/api/products/',
-                CATEGORIES: '/api/v1/categories/',
-                CART_ADD: '/api/v1/carts/add'
-            },
-            IMAGE: {
-                FALLBACK: 'https://placehold.co/300x200/f5f5f5/555555?text=No+Image'
+                CATEGORIES: '/api/v1/categories/'
             }
         };
 
-        let GRID_CONTAINER = null;
-        let LIST_CONTAINER = null;
-        window.currentProducts = [];
-        window.currentView = 'grid';
+        // Khởi tạo Bootstrap Modals
+        const UI_ELEMENTS = {
+            loginModal: document.getElementById('loginModal') ? new bootstrap.Modal(document.getElementById('loginModal')) : null,
+            registerModal: document.getElementById('registerModal') ? new bootstrap.Modal(document.getElementById('registerModal')) : null,
+            loginResult: document.getElementById('loginResult'),
+            registerResult: document.getElementById('registerResult')
+        };
 
         /*** 2. MODULE QUẢN LÝ XÁC THỰC (AUTH MANAGER)*/
         const AuthManager = {
-            // Cập nhật giao diện dựa trên trạng thái đăng nhập trong LocalStorage
             updateUI: function() {
                 const token = localStorage.getItem('access_token');
                 const fullName = localStorage.getItem('full_name');
                 let roles = [];
-                try { roles = JSON.parse(localStorage.getItem('roles') || '[]'); } catch (e) {}
+                try { 
+                    roles = JSON.parse(localStorage.getItem('roles') || '[]'); 
+                } catch (e) { roles = []; }
 
                 const links = {
                     login: document.getElementById('uiLoginLink'),
@@ -587,47 +592,45 @@
                 };
 
                 if (token) {
-                    // Hiển thị Menu khi ĐÃ ĐĂNG NHẬP
+                    // ĐÃ ĐĂNG NHẬP: Hiện tất cả menu chức năng
                     if (links.login) links.login.classList.add('d-none');
                     if (links.register) links.register.classList.add('d-none');
-                    if (links.profile) links.profile.classList.remove('d-none');
-                    if (links.cart) links.cart.classList.remove('d-none');
-                    if (links.logout) links.logout.classList.remove('d-none');
+                    
+                    // Hiện các nút tương tác
+                    ['profile', 'cart', 'logout', 'store'].forEach(key => {
+                        if (links[key]) links[key].classList.remove('d-none');
+                    });
+
+                    // LOGIC CŨ CỦA ÔNG: Mặc định là Seller Dashboard, Admin/Mod thì đổi link
                     if (links.store) {
-                        links.store.classList.remove('d-none');
-                        links.store.href = "/templates/user/seller_dashboard.html";
-                        
-                        // Điều hướng đặc biệt cho Admin/Mod
-                        if (roles.includes("Admin")) links.store.href = "/admin/dashboard_admin.html";
-                        else if (roles.includes("Moderator")) links.store.href = "/moderator/moderator_dashboard.html";
+                        links.store.href = "/templates/user/seller_dashboard.html"; 
+                        links.store.innerHTML = '<i class="fa fa-store me-1"></i> Kênh Người Bán';
+
+                        if (roles.includes("Admin") || roles.includes(1)) {
+                            links.store.href = "/admin/dashboard_admin.html";
+                            links.store.innerHTML = '<i class="fa fa-cogs me-1"></i> Admin';
+                        } else if (roles.includes("Moderator") || roles.includes(2)) {
+                            links.store.href = "/moderator/moderator_dashboard.html";
+                            links.store.innerHTML = '<i class="fa fa-user-shield me-1"></i> Mod';
+                        }
                     }
+
                     if (links.dropdown) {
-                        const name = fullName ? fullName.split(' ')[0] : 'Tài khoản';
+                        const name = (fullName && fullName !== "undefined" && fullName !== "") ? fullName : 'Tài khoản';
                         links.dropdown.innerHTML = `<small><i class="fa fa-user me-2"></i> ${name}</small>`;
                     }
                 } else {
-                    // Hiển thị Menu khi CHƯA ĐĂNG NHẬP
+                    // CHƯA ĐĂNG NHẬP: Chỉ hiện Login/Register
+                    Object.values(links).forEach(link => link && link.classList.add('d-none'));
                     if (links.login) links.login.classList.remove('d-none');
                     if (links.register) links.register.classList.remove('d-none');
-                    if (links.profile) links.profile.classList.add('d-none');
-                    if (links.cart) links.cart.classList.add('d-none');
-                    if (links.store) links.store.classList.add('d-none');
-                    if (links.logout) links.logout.classList.add('d-none');
                     if (links.dropdown) {
+                        links.dropdown.classList.remove('d-none');
                         links.dropdown.innerHTML = `<small><i class="fa fa-home me-2"></i> Bảng điều khiển</small>`;
                     }
                 }
             },
 
-            // Xử lý thông báo trên Modal
-            showMessage: function(div, message, isSuccess) {
-                if (!div) return;
-                div.style.display = 'block';
-                div.textContent = message;
-                div.className = `mt-3 p-3 rounded alert ${isSuccess ? 'alert-success' : 'alert-danger'}`;
-            },
-
-            // Xử lý Đăng nhập / Đăng ký
             handleAuthSubmit: async function(event, endpoint) {
                 event.preventDefault();
                 const isLogin = endpoint === CONFIG.API.TOKEN;
@@ -635,287 +638,112 @@
                 const formData = new FormData(event.target);
 
                 try {
-                    let response;
-                    if (isLogin) {
-                        response = await fetch(endpoint, { method: 'POST', body: new URLSearchParams(formData) });
-                    } else {
-                        const data = Object.fromEntries(formData.entries());
-                        response = await fetch(endpoint, { 
+                    const response = isLogin 
+                        ? await fetch(endpoint, { method: 'POST', body: new URLSearchParams(formData) })
+                        : await fetch(endpoint, { 
                             method: 'POST', 
                             headers: { 'Content-Type': 'application/json' }, 
-                            body: JSON.stringify(data) 
+                            body: JSON.stringify(Object.fromEntries(formData)) 
                         });
-                    }
 
                     const result = await response.json();
+                    if (!response.ok) throw new Error(result.detail || 'Thao tác thất bại');
 
-                    if (response.ok) {
-                        if (isLogin) {
-                            // 1. Lưu dữ liệu vào máy
-                            localStorage.setItem('access_token', result.access_token);
-                            const roles = result.roles || [];
-                            localStorage.setItem('roles', JSON.stringify(roles));
-                            localStorage.setItem('full_name', result.full_name || result.username || 'Tài khoản');
+                    if (isLogin) {
+                        localStorage.setItem('access_token', result.access_token);
+                        const roles = result.roles || [];
+                        localStorage.setItem('roles', JSON.stringify(roles));
+                        localStorage.setItem('full_name', result.full_name || result.username || 'Tài khoản');
 
-                            this.showMessage(resultDiv, 'Đăng nhập thành công! Đang chuyển hướng...', true);
-
-                            // 2. LOGIC ĐIỀU HƯỚNG NGAY LẬP TỨC (Đéo reload trang chủ nữa)
-                            setTimeout(() => {
-                                if (roles.includes("Admin")) {
-                                    window.location.href = "/admin/dashboard_admin.html";
-                                } else if (roles.includes("Moderator")) {
-                                    window.location.href = "/moderator/moderator_dashboard.html";
-                                } else {
-                                    // Nếu là user thường thì mới reload hoặc về trang chủ
-                                    window.location.href = "/index.html"; 
-                                }
-                            }, 1000);
-                        } else {
-                            this.showMessage(resultDiv, 'Đăng ký thành công! Hãy đăng nhập.', true);
-                            setTimeout(() => {
-                                if (UI_ELEMENTS.registerModal) UI_ELEMENTS.registerModal.hide();
-                                if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.show();
-                            }, 1500);
+                        // THÔNG BÁO VÀ CHUYỂN HƯỚNG
+                        if (resultDiv) {
+                            resultDiv.style.display = 'block';
+                            resultDiv.textContent = 'Đăng nhập thành công!';
+                            resultDiv.className = 'alert alert-success mt-3';
                         }
+
+                        setTimeout(() => {
+                            // Chỉ Admin và Mod mới bị "đá" đi trang khác
+                            if (roles.includes("Admin") || roles.includes(1)) {
+                                window.location.href = "/admin/dashboard_admin.html";
+                            } else if (roles.includes("Moderator") || roles.includes(2)) {
+                                window.location.href = "/moderator/moderator_dashboard.html";
+                            } else {
+                                // USER 3 HOẶC CÁC TRƯỜNG HỢP KHÁC: Ở LẠI TRANG HIỆN TẠI
+                                if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.hide();
+                                window.location.reload(); 
+                            }
+                        }, 800);
                     } else {
-                        this.showMessage(resultDiv, result.detail || 'Thao tác thất bại', false);
+                        // Đăng ký thành công thì hiện modal login
+                        alert("Đăng ký thành công! Hãy đăng nhập.");
+                        UI_ELEMENTS.registerModal.hide();
+                        UI_ELEMENTS.loginModal.show();
                     }
                 } catch (error) {
-                    this.showMessage(resultDiv, 'Lỗi kết nối máy chủ.', false);
+                    if (resultDiv) {
+                        resultDiv.style.display = 'block';
+                        resultDiv.textContent = error.message;
+                        resultDiv.className = 'alert alert-danger mt-3';
+                    }
                 }
             },
 
             logout: function(e) {
                 if(e) e.preventDefault();
-                localStorage.clear(); // Xóa sạch dữ liệu phiên làm việc
-                alert("Bạn đã đăng xuất thành công!");
-                window.location.reload();
+                localStorage.clear();
+                window.location.href = "/"; 
             }
         };
 
-        /*** 3. MODULE XỬ LÝ GIỎ HÀNG (CART PAGE)*/
-        const CartPageManager = {
-            cartData: [],
-            shippingFee: 10000,
-            formatCurrency: (amount) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount),
-
-            init: async function() {
-                const token = localStorage.getItem('access_token');
-                if (!token) return;
+        /*** 3. MODULE TIỆN ÍCH (UTILITIES)*/
+        const UtilsManager = {
+            loadCategories: async function() {
+                const selectElement = document.getElementById('category-select-topbar');
+                if (!selectElement) return;
                 try {
-                    const res = await fetch(CART_CONFIG.API.GET_CART, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    const rawData = await res.json();
-                    this.cartData = rawData.items || [];
-                    this.renderCart();
-                } catch (err) {
-                    console.error("Lỗi tải giỏ hàng:", err);
-                }
-            },
-
-            // Thay thế đoạn renderCart trong cart.html
-            renderCart: function() {
-                const tbody = document.querySelector('.cart-page-wrapper tbody');
-                if (!tbody) return;
-
-                let subtotal = 0;
-
-                // 1. Chống lỗi nếu cartData không phải mảng
-                if (!this.cartData || !Array.isArray(this.cartData) || this.cartData.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" class="py-5 text-center text-muted">Giỏ hàng trống.</td></tr>';
-                    this.updateSummary(0);
-                    return;
-                }
-
-                try {
-                    const htmlRows = this.cartData.map(item => {
-                        // Lấy object product lồng bên trong
-                        const p = item.product || {};
-                        
-                        // --- XỬ LÝ DỮ LIỆU SỐ (Ép kiểu để tránh ra số 0 sai) ---
-                        const price = parseFloat(p.Price) || 0;
-                        const currentQty = parseInt(item.Quantity) || 0;
-                        const stock = parseInt(p.Quantity); // Giữ nguyên để check null/undefined
-                        const itemTotal = price * currentQty;
-                        subtotal += itemTotal;
-
-                        // Kiểm tra tồn kho thực tế (Nếu Backend đéo trả về thì mặc định cho phép để tránh hiện "Còn 0")
-                        const displayStock = (isNaN(stock)) ? 999 : stock;
-                        const isMax = currentQty >= displayStock;
-
-                        // --- LOGIC LẤY ẢNH (NHƯ TRANG DETAILS) ---
-                        let displayImg = CONFIG.IMAGE.FALLBACK;
-                        
-                        // Ưu tiên 1: PrimaryImageUrl
-                        if (p.PrimaryImageUrl && typeof p.PrimaryImageUrl === 'string' && p.PrimaryImageUrl !== 'null') {
-                            displayImg = p.PrimaryImageUrl;
-                        } 
-                        // Ưu tiên 2: Ảnh đầu tiên trong mảng images (nếu Backend có trả về)
-                        else if (p.images && p.images.length > 0 && p.images[0].ImageUrl) {
-                            displayImg = p.images[0].ImageUrl;
-                        }
-
-                        // Chuẩn hóa đường dẫn static
-                        if (displayImg !== CONFIG.IMAGE.FALLBACK && !displayImg.startsWith('http')) {
-                            displayImg = '/' + displayImg.replace(/^\/+/, '');
-                            if (!displayImg.startsWith('/static/')) {
-                                displayImg = '/static' + displayImg;
-                            }
-                        }
-
-                        return `
-                        <tr>
-                            <td class="align-middle text-start">
-                                <div class="d-flex align-items-center">
-                                    <img src="${displayImg}" 
-                                        style="width: 60px; height: 60px; object-fit: cover;" 
-                                        class="me-3 border rounded" 
-                                        onerror="this.src='${CONFIG.IMAGE.FALLBACK}'">
-                                    <div>
-                                        <div class="fw-bold text-dark">${p.Title || 'Sản phẩm'}</div>
-                                        <small class="text-muted">ID: ${p.ProductID}</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">${this.formatCurrency(price)}</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 130px;">
-                                    <button class="btn btn-sm btn-warning" 
-                                            onclick="CartPageManager.changeQuantity(${p.ProductID}, ${currentQty - 1})">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                    <input type="text" class="form-control form-control-sm text-center fw-bold bg-white" 
-                                        value="${currentQty}" readonly>
-                                    <button class="btn btn-sm btn-warning" 
-                                            ${isMax ? 'disabled' : ''} 
-                                            onclick="CartPageManager.changeQuantity(${p.ProductID}, ${currentQty + 1})">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                                ${(stock <= 5 && stock > 0) ? `<small class="text-danger d-block mt-1">Chỉ còn ${stock} sp</small>` : ''}
-                            </td>
-                            <td class="align-middle fw-bold text-primary">${this.formatCurrency(itemTotal)}</td>
-                            <td class="align-middle">
-                                <button class="btn btn-sm btn-outline-danger" onclick="CartPageManager.removeItem(${p.ProductID})">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>`;
-                    });
-
-                    tbody.innerHTML = htmlRows.join('');
-                    this.updateSummary(subtotal);
-
-                } catch (err) {
-                    console.error("Lỗi Render:", err);
-                    tbody.innerHTML = '<tr><td colspan="5" class="py-5 text-center text-danger">Lỗi hiển thị. Hãy tải lại trang.</td></tr>';
-                }
-            },
-            changeQuantity: async function(productId, newQty) {
-                if (newQty < 1) return;
-
-                // 1. Tìm item trong dữ liệu cục bộ để kiểm tra kho
-                const itemIndex = this.cartData.findIndex(i => i.product.ProductID === productId);
-                const item = this.cartData[itemIndex];
-                if (item && newQty > item.product.Quantity) {
-                    alert("Vượt quá số lượng tồn kho!");
-                    return;
-                }
-
-                // 2. CẬP NHẬT LẠC QUAN (Optimistic Update)
-                // Cập nhật dữ liệu trong bộ nhớ trước để render lại không bị giật
-                const oldQty = item.Quantity;
-                item.Quantity = newQty;
-                this.renderCart(); // Gọi renderCart lúc này sẽ rất nhanh vì dữ liệu đã có sẵn
-
-                const token = localStorage.getItem('access_token');
-                try {
-                    const res = await fetch(CART_CONFIG.API.UPDATE_CART, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ 
-                            ProductID: parseInt(productId), 
-                            new_quantity: parseInt(newQty),
-                            LastUpdated: new Date().toISOString()
-                        })
-                    });
-
-                    if (!res.ok) {
-                        // Nếu API lỗi thì trả về số lượng cũ
-                        item.Quantity = oldQty;
-                        this.renderCart();
-                        const errorData = await res.json();
-                        alert("Lỗi: " + (errorData.detail || "Không thể cập nhật"));
+                    const res = await fetch(CONFIG.API.CATEGORIES);
+                    const categories = await res.json();
+                    if (Array.isArray(categories)) {
+                        selectElement.innerHTML = '<option value="">Các loại hàng hóa</option>';
+                        categories.forEach(cat => {
+                            const opt = document.createElement('option');
+                            opt.value = cat.CategoryID;
+                            opt.textContent = cat.CategoryName;
+                            selectElement.appendChild(opt);
+                        });
                     }
-                    // KHÔNG gọi this.init() ở đây nữa để tránh load lại toàn bộ ảnh/HTML
-                } catch (err) {
-                    item.Quantity = oldQty;
-                    this.renderCart();
-                    alert("Lỗi kết nối.");
-                }
-            },
-
-            goToCheckout: function() {
-                if (!this.cartData || this.cartData.length === 0) {
-                    alert("Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm trước khi thanh toán!");
-                    return;
-                }
-                window.location.href = '../templates/checkout.html';
-            },
-
-            // CẬP NHẬT HÀM updateSummary: Để làm mờ nút nếu không có hàng
-            updateSummary: function(subtotal) {
-                const total = subtotal > 0 ? subtotal + this.shippingFee : 0;
-                
-                // Cập nhật text hiển thị
-                const subtotalEl = document.getElementById('cart-subtotal');
-                const totalEl = document.getElementById('cart-total');
-                if(subtotalEl) subtotalEl.textContent = this.formatCurrency(subtotal);
-                if(totalEl) totalEl.textContent = this.formatCurrency(total);
-
-                // LOGIC KHÓA NÚT:
-                const checkoutBtn = document.getElementById('btn-checkout');
-                if (checkoutBtn) {
-                    if (subtotal <= 0) {
-                        checkoutBtn.classList.add('disabled');
-                        checkoutBtn.style.opacity = '0.5';
-                        checkoutBtn.style.cursor = 'not-allowed';
-                    } else {
-                        checkoutBtn.classList.remove('disabled');
-                        checkoutBtn.style.opacity = '1';
-                        checkoutBtn.style.cursor = 'pointer';
-                    }
-                }
-            },
-
-            removeItem: async function(productId) {
-                if (!confirm("Bạn muốn xóa sản phẩm này?")) return;
-                const token = localStorage.getItem('access_token');
-                try {
-                    const res = await fetch(`${CART_CONFIG.API.REMOVE_CART}${productId}`, {
-                        method: 'DELETE',
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (res.ok) this.init();
-                    else alert("Không thể xóa sản phẩm.");
-                } catch (err) {
-                    alert("Lỗi xóa sản phẩm.");
-                }
+                } catch (err) { console.error('Lỗi tải danh mục:', err); }
             }
         };
-        /*** 4. KHỞI TẠI */
+
+        /*** 4. KHỞI TẠI KHI TẢI TRANG*/
         document.addEventListener('DOMContentLoaded', () => {
-            // Chạy Auth check (từ module chung của bạn)
-            if(typeof AuthManager !== 'undefined') AuthManager.updateUI();
-            
-            // Tải giỏ hàng
-            CartPageManager.init();
+            // Cập nhật giao diện người dùng ngay lập tức
+            AuthManager.updateUI();
+            UtilsManager.loadCategories();
+
+            // Gắn sự kiện Form
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) loginForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.TOKEN);
+
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) registerForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.REGISTER);
+
+            // Gắn sự kiện Logout
+            const logoutBtn = document.getElementById('uiLogoutLink');
+            if (logoutBtn) logoutBtn.onclick = AuthManager.logout;
+
+            // Dọn dẹp thông báo khi đóng Modal
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('hidden.bs.modal', () => {
+                    if (UI_ELEMENTS.loginResult) UI_ELEMENTS.loginResult.style.display = 'none';
+                    if (UI_ELEMENTS.registerResult) UI_ELEMENTS.registerResult.style.display = 'none';
+                });
+            });
         });
     </script>
 </body>
+
 </html>
 

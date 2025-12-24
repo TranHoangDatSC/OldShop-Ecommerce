@@ -136,8 +136,16 @@ class ProductBase(BaseModel):
 class ProductCreate(ProductBase):
     pass
 
-class ProductUpdate(ProductBase):
-    pass
+class ProductUpdate(BaseModel):
+    Title: Optional[str] = None
+    Description: Optional[str] = None
+    Price: Optional[Decimal] = None
+    Quantity: Optional[int] = None
+    CategoryID: Optional[int] = None
+    Status: Optional[int] = None
+
+# class ProductUpdate(ProductBase):
+#     pass
 
 class Product(ProductBase):
     ProductID: int
@@ -214,7 +222,9 @@ class ProductInCart(BaseModel):
     ProductID: int
     Title: str
     Price: Decimal
+    Quantity: int  # Thêm cái này để fix lỗi "Tồn kho = 0"
     PrimaryImageUrl: Optional[str] = None
+    images: List[ProductImage] = []
     
     class Config:
         from_attributes = True

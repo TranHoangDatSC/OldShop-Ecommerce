@@ -1,214 +1,181 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard Kiểm Duyệt - Moderator</title>
+    <title>Dashboard Điều Hành - Moderator</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* CSS Cơ bản */
-        body { 
-            font-family: 'Arial', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            background-color: #f4f4f9; 
-            display: flex; 
-            min-height: 100vh; 
+        body { font-family: 'Inter', sans-serif; background-color: #f4f4f9; display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background-color: #1e293b; color: white; position: fixed; height: 100%; display: flex; flex-direction: column; justify-content: space-between; z-index: 100; }
+        .sidebar h3 { padding: 20px; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid #334155; color: #38bdf8; }
+        .sidebar a { padding: 12px 20px; text-decoration: none; color: #cbd5e1; display: flex; align-items: center; transition: 0.2s; border-left: 4px solid transparent; }
+        .sidebar a:hover, .sidebar a.active { background-color: #334155; border-left: 4px solid #38bdf8; color: white; }
+        .sidebar i { width: 20px; margin-right: 12px; text-align: center; }
+        
+        .main-content { margin-left: 250px; flex-grow: 1; padding: 25px; }
+        
+        /* Bảng tố cáo đặc thù */
+        .report-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+        .report-row { background: white; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .report-row:hover { transform: scale(1.01); box-shadow: 0 4px 12px rgba(0,0,0,0.1); cursor: pointer; }
+        .report-cell { padding: 15px; vertical-align: top; }
+        
+        /* Cột lý do hiện 500 chữ */
+        .reason-box { 
+            max-width: 500px; 
+            min-width: 300px; 
+            white-space: normal; 
+            word-wrap: break-word; 
+            font-size: 0.9rem; 
+            color: #475569;
+            line-height: 1.5;
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #ef4444;
         }
-        .sidebar { 
-            width: 250px; 
-            background-color: #2c3e50; 
-            color: white; 
-            padding-top: 20px; 
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1); 
-            position: fixed; 
-            height: 100%; 
-            overflow-y: auto; 
-            /* ĐỒNG BỘ: Dùng Flexbox để đẩy Đăng xuất xuống cuối (Giống moderator_products.html) */
-            display: flex; 
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .sidebar a { 
-            padding: 15px 20px; 
-            text-decoration: none; 
-            font-size: 16px; 
-            color: #ecf0f1; 
-            display: flex; /* ĐỒNG BỘ */
-            align-items: center;
-            transition: background-color 0.3s; 
-            border-left: 5px solid transparent; 
-        }
-        .sidebar a:hover, .sidebar a.active { 
-            background-color: #34495e; 
-            border-left: 5px solid #3498db; 
-            color: white; 
-        }
-        .sidebar a i { 
-            margin-right: 10px; 
-            width: 20px; 
-            text-align: center; 
-        }
-        .main-content { margin-left: 250px; flex-grow: 1; padding: 20px; }
-        .header-bar { background: white; padding: 15px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 5px; }
-        .content-box { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-        .stat-card .value { font-size: 2.5em; font-weight: bold; color: #3498db; margin-bottom: 5px; }
-        .stat-card .label { color: #7f8c8d; font-size: 1em; }
 
-        /* ĐỒNG BỘ: Thêm CSS cho Custom Modal/Message Box (Giống moderator_products.html) */
-        .modal { 
-            display: none; position: fixed; z-index: 2000; left: 0; top: 0; 
-            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); 
-        }
-        .message-box { 
-            background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
-            width: 90%; max-width: 400px; text-align: center; margin: 15% auto; animation: scaleIn 0.2s ease-out; 
-        }
-        .message-box h4 { font-size: 1.25rem; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
-        .message-box p { margin-bottom: 20px; color: #555; }
-        .action-btn { 
-            padding: 10px 20px; margin: 0 5px; border-radius: 6px; cursor: pointer; font-weight: 500; border: none; color: white;
-            transition: background-color 0.3s;
-        }
-        .detail-btn { background-color: #3498db; }
-        .reject-btn { background-color: #e74c3c; } 
-        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .object-box { display: flex; flex-direction: column; gap: 5px; }
+        .badge-user { color: #1e293b; font-weight: bold; font-size: 0.85rem; }
+        .badge-product { color: #3b82f6; font-size: 0.85rem; text-decoration: underline; }
+
+        /* Modal chuẩn */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); }
+        .message-box { background: white; padding: 30px; border-radius: 10px; width: 90%; max-width: 400px; text-align: center; margin: 15% auto; }
+        .action-btn { padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 500; color: white; }
     </style>
 </head>
 <body>
-    <div id="customMessageBox" class="modal">
-        <div class="message-box">
-            <h4 id="messageBoxTitle">Tiêu đề</h4>
-            <p id="messageBoxContent">Nội dung thông báo.</p>
-            <div id="messageBoxActions"></div>
-        </div>
-    </div>
 
-    <div class="sidebar">
+<div id="customMessageBox" class="modal">
+    <div class="message-box">
+        <h4 id="messageBoxTitle" class="text-xl font-bold mb-2"></h4>
+        <p id="messageBoxContent" class="text-gray-600 mb-6"></p>
+        <div id="messageBoxActions" class="flex justify-center gap-3"></div>
+    </div>
+</div>
+
+<div class="sidebar">
+    <div>
+        <h3><i class="fas fa-gavel"></i> MODERATOR AREA</h3>
+        <nav class="mt-4">
+            <a href="/moderator/moderator_dashboard.html" class="active"><i class="fas fa-th-large"></i> Dashboard</a>
+            <h4 class="px-5 mt-6 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Xử lý nhanh</h4>
+            <a href="/moderator/moderator_products.html"><i class="fas fa-box text-blue-400"></i> Duyệt Sản phẩm</a>
+            <a href="/moderator/moderator_users.html"><i class="fas fa-users-slash text-red-400"></i> Khóa Tài khoản</a>
+            <a href="/moderator/moderator_profile.html" class="active"><i class="fas fa-user-circle"></i> Hồ sơ cá nhân</a>
+        </nav>
+    </div>
+    <div class="pb-6">
+        <a href="javascript:void(0)" onclick="handleLogout()" class="text-slate-400 hover:text-white"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="header-bar flex justify-between items-end mb-8">
         <div>
-            <h3><i class="fas fa-gavel"></i> Khu vực Moderator</h3>
-            <div style="padding: 10px 0;">
-                <a href="/moderator/moderator_dashboard.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
-                <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Quản lý Kiểm duyệt</h4>
-                <a href="/moderator/moderator_products.html"><i class="fas fa-box"></i> Duyệt Sản phẩm</a>
-                <a href="/moderator/moderator_users.html"><i class="fas fa-users-slash"></i> Mở/Khóa Tài khoản</a>
-                <div style="padding: 10px 0; border-top: 1px solid #34495e;">
-                    <a href="#" id="logoutBtn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-                </div>
-            </div>
+            <h2 class="text-3xl font-black text-slate-800">DASHBOARD</h2>
+            <p class="text-slate-500 text-sm">Chào buổi tối, Moderator. Kiểm tra các báo cáo khẩn cấp bên dưới.</p>
+        </div>
+        <div class="bg-white px-4 py-2 rounded-lg shadow-sm text-sm border">
+            <i class="fas fa-calendar-alt mr-2"></i> 23/12/2025
         </div>
     </div>
 
-    <div class="main-content">
-        <div class="header-bar">
-            <h2>Chào mừng, Moderator!</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-blue-600 p-6 rounded-2xl text-white shadow-lg">
+            <div class="text-4xl font-black">42</div>
+            <div class="text-blue-100 uppercase text-xs font-bold tracking-widest">SP chờ duyệt</div>
         </div>
-        
-        <div class="content-box mb-6">
-            <h3 class="text-xl font-semibold mb-4 text-gray-700">Tổng quan Công việc</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="stat-card">
-                    <div class="value text-yellow-600">42</div>
-                    <div class="label">Sản phẩm Chờ duyệt</div>
-                </div>
-                <div class="stat-card">
-                    <div class="value text-red-600">18</div>
-                    <div class="label">Tài khoản Bị khóa (Hôm nay)</div>
-                </div>
-                <div class="stat-card">
-                    <div class="value text-green-600">512</div>
-                    <div class="label">Sản phẩm Đã duyệt (Tuần này)</div>
-                </div>
-            </div>
+        <div class="bg-red-600 p-6 rounded-2xl text-white shadow-lg">
+            <div class="text-4xl font-black">12</div>
+            <div class="text-red-100 uppercase text-xs font-bold tracking-widest">Báo cáo mới</div>
         </div>
-
-        <div class="content-box">
-            <h3 class="text-xl font-semibold mb-4 text-gray-700">Tác vụ Quan trọng</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <a href="/moderator/moderator_products.html" class="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-lg shadow-md transition duration-300 flex items-center justify-between">
-                    <div>
-                        <i class="fas fa-check-double mr-3"></i>
-                        <span class="font-bold">Tiến hành Duyệt Sản phẩm</span>
-                    </div>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-                <a href="/moderator/moderator_users.html" class="bg-red-500 hover:bg-red-600 text-white p-4 rounded-lg shadow-md transition duration-300 flex items-center justify-between">
-                    <div>
-                        <i class="fas fa-user-slash mr-3"></i>
-                        <span class="font-bold">Quản lý Tài khoản Vi phạm</span>
-                    </div>
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
+        <div class="bg-slate-800 p-6 rounded-2xl text-white shadow-lg">
+            <div class="text-4xl font-black">512</div>
+            <div class="text-slate-400 uppercase text-xs font-bold tracking-widest">Đã xử lý tuần này</div>
         </div>
     </div>
 
-    <script>
-        // --- CONSTANTS ---
-        // ĐỒNG BỘ: Khai báo các biến DOM cho Modal
-        const msgBox = document.getElementById('customMessageBox');
-        const msgBoxTitle = document.getElementById('messageBoxTitle');
-        const msgBoxContent = document.getElementById('messageBoxContent');
-        const msgBoxActions = document.getElementById('messageBoxActions');
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold text-slate-800"><i class="fas fa-bullhorn text-red-500 mr-2"></i>Danh sách tố cáo (Review nhanh)</h3>
+            <span class="text-xs font-bold text-red-500 animate-pulse bg-red-50 px-3 py-1 rounded-full uppercase">Khẩn cấp</span>
+        </div>
 
-        // --- CUSTOM MESSAGE BOX IMPLEMENTATION (ĐỒNG BỘ từ moderator_products.html) ---
-        function showCustomMessage(title, message, isConfirm, callback = null) {
-            msgBoxTitle.textContent = title;
-            msgBoxContent.innerHTML = message;
-            msgBoxActions.innerHTML = '';
-            msgBox.style.display = 'block';
+        <div class="overflow-x-auto">
+            <table class="report-table">
+                <thead>
+                    <tr class="text-xs font-bold text-slate-400 uppercase text-left">
+                        <th class="p-4">Đối tượng bị tố cáo</th>
+                        <th class="p-4">Lý do chi tiết (500 chữ)</th>
+                        <th class="p-4">Người tố cáo</th>
+                        <th class="p-4 text-center">Xử lý</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="report-row" onclick="goToUserAction(552)">
+                        <td class="report-cell">
+                            <div class="object-box">
+                                <span class="badge-user"><i class="fas fa-user-circle mr-1"></i> Nguyễn Văn A (ID: 552)</span>
+                                <span class="badge-product"><i class="fas fa-cube mr-1"></i> iPhone 13 Pro Max - Cũ</span>
+                            </div>
+                        </td>
+                        <td class="report-cell">
+                            <div class="reason-box">
+                                Đối tượng này treo đầu dê bán thịt chó. Hình ảnh trên bài đăng là lấy từ trang web nước ngoài, tôi đã đối chiếu hình ảnh và thấy trùng khớp 100%. Khi liên hệ xem máy thì đối tượng yêu cầu chuyển khoản tiền cọc 500k để "giữ chỗ" vì có nhiều người hỏi. Tôi nghi ngờ đây là hành vi lừa đảo chiếm đoạt tài sản chuyên nghiệp nhắm vào những người ham rẻ. Đề nghị ban quản trị khóa ngay tài khoản này để tránh thêm nạn nhân.
+                            </div>
+                        </td>
+                        <td class="report-cell text-slate-500 font-medium">user_victim_01</td>
+                        <td class="report-cell text-center">
+                            <button class="bg-red-500 text-white w-10 h-10 rounded-full hover:bg-red-700 transition shadow-md">
+                                <i class="fas fa-gavel"></i>
+                            </button>
+                        </td>
+                    </tr>
 
-            const closeMessage = () => {
-                msgBox.style.display = 'none';
-            };
+                    <tr class="report-row" onclick="goToUserAction(880)">
+                        <td class="report-cell">
+                            <div class="object-box">
+                                <span class="badge-user"><i class="fas fa-user-circle mr-1"></i> Trần Thị B (ID: 880)</span>
+                                <span class="badge-product"><i class="fas fa-cube mr-1"></i> Túi xách LV siêu cấp</span>
+                            </div>
+                        </td>
+                        <td class="report-cell">
+                            <div class="reason-box">
+                                Đăng bán hàng giả, hàng nhái nhưng để giá như hàng thật và khẳng định là hàng chính hãng 100%. Tôi đã mua và kiểm tra tại cửa hàng thì được xác nhận là hàng fake loại 1. Yêu cầu xử lý shop bán hàng không trung thực, vi phạm chính sách của sàn thương mại điện tử.
+                            </div>
+                        </td>
+                        <td class="report-cell text-slate-500 font-medium">buyer_check_99</td>
+                        <td class="report-cell text-center">
+                            <button class="bg-red-500 text-white w-10 h-10 rounded-full hover:bg-red-700 transition shadow-md">
+                                <i class="fas fa-gavel"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-            if (isConfirm) {
-                const confirmBtn = document.createElement('button');
-                confirmBtn.className = 'action-btn detail-btn'; 
-                confirmBtn.textContent = 'Xác nhận';
-                confirmBtn.onclick = () => {
-                    closeMessage();
-                    if (callback) callback(true);
-                };
+<script>
+    // Click vào hàng là bay thẳng sang trang quản lý User để khóa
+    function goToUserAction(userId) {
+        // Bạn có thể truyền ID qua URL để trang moderator_users tự lọc hoặc highlight thằng đó lên
+        window.location.href = `/moderator/moderator_users.html?targetId=${userId}`;
+    }
 
-                const cancelBtn = document.createElement('button');
-                cancelBtn.className = 'action-btn reject-btn'; 
-                cancelBtn.textContent = 'Hủy bỏ';
-                cancelBtn.onclick = () => {
-                    closeMessage();
-                    if (callback) callback(false);
-                };
-
-                msgBoxActions.appendChild(confirmBtn);
-                msgBoxActions.appendChild(cancelBtn);
-            } else {
-                const okBtn = document.createElement('button');
-                okBtn.className = 'action-btn detail-btn'; 
-                okBtn.textContent = 'Đóng';
-                okBtn.onclick = closeMessage;
-                msgBoxActions.appendChild(okBtn);
-            }
+    function handleLogout() {
+        // Tận dụng hàm showCustomMessage từ moderator_products để đồng bộ
+        // Ở đây viết đơn giản để bạn test nhanh
+        if(confirm('Xác nhận đăng xuất khỏi hệ thống Moderator?')) {
+            localStorage.clear();
+            window.location.href = "http://127.0.0.1:8000/";
         }
-
-        // --- LOGOUT FUNCTION (Bây giờ đã hoạt động) ---
-        function handleLogout() {
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('user_role');
-            localStorage.removeItem('user_name');
-            showCustomMessage(
-                'Xác nhận Đăng xuất',
-                'Bạn có chắc chắn muốn đăng xuất khỏi khu vực Moderator?',
-                true,
-                (confirmed) => {
-                    if (confirmed) {
-                        // TODO: Implement actual logout logic (clear token, redirect to login page)
-                        window.location.href = "http://127.0.0.1:8000/"; 
-                    }
-                }
-            );
-        }
-    </script>
+    }
+</script>
 </body>
 </html>

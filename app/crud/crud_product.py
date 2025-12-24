@@ -95,6 +95,13 @@ class CRUDProduct:
         obj_data = obj_in.model_dump(exclude_unset=True)
         for key, value in obj_data.items():
             setattr(db_obj, key, value)
+
+        if "Quantity" in obj_data:
+            if db_obj.Quantity <= 0:
+                db_obj.Status = 0  # Hết hàng/Chờ duyệt lại
+            elif db_obj.Quantity > 0 and db_obj.Status == 0:
+                db_obj.Status = 1  # Có hàng lại thì tự động cho phép hiển thị
+                
         db_obj.UpdatedAt = datetime.utcnow()
         db.add(db_obj)
         # SỬA LỖI: Update cũng không nên commit ở đây

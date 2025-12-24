@@ -79,14 +79,15 @@ async def seller_dashboard_page(request: Request):
 async def moderator_dashboard(request: Request):
     """Phục vụ tệp HTML cho trang kiểm duyệt viên."""
     return templates.TemplateResponse("moderator/moderator_dashboard.html", {"request": request})
-
 @app.get("/moderator/moderator_products.html", response_class=HTMLResponse)
 async def moderator_product_page(request: Request):
     return templates.TemplateResponse("moderator/moderator_products.html", {"request": request})
 @app.get("/moderator/moderator_users.html", response_class=HTMLResponse)
 async def moderator_users_page(request: Request):
     return templates.TemplateResponse("moderator/moderator_users.html", {"request": request})
-
+@app.get("/moderator/moderator_profile.html", response_class=HTMLResponse)
+async def moderator_users_page(request: Request):
+    return templates.TemplateResponse("moderator/moderator_profile.html", {"request": request})
 
 # Router Dashboard Admin:
 @app.get("/admin/dashboard_admin.html", response_class=HTMLResponse)
@@ -99,8 +100,17 @@ async def admin_dashboard(request: Request):
 async def admin_moderators_page(request: Request):
     return templates.TemplateResponse("admin/admin_moderators.html", {"request": request})
 @app.get("/admin/admin_users.html", response_class=HTMLResponse)
-async def admin_users_page(request: Request): # Đổi tên hàm để tránh trùng lặp
+async def admin_users_page(request: Request): 
     return templates.TemplateResponse("admin/admin_users.html", {"request": request})
+@app.get("/admin/admin_categories.html", response_class=HTMLResponse)
+async def admin_users_page(request: Request): 
+    return templates.TemplateResponse("admin/admin_categories.html", {"request": request})
+@app.get("/admin/admin_products.html", response_class=HTMLResponse)
+async def admin_users_page(request: Request): 
+    return templates.TemplateResponse("admin/admin_products.html", {"request": request})
+@app.get("/admin/admin_profile.html", response_class=HTMLResponse)
+async def admin_users_page(request: Request): 
+    return templates.TemplateResponse("admin/admin_profile.html", {"request": request})
 
 # ROUTE CHÍNH
 app.include_router(api_router, prefix=settings.API_V1_STR)

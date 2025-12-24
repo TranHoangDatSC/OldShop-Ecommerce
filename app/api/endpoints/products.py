@@ -86,6 +86,9 @@ def update_product(
     is_admin_or_moderator = (
         RoleID.ADMIN in user_role_ids or RoleID.MODERATOR in user_role_ids
     )
+    print(f"--- DEBUG QUYỀN ---")
+    print(f"ID Sản phẩm thuộc về Seller: {product.SellerID}")
+    print(f"ID Bạn đang đăng nhập là: {current_user.UserID}")
 
     if product.SellerID != current_user.UserID and not is_admin_or_moderator:
         raise HTTPException(

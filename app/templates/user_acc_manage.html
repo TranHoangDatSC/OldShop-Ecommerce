@@ -20,70 +20,137 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
+    <link href="../templates/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="../templates/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../templates/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../templates/css/style.css" rel="stylesheet">
 
     <style>
-        .cart-page-wrapper img {
-            object-fit: cover;
-            aspect-ratio: 1/1;
-            background: #f8f9fa; /* Hiện nền xám trong lúc ảnh đang load */
+        .pagination button {
+            width: 45px;
+            height: 45px;
+            margin: 0 5px;
+            border: 1px solid #81c408;
+            background: white;
+            color: #333;
+            transition: 0.3s;
         }
-        /* Tránh bảng bị co giãn khi nội dung thay đổi */
-        .cart-page-wrapper table {
-            table-layout: fixed;
-            width: 100%;
+        .pagination button.active {
+            background: #81c408;
+            color: white;
         }
-        .card.border-secondary {
-            /* Dùng màu đỏ cam (#dc3545) hoặc màu chủ đạo của bạn */
-            border: 2px solid #dc3545 !important; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Thêm bóng nhẹ cho hiệu ứng 3D */
+        .pagination button.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        .pagination button:hover:not(.disabled) {
+            background: #81c408;
+            color: white;
+        }
+        body { background-color: #f8f9fa; font-family: 'Open Sans', sans-serif; }
+        
+        /* Card chính */
+        .profile-container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid #eee;
         }
 
-        /* ĐIỀU CHỈNH ĐƯỜNG PHÂN CÁCH TRONG CARD (header và footer) */
-        .card-header, .card-footer {
-            border-color: #dee2e6 !important; /* Đảm bảo màu phân cách rõ ràng */
+        /* Cột trái: Avatar & Buttons */
+        .profile-sidebar {
+            padding: 40px 30px;
+            background: #fff;
+            border-right: 1px solid #f1f1f1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        /* Đảm bảo khung nội dung có khoảng cách lớn với các thành phần ngoài */
-        .cart-page-wrapper {
-            padding-top: 50px; /* Khoảng cách trên */
-            padding-bottom: 50px; /* Khoảng cách dưới */
+
+        .avatar-wrapper {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #ffb100; /* Màu cam thương hiệu */
+            padding: 5px;
+            margin-bottom: 30px;
         }
-        /* Buộc phần tóm tắt giỏ hàng phải có khoảng đệm bên trong (p-30 bị mất) */
-        .card-body, .card-footer {
-            padding: 2rem !important; /* Buộc padding lớn hơn */
+
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
         }
-        /* Tinh chỉnh tiêu đề CART SUMMARY */
-        .card-header h4 {
-            color: #212529; /* Màu chữ tiêu đề */
+
+        .btn-profile-action {
+            width: 100%;
+            margin-bottom: 12px;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: 600;
+            text-align: left;
+            transition: 0.3s;
+            border: none;
+            display: flex;
+            align-items: center;
         }
-        /* Đảm bảo input quantity không bị lỗi */
-        .quantity .form-control {
-            border-radius: 0;
-            border: 1px solid #ced4da !important;
+
+        .btn-profile-action i { width: 30px; }
+
+        .btn-edit { background-color: #f39c12; color: white; }
+        .btn-history { background-color: #f39c12; color: white; }
+        .btn-delete { background-color: #e74c3c; color: white; }
+        .btn-logout { background-color: #34495e; color: white; }
+
+        .btn-profile-action:hover {
+            opacity: 0.9;
+            transform: translateX(5px);
+            color: white;
         }
-        /* Đảm bảo nút Checkout màu vàng nổi bật */
-        .btn-warning {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #212529;
-            font-weight: bold;
+
+        /* Cột phải: Thông tin chi tiết */
+        .profile-info {
+            padding: 50px;
         }
-        .btn-warning:hover {
-            background-color: #e0a800;
-            border-color: #d39e00;
+
+        .profile-info h2 {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f39c12;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .info-label {
+            width: 150px;
+            font-weight: 700;
+            color: #7f8c8d;
+        }
+
+        .info-value {
+            color: #2c3e50;
+            flex: 1;
         }
     </style>
 </head>
 
 <body>
+
     <!-- Spinner Start -->
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -119,7 +186,7 @@
                             <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#loginModal" id="uiLoginLink">Đăng Nhập</a>
                             <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#registerModal" id="uiRegisterLink">Đăng Ký</a>
 
-                            <a href="../templates/user_acc_manage.html" class="dropdown-item d-none" id="uiProfileLink"><i class="fas fa-user-circle me-2"></i> Tài khoản của tôi</a>
+                            <a href="/profile" class="dropdown-item d-none" id="uiProfileLink"><i class="fas fa-user-circle me-2"></i> Tài khoản của tôi</a>
                             <a href="../templates/cart.html" class="dropdown-item d-none" id="uiCartLink"><i class="fas fa-shopping-cart me-2"></i> Giỏ hàng của tôi</a>
                             <a href="/app/templates/user/seller_dashboard.html" class="dropdown-item d-none" id="uiStoreLink"><i class="fas fa-store me-2"></i> Cửa hàng của tôi</a>
                             <a href="#" class="dropdown-item d-none" id="uiLogoutLink"><i class="fas fa-sign-out-alt me-2"></i> Đăng Xuất</a>
@@ -277,69 +344,74 @@
 
     <!-- Single Page Header start -->
     <div class="container-fluid page-header py-5">
-        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Giỏ hàng của tôi</h1>
+        <h1 class="text-center text-white display-6 wow fadeInUp" data-wow-delay="0.1s">Trang quản lý tài khoản cá nhân</h1>
         <ol class="breadcrumb justify-content-center mb-0 wow fadeInUp" data-wow-delay="0.3s">
             <li class="breadcrumb-item"><a href="../templates/index.html">Trang chủ</a></li>
-            <li class="breadcrumb-item active text-white">Giỏ hàng của tôi</li>
+            <li class="breadcrumb-item active text-white">Quản lý tài khoản cá nhân</li>
         </ol>
     </div>
     <!-- Single Page Header End -->
 
-    <!-- Cart Page Start -->
-    <div class="container-fluid cart-page-wrapper py-5">
-        <div class="row px-xl-5">
-            <div class="col-lg-8 table-responsive mb-5">
-                <table class="table table-light table-borderless table-hover text-center mb-0">
-                    <thead style="background-color: #343a40; color: white;">
-                        <tr>
-                            <th style="background-color: #0b0d0f;">Sản phẩm</th>
-                            <th style="background-color: #0b0d0f;">Giá</th>
-                            <th style="background-color: #0b0d0f;">Số lượng</th>
-                            <th style="background-color: #0b0d0f;">Tổng cộng</th>
-                            <th style="background-color: #0b0d0f;">Xóa</th>
-                        </tr>
-                    </thead>
-                    <tbody class="align-middle">
-                        <tr>
-                            <td colspan="5" class="py-5">
-                                <i class="fas fa-spinner fa-spin fa-2x text-primary"></i>
-                                <p>Đang tải giỏ hàng...</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <!-- Account Management Page Start -->
+    <div class="container">
+        <div class="profile-container shadow">
+            <div class="row g-0">
+                <div class="col-md-5 profile-sidebar">
+                    <div class="avatar-wrapper">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Dat" alt="Avatar">
+                    </div>
 
-            <div class="col-lg-4">  
-                <div class="card border-secondary mb-5 rounded">
-                    <div class="card-header border-0" style="background-color: #f8f9fa !important; border-bottom: 1px solid #dee2e6 !important;">
-                        <h4 class="font-weight-semi-bold m-0">TỔNG GIỎ HÀNG</h4>
+                    <button style="background-color: rgb(135, 122, 40);" class="btn btn-profile-action btn-edit" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                        <i class="fas fa-edit"></i> Chỉnh sửa
+                    </button>
+                    <button class="btn btn-profile-action btn-history" data-bs-toggle="modal" data-bs-target="#historyModal">
+                        <i class="fas fa-shopping-cart"></i> Lịch sử mua hàng
+                    </button>
+                    <button class="btn btn-profile-action btn-delete" onclick="handleDelete()">
+                        <i class="fas fa-trash-alt"></i> Xóa tài khoản
+                    </button>
+                    <button class="btn btn-profile-action btn-logout" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    </button>
+                </div>
+
+                <div class="col-md-7 profile-info">
+                    <h2 id="display_name">User1</h2>
+                    
+                    <div class="info-row">
+                        <div class="info-label">Tài khoản:</div>
+                        <div class="info-value" id="info_username">USER NUMBER ONE</div>
                     </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Tạm tính</h6>
-                            <h6 class="font-weight-medium" id="cart-subtotal">0₫</h6>
-                        </div>
-                        <div class="d-flex justify-content-between" style="border-bottom: 1px solid #dee2e6; padding-bottom: 1rem;">
-                            <h6 class="font-weight-medium">Phí vận chuyển</h6>
-                            <h6 class="font-weight-medium" id="cart-shipping">10.000₫</h6>
-                        </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Email:</div>
+                        <div class="info-value" id="info_email">user1@gmail.com</div>
                     </div>
-                    <div class="card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Tổng tiền</h5>
-                            <h5 class="font-weight-bold text-primary" id="cart-total">0₫</h5>
-                        </div>
-                        <button id="btn-checkout" class="btn btn-block btn-warning font-weight-bold my-3 py-3 w-100" 
-                                onclick="CartPageManager.goToCheckout()">
-                            TIẾN HÀNH THANH TOÁN
-                        </button>
+
+                    <div class="info-row">
+                        <div class="info-label">Điện thoại:</div>
+                        <div class="info-value" id="info_phone">0843001753</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Địa chỉ:</div>
+                        <div class="info-value" id="info_address">Sài Gòn</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Giới tính:</div>
+                        <div class="info-value" id="info_gender">Nam</div>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-label">Ngày sinh:</div>
+                        <div class="info-value" id="info_dob">22/11/2005</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Cart Page End -->
+    <!-- Account Management Page End -->
 
     <!-- Footer Start -->
     <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
@@ -463,6 +535,134 @@
     </div>
     <!-- Copyright End -->
 
+    <!-- Model chỉnh sửa thông tin cá nhân & Xem lịch sử giao hàng -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title"><i class="fas fa-user-edit me-2"></i>Chỉnh sửa thông tin cá nhân</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="editProfileForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Họ và tên*</label>
+                                <input type="text" class="form-control rounded-pill" value="Đạt">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Giới tính</label>
+                                <select class="form-select rounded-pill">
+                                    <option value="Nam" selected>Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                    <option value="Khác">Khác</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Ngày sinh</label>
+                                <input type="date" class="form-control rounded-pill" value="2005-11-22">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Số điện thoại</label>
+                                <input type="text" class="form-control rounded-pill" value="0843001753">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Địa chỉ</label>
+                                <input type="text" class="form-control rounded-pill" value="Sài Gòn">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Thay ảnh đại diện</label>
+                                <div class="border border-warning border-2 border-dashed rounded p-3 text-center" style="border-style: dashed !important;">
+                                    <input type="file" id="avatarUpload" class="d-none">
+                                    <label for="avatarUpload" class="btn btn-warning rounded-pill text-white px-4">
+                                        <i class="fas fa-folder-open me-2"></i>Chọn ảnh
+                                    </label>
+                                    <span class="ms-2 text-muted">No file chosen</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer border-0 justify-content-center">
+                    <button type="button" class="btn btn-warning rounded-pill px-5 text-white fw-bold">LƯU THAY ĐỔI</button>
+                    <button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content border-0">
+                <div class="modal-body p-0">
+                    <div class="p-3 bg-light d-flex align-items-center border-bottom">
+                        <h4 class="mb-0"><span class="me-2">📦</span>Lịch sử mua hàng</h4>
+                        <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="p-4">
+                        <div class="card mb-4 overflow-hidden border-0 shadow-sm">
+                            <div class="card-header bg-warning text-white p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Hóa đơn #74</h5>
+                                    <span>Ngày đặt: 14/08/2025</span>
+                                </div>
+                            </div>
+                            <div class="card-body bg-white">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <p class="mb-1"><i class="fas fa-user me-2"></i><strong>Người nhận:</strong> Đạt</p>
+                                        <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Địa chỉ:</strong> Sài Gòn</p>
+                                        <p class="mb-0 text-success"><i class="fas fa-check-circle me-2"></i><strong>Trạng thái:</strong> Đã xác nhận</p>
+                                    </div>
+                                    <div class="col-md-6 text-md-end">
+                                        <p class="mb-1"><i class="fas fa-credit-card me-2"></i><strong>Thanh toán:</strong> PAYPAL</p>
+                                        <p class="mb-1"><i class="fas fa-truck me-2"></i><strong>Vận chuyển:</strong> GRAB ($10,000.00)</p>
+                                        <p class="mb-0 text-danger fw-bold fs-5"><i class="fas fa-coins me-2"></i>Tổng tiền: 36,000</p>
+                                    </div>
+                                </div>
+                                <h6 class="fw-bold mb-3 border-bottom pb-2">Chi tiết sản phẩm</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-warning">
+                                            <tr>
+                                                <th>Mã HH</th>
+                                                <th>Tên hàng hóa</th>
+                                                <th>Đơn giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Thành tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>229</td>
+                                                <td>Thước nhựa Deli 15cm</td>
+                                                <td>$8,000.00</td>
+                                                <td>3</td>
+                                                <td>$24,000.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>218</td>
+                                                <td>Bút bi Thiên Long Flex Office FO-04 đỏ</td>
+                                                <td>$6,000.00</td>
+                                                <td>2</td>
+                                                <td>$12,000.00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                        <i class="fas fa-arrow-left me-2"></i>Quay lại hồ sơ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Model đăng nhập -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -530,24 +730,18 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
 
+
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../templates/lib/wow/wow.min.js"></script>
+    <script src="../templates/lib/owlcarousel/owl.carousel.min.js"></script>
+
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="../templates/js/main.js"></script>
 
     <script>
-        /*** 0. CẤU HÌNH API */
-        const CART_CONFIG = {
-            API: {
-                GET_CART: '/api/v1/carts/',
-                UPDATE_CART: '/api/v1/carts/update',
-                REMOVE_CART: '/api/v1/carts/remove/' // Nhớ có dấu / ở cuối
-            }
-        };
         /*** 1. KHAI BÁO CẤU HÌNH & BIẾN TOÀN CỤC */
         const CONFIG = {
             API: {
@@ -566,15 +760,27 @@
         let LIST_CONTAINER = null;
         window.currentProducts = [];
         window.currentView = 'grid';
+        window.currentProducts = [];
+        window.currentPage = 1;     
+        window.itemsPerPage = 9;
 
-        /*** 2. MODULE QUẢN LÝ XÁC THỰC (AUTH MANAGER)*/
+        // Khởi tạo Bootstrap Modals (Thêm vào để tránh lỗi UI_ELEMENTS undefined)
+        const UI_ELEMENTS = {
+            loginModal: document.getElementById('loginModal') ? new bootstrap.Modal(document.getElementById('loginModal')) : null,
+            registerModal: document.getElementById('registerModal') ? new bootstrap.Modal(document.getElementById('registerModal')) : null,
+            loginResult: document.getElementById('loginResult'),
+            registerResult: document.getElementById('registerResult')
+        };
+
+        /*** 2. MODULE QUẢN LÝ XÁC THỰC (AUTH MANAGER) */
         const AuthManager = {
-            // Cập nhật giao diện dựa trên trạng thái đăng nhập trong LocalStorage
             updateUI: function() {
                 const token = localStorage.getItem('access_token');
                 const fullName = localStorage.getItem('full_name');
                 let roles = [];
-                try { roles = JSON.parse(localStorage.getItem('roles') || '[]'); } catch (e) {}
+                try {
+                    roles = JSON.parse(localStorage.getItem('roles') || '[]');
+                } catch (e) { roles = []; }
 
                 const links = {
                     login: document.getElementById('uiLoginLink'),
@@ -587,47 +793,40 @@
                 };
 
                 if (token) {
-                    // Hiển thị Menu khi ĐÃ ĐĂNG NHẬP
+                    // ĐÃ ĐĂNG NHẬP
                     if (links.login) links.login.classList.add('d-none');
                     if (links.register) links.register.classList.add('d-none');
-                    if (links.profile) links.profile.classList.remove('d-none');
-                    if (links.cart) links.cart.classList.remove('d-none');
-                    if (links.logout) links.logout.classList.remove('d-none');
+                    
+                    ['profile', 'cart', 'logout', 'store'].forEach(key => {
+                        if (links[key]) links[key].classList.remove('d-none');
+                    });
+
                     if (links.store) {
-                        links.store.classList.remove('d-none');
                         links.store.href = "/templates/user/seller_dashboard.html";
-                        
-                        // Điều hướng đặc biệt cho Admin/Mod
-                        if (roles.includes("Admin")) links.store.href = "/admin/dashboard_admin.html";
-                        else if (roles.includes("Moderator")) links.store.href = "/moderator/moderator_dashboard.html";
+                        if (roles.includes("Admin") || roles.includes(1)) {
+                            links.store.href = "/admin/dashboard_admin.html";
+                        } else if (roles.includes("Moderator") || roles.includes(2)) {
+                            links.store.href = "/moderator/moderator_dashboard.html";
+                        }
                     }
+
                     if (links.dropdown) {
-                        const name = fullName ? fullName.split(' ')[0] : 'Tài khoản';
+                        // ĐÃ SỬA: Không dùng split(' ') để tránh hiện chữ "Tài"
+                        const name = (fullName && fullName !== "undefined" && fullName !== "") ? fullName : 'Tài khoản';
                         links.dropdown.innerHTML = `<small><i class="fa fa-user me-2"></i> ${name}</small>`;
                     }
                 } else {
-                    // Hiển thị Menu khi CHƯA ĐĂNG NHẬP
+                    // CHƯA ĐĂNG NHẬP
+                    Object.values(links).forEach(link => link && link.classList.add('d-none'));
                     if (links.login) links.login.classList.remove('d-none');
                     if (links.register) links.register.classList.remove('d-none');
-                    if (links.profile) links.profile.classList.add('d-none');
-                    if (links.cart) links.cart.classList.add('d-none');
-                    if (links.store) links.store.classList.add('d-none');
-                    if (links.logout) links.logout.classList.add('d-none');
                     if (links.dropdown) {
+                        links.dropdown.classList.remove('d-none');
                         links.dropdown.innerHTML = `<small><i class="fa fa-home me-2"></i> Bảng điều khiển</small>`;
                     }
                 }
             },
 
-            // Xử lý thông báo trên Modal
-            showMessage: function(div, message, isSuccess) {
-                if (!div) return;
-                div.style.display = 'block';
-                div.textContent = message;
-                div.className = `mt-3 p-3 rounded alert ${isSuccess ? 'alert-success' : 'alert-danger'}`;
-            },
-
-            // Xử lý Đăng nhập / Đăng ký
             handleAuthSubmit: async function(event, endpoint) {
                 event.preventDefault();
                 const isLogin = endpoint === CONFIG.API.TOKEN;
@@ -635,287 +834,82 @@
                 const formData = new FormData(event.target);
 
                 try {
-                    let response;
-                    if (isLogin) {
-                        response = await fetch(endpoint, { method: 'POST', body: new URLSearchParams(formData) });
-                    } else {
-                        const data = Object.fromEntries(formData.entries());
-                        response = await fetch(endpoint, { 
+                    const response = isLogin 
+                        ? await fetch(endpoint, { method: 'POST', body: new URLSearchParams(formData) })
+                        : await fetch(endpoint, { 
                             method: 'POST', 
                             headers: { 'Content-Type': 'application/json' }, 
-                            body: JSON.stringify(data) 
+                            body: JSON.stringify(Object.fromEntries(formData)) 
                         });
-                    }
 
                     const result = await response.json();
+                    if (!response.ok) throw new Error(result.detail || 'Thao tác thất bại');
 
-                    if (response.ok) {
-                        if (isLogin) {
-                            // 1. Lưu dữ liệu vào máy
-                            localStorage.setItem('access_token', result.access_token);
-                            const roles = result.roles || [];
-                            localStorage.setItem('roles', JSON.stringify(roles));
-                            localStorage.setItem('full_name', result.full_name || result.username || 'Tài khoản');
+                    if (isLogin) {
+                        localStorage.setItem('access_token', result.access_token);
+                        const roles = result.roles || [];
+                        localStorage.setItem('roles', JSON.stringify(roles));
+                        localStorage.setItem('full_name', result.full_name || result.username || 'Tài khoản');
 
-                            this.showMessage(resultDiv, 'Đăng nhập thành công! Đang chuyển hướng...', true);
-
-                            // 2. LOGIC ĐIỀU HƯỚNG NGAY LẬP TỨC (Đéo reload trang chủ nữa)
-                            setTimeout(() => {
-                                if (roles.includes("Admin")) {
-                                    window.location.href = "/admin/dashboard_admin.html";
-                                } else if (roles.includes("Moderator")) {
-                                    window.location.href = "/moderator/moderator_dashboard.html";
-                                } else {
-                                    // Nếu là user thường thì mới reload hoặc về trang chủ
-                                    window.location.href = "/index.html"; 
-                                }
-                            }, 1000);
-                        } else {
-                            this.showMessage(resultDiv, 'Đăng ký thành công! Hãy đăng nhập.', true);
-                            setTimeout(() => {
-                                if (UI_ELEMENTS.registerModal) UI_ELEMENTS.registerModal.hide();
-                                if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.show();
-                            }, 1500);
+                        if (resultDiv) {
+                            resultDiv.textContent = 'Đăng nhập thành công!';
+                            resultDiv.className = 'alert alert-success mt-3';
+                            resultDiv.style.display = 'block';
                         }
+
+                        setTimeout(() => {
+                            if (roles.includes("Admin") || roles.includes(1)) {
+                                window.location.href = "/admin/dashboard_admin.html";
+                            } else if (roles.includes("Moderator") || roles.includes(2)) {
+                                window.location.href = "/moderator/moderator_dashboard.html";
+                            } else {
+                                // SỬA: Thay vì /index.html, ta dùng / hoặc reload trang shop hiện tại
+                                if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.hide();
+                                window.location.reload(); 
+                            }
+                        }, 800);
                     } else {
-                        this.showMessage(resultDiv, result.detail || 'Thao tác thất bại', false);
+                        alert("Đăng ký thành công! Hãy đăng nhập.");
+                        if (UI_ELEMENTS.registerModal) UI_ELEMENTS.registerModal.hide();
+                        if (UI_ELEMENTS.loginModal) UI_ELEMENTS.loginModal.show();
                     }
                 } catch (error) {
-                    this.showMessage(resultDiv, 'Lỗi kết nối máy chủ.', false);
+                    if (resultDiv) {
+                        resultDiv.textContent = error.message;
+                        resultDiv.className = 'alert alert-danger mt-3';
+                        resultDiv.style.display = 'block';
+                    }
                 }
             },
 
             logout: function(e) {
                 if(e) e.preventDefault();
-                localStorage.clear(); // Xóa sạch dữ liệu phiên làm việc
-                alert("Bạn đã đăng xuất thành công!");
-                window.location.reload();
+                localStorage.clear();
+                // QUAN TRỌNG: Về thẳng Root Path để không dính lỗi .html
+                window.location.href = "/"; 
             }
         };
 
-        /*** 3. MODULE XỬ LÝ GIỎ HÀNG (CART PAGE)*/
-        const CartPageManager = {
-            cartData: [],
-            shippingFee: 10000,
-            formatCurrency: (amount) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount),
-
-            init: async function() {
-                const token = localStorage.getItem('access_token');
-                if (!token) return;
-                try {
-                    const res = await fetch(CART_CONFIG.API.GET_CART, {
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    const rawData = await res.json();
-                    this.cartData = rawData.items || [];
-                    this.renderCart();
-                } catch (err) {
-                    console.error("Lỗi tải giỏ hàng:", err);
-                }
-            },
-
-            // Thay thế đoạn renderCart trong cart.html
-            renderCart: function() {
-                const tbody = document.querySelector('.cart-page-wrapper tbody');
-                if (!tbody) return;
-
-                let subtotal = 0;
-
-                // 1. Chống lỗi nếu cartData không phải mảng
-                if (!this.cartData || !Array.isArray(this.cartData) || this.cartData.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" class="py-5 text-center text-muted">Giỏ hàng trống.</td></tr>';
-                    this.updateSummary(0);
-                    return;
-                }
-
-                try {
-                    const htmlRows = this.cartData.map(item => {
-                        // Lấy object product lồng bên trong
-                        const p = item.product || {};
-                        
-                        // --- XỬ LÝ DỮ LIỆU SỐ (Ép kiểu để tránh ra số 0 sai) ---
-                        const price = parseFloat(p.Price) || 0;
-                        const currentQty = parseInt(item.Quantity) || 0;
-                        const stock = parseInt(p.Quantity); // Giữ nguyên để check null/undefined
-                        const itemTotal = price * currentQty;
-                        subtotal += itemTotal;
-
-                        // Kiểm tra tồn kho thực tế (Nếu Backend đéo trả về thì mặc định cho phép để tránh hiện "Còn 0")
-                        const displayStock = (isNaN(stock)) ? 999 : stock;
-                        const isMax = currentQty >= displayStock;
-
-                        // --- LOGIC LẤY ẢNH (NHƯ TRANG DETAILS) ---
-                        let displayImg = CONFIG.IMAGE.FALLBACK;
-                        
-                        // Ưu tiên 1: PrimaryImageUrl
-                        if (p.PrimaryImageUrl && typeof p.PrimaryImageUrl === 'string' && p.PrimaryImageUrl !== 'null') {
-                            displayImg = p.PrimaryImageUrl;
-                        } 
-                        // Ưu tiên 2: Ảnh đầu tiên trong mảng images (nếu Backend có trả về)
-                        else if (p.images && p.images.length > 0 && p.images[0].ImageUrl) {
-                            displayImg = p.images[0].ImageUrl;
-                        }
-
-                        // Chuẩn hóa đường dẫn static
-                        if (displayImg !== CONFIG.IMAGE.FALLBACK && !displayImg.startsWith('http')) {
-                            displayImg = '/' + displayImg.replace(/^\/+/, '');
-                            if (!displayImg.startsWith('/static/')) {
-                                displayImg = '/static' + displayImg;
-                            }
-                        }
-
-                        return `
-                        <tr>
-                            <td class="align-middle text-start">
-                                <div class="d-flex align-items-center">
-                                    <img src="${displayImg}" 
-                                        style="width: 60px; height: 60px; object-fit: cover;" 
-                                        class="me-3 border rounded" 
-                                        onerror="this.src='${CONFIG.IMAGE.FALLBACK}'">
-                                    <div>
-                                        <div class="fw-bold text-dark">${p.Title || 'Sản phẩm'}</div>
-                                        <small class="text-muted">ID: ${p.ProductID}</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="align-middle">${this.formatCurrency(price)}</td>
-                            <td class="align-middle">
-                                <div class="input-group quantity mx-auto" style="width: 130px;">
-                                    <button class="btn btn-sm btn-warning" 
-                                            onclick="CartPageManager.changeQuantity(${p.ProductID}, ${currentQty - 1})">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                    <input type="text" class="form-control form-control-sm text-center fw-bold bg-white" 
-                                        value="${currentQty}" readonly>
-                                    <button class="btn btn-sm btn-warning" 
-                                            ${isMax ? 'disabled' : ''} 
-                                            onclick="CartPageManager.changeQuantity(${p.ProductID}, ${currentQty + 1})">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                                ${(stock <= 5 && stock > 0) ? `<small class="text-danger d-block mt-1">Chỉ còn ${stock} sp</small>` : ''}
-                            </td>
-                            <td class="align-middle fw-bold text-primary">${this.formatCurrency(itemTotal)}</td>
-                            <td class="align-middle">
-                                <button class="btn btn-sm btn-outline-danger" onclick="CartPageManager.removeItem(${p.ProductID})">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>`;
-                    });
-
-                    tbody.innerHTML = htmlRows.join('');
-                    this.updateSummary(subtotal);
-
-                } catch (err) {
-                    console.error("Lỗi Render:", err);
-                    tbody.innerHTML = '<tr><td colspan="5" class="py-5 text-center text-danger">Lỗi hiển thị. Hãy tải lại trang.</td></tr>';
-                }
-            },
-            changeQuantity: async function(productId, newQty) {
-                if (newQty < 1) return;
-
-                // 1. Tìm item trong dữ liệu cục bộ để kiểm tra kho
-                const itemIndex = this.cartData.findIndex(i => i.product.ProductID === productId);
-                const item = this.cartData[itemIndex];
-                if (item && newQty > item.product.Quantity) {
-                    alert("Vượt quá số lượng tồn kho!");
-                    return;
-                }
-
-                // 2. CẬP NHẬT LẠC QUAN (Optimistic Update)
-                // Cập nhật dữ liệu trong bộ nhớ trước để render lại không bị giật
-                const oldQty = item.Quantity;
-                item.Quantity = newQty;
-                this.renderCart(); // Gọi renderCart lúc này sẽ rất nhanh vì dữ liệu đã có sẵn
-
-                const token = localStorage.getItem('access_token');
-                try {
-                    const res = await fetch(CART_CONFIG.API.UPDATE_CART, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({ 
-                            ProductID: parseInt(productId), 
-                            new_quantity: parseInt(newQty),
-                            LastUpdated: new Date().toISOString()
-                        })
-                    });
-
-                    if (!res.ok) {
-                        // Nếu API lỗi thì trả về số lượng cũ
-                        item.Quantity = oldQty;
-                        this.renderCart();
-                        const errorData = await res.json();
-                        alert("Lỗi: " + (errorData.detail || "Không thể cập nhật"));
-                    }
-                    // KHÔNG gọi this.init() ở đây nữa để tránh load lại toàn bộ ảnh/HTML
-                } catch (err) {
-                    item.Quantity = oldQty;
-                    this.renderCart();
-                    alert("Lỗi kết nối.");
-                }
-            },
-
-            goToCheckout: function() {
-                if (!this.cartData || this.cartData.length === 0) {
-                    alert("Giỏ hàng của bạn đang trống. Vui lòng thêm sản phẩm trước khi thanh toán!");
-                    return;
-                }
-                window.location.href = '../templates/checkout.html';
-            },
-
-            // CẬP NHẬT HÀM updateSummary: Để làm mờ nút nếu không có hàng
-            updateSummary: function(subtotal) {
-                const total = subtotal > 0 ? subtotal + this.shippingFee : 0;
-                
-                // Cập nhật text hiển thị
-                const subtotalEl = document.getElementById('cart-subtotal');
-                const totalEl = document.getElementById('cart-total');
-                if(subtotalEl) subtotalEl.textContent = this.formatCurrency(subtotal);
-                if(totalEl) totalEl.textContent = this.formatCurrency(total);
-
-                // LOGIC KHÓA NÚT:
-                const checkoutBtn = document.getElementById('btn-checkout');
-                if (checkoutBtn) {
-                    if (subtotal <= 0) {
-                        checkoutBtn.classList.add('disabled');
-                        checkoutBtn.style.opacity = '0.5';
-                        checkoutBtn.style.cursor = 'not-allowed';
-                    } else {
-                        checkoutBtn.classList.remove('disabled');
-                        checkoutBtn.style.opacity = '1';
-                        checkoutBtn.style.cursor = 'pointer';
-                    }
-                }
-            },
-
-            removeItem: async function(productId) {
-                if (!confirm("Bạn muốn xóa sản phẩm này?")) return;
-                const token = localStorage.getItem('access_token');
-                try {
-                    const res = await fetch(`${CART_CONFIG.API.REMOVE_CART}${productId}`, {
-                        method: 'DELETE',
-                        headers: { 'Authorization': `Bearer ${token}` }
-                    });
-                    if (res.ok) this.init();
-                    else alert("Không thể xóa sản phẩm.");
-                } catch (err) {
-                    alert("Lỗi xóa sản phẩm.");
-                }
-            }
-        };
-        /*** 4. KHỞI TẠI */
+        /*** 5. KHỞI TẠI KHI TẢI TRANG */
         document.addEventListener('DOMContentLoaded', () => {
-            // Chạy Auth check (từ module chung của bạn)
-            if(typeof AuthManager !== 'undefined') AuthManager.updateUI();
-            
-            // Tải giỏ hàng
-            CartPageManager.init();
+            GRID_CONTAINER = document.getElementById('product-grid-container');
+            LIST_CONTAINER = document.getElementById('product-list-container');
+
+            AuthManager.updateUI();
+            ShopManager.loadProducts();
+
+            // SỬA: Đảm bảo gọi đúng tên hàm handleAuthSubmit
+            const loginForm = document.getElementById('loginForm');
+            if(loginForm) loginForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.TOKEN);
+
+            const regForm = document.getElementById('registerForm');
+            if(regForm) regForm.onsubmit = (e) => AuthManager.handleAuthSubmit(e, CONFIG.API.REGISTER);
+
+            const logoutBtn = document.getElementById('uiLogoutLink');
+            if (logoutBtn) logoutBtn.onclick = AuthManager.logout;
         });
-    </script>
+</script>
 </body>
+
 </html>
 

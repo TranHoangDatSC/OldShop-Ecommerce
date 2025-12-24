@@ -1,219 +1,264 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Trang Quản Trị Admin - choDoCu</title>
+    <title>Hệ thống Quản Trị Analytics - Admin</title>
     <meta charset="UTF-8">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9; /* Màu nền chung */
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* ---------------------------------- */
-        /* Thanh Sidebar */
-        /* ---------------------------------- */
-        .sidebar {
-            width: 250px;
-            background-color: #2c3e50; /* Màu nền tối cho sidebar */
-            color: white;
-            padding-top: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-            position: fixed; /* Giữ cố định */
-            height: 100%;
-            overflow-y: auto;
-        }
-
-        .sidebar a {
-            padding: 15px 20px;
-            text-decoration: none;
-            font-size: 16px;
-            color: #ecf0f1; /* Màu chữ */
-            display: block;
-            transition: background-color 0.3s;
-            border-left: 5px solid transparent; /* Tạo không gian cho thanh active */
-        }
-
-        .sidebar a:hover, .sidebar a.active {
-            background-color: #34495e; /* Màu hover */
-            border-left: 5px solid #3498db; /* Màu xanh nổi bật */
-            color: white;
-        }
-
-        .sidebar h3 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #ecf0f1;
-            padding: 0 20px;
-        }
-        
-        /* Icon và Text */
-        .sidebar a i {
-            margin-right: 10px;
-            width: 20px; /* Cố định chiều rộng icon */
-            text-align: center;
-        }
-
-        /* ---------------------------------- */
-        /* Phần Header và Nội dung chính */
-        /* ---------------------------------- */
-        .main-content {
-            margin-left: 250px; /* Bằng với chiều rộng sidebar */
-            flex-grow: 1;
-            padding: 20px;
-        }
-
-        .header-bar {
-            background: white;
-            padding: 15px 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 5px;
-        }
-        
-        .header-bar h2 {
-            margin: 0;
-            color: #333;
-        }
-
-        /* ---------------------------------- */
-        /* Box thống kê (Dựa trên hình ảnh) */
-        /* ---------------------------------- */
-        .stats-grid {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-box {
-            flex: 1;
-            padding: 20px;
-            border-radius: 8px;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            text-align: left;
-        }
-
-        .stat-box.orange { background-color: #f39c12; }
-        .stat-box.green { background-color: #2ecc71; }
-        .stat-box.red { background-color: #e74c3c; }
-        .stat-box.blue { background-color: #3498db; }
-
-        .stat-box .number {
-            font-size: 2.2em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .stat-box .label {
-            font-size: 1.0em;
-            opacity: 0.9;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; display: flex; min-height: 100vh; }
+        
+        /* Sidebar Admin (Đồng bộ Dark Slate) */
+        .sidebar { width: 260px; background-color: #0f172a; color: white; position: fixed; height: 100%; display: flex; flex-direction: column; justify-content: space-between; z-index: 50; }
+        .sidebar h3 { padding: 25px; font-size: 1.2rem; font-weight: 800; border-bottom: 1px solid #1e293b; color: #38bdf8; letter-spacing: 1px; }
+        .sidebar a { padding: 14px 25px; text-decoration: none; color: #94a3b8; display: flex; align-items: center; transition: 0.2s; border-left: 4px solid transparent; font-size: 0.9rem; }
+        .sidebar a:hover, .sidebar a.active { background-color: #1e293b; border-left: 4px solid #38bdf8; color: white; }
+        .sidebar i { width: 24px; margin-right: 12px; }
+
+        .main-content { margin-left: 260px; flex-grow: 1; padding: 30px; }
+        
+        /* Stat Cards */
+        .stat-card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid #e2e8f0; }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        
+        /* Chart Container */
+        .chart-box { background: white; padding: 25px; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        
+        /* Custom Popup System */
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); }
+        .message-box { background: white; padding: 35px; border-radius: 20px; width: 90%; max-width: 420px; text-align: center; margin: 15% auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
+    </style>
 </head>
 <body>
 
+    <div id="customMessageBox" class="modal">
+        <div class="message-box">
+            <div id="msgIcon" class="text-5xl mb-4 text-blue-500 italic font-black">!</div>
+            <h4 id="messageBoxTitle" class="text-xl font-bold text-slate-800 mb-2">Thông báo</h4>
+            <p id="messageBoxContent" class="text-slate-600 mb-8"></p>
+            <div id="messageBoxActions" class="flex justify-center gap-3"></div>
+        </div>
+    </div>
+
     <div class="sidebar">
-        <h3><i class="fas fa-store"></i> Chợ Đồ Cũ</h3>
-        
-        <div style="padding: 10px 0;">
-            <a href="#" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
-            
-            <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Quản lý Chung</h4>
-            
-            <a href="/admin/admin_moderators.html"><i class="fas fa-user-tie"></i> Quản lý Kiểm duyệt viên</a>
-            
-            <a href="/admin/admin_users.html"><i class="fas fa-users"></i> Quản lý Khách hàng</a>
-            
-            <a href="/admin/orders.html"><i class="fas fa-file-invoice"></i> Quản lý Hóa đơn</a>
-            
-            <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Quản lý Sản phẩm</h4>
-            
-            <a href="/admin/products.html"><i class="fas fa-box"></i> Quản lý Sản phẩm</a>
-            
-            <a href="/admin/categories.html"><i class="fas fa-tags"></i> Quản lý Danh mục</a>
-            
-            <h4 style="color: #bdc3c7; font-size: 0.9em; padding: 10px 20px 5px;">Khác</h4>
-            
-            <a href="/admin/settings.html"><i class="fas fa-cog"></i> Cài đặt</a>
+        <div>
+            <h3><i class="fas fa-crown"></i> ADMIN PANEL</h3>
+            <nav class="mt-4">
+                <a href="/admin/dashboard_admin.html" class="active"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Quản lý nhân sự</h4>
+                <a href="/admin/admin_moderators.html"><i class="fas fa-user-shield"></i> Kiểm duyệt viên</a>
+                <a href="/admin/admin_users.html"><i class="fas fa-users"></i> Khách hàng</a>
+                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Hệ thống</h4>
+                <a href="/admin/admin_products.html"><i class="fas fa-box-open"></i> Sản phẩm</a>
+                <a href="/admin/admin_categories.html"><i class="fas fa-stream"></i> Danh mục</a>
+                <a href="/admin/admin_profile.html"><i class="fas fa-id-card"></i> Hồ sơ Admin</a>
+            </nav>
+        </div>
+        <div class="pb-8">
+            <a href="javascript:void(0)" onclick="handleLogout()" class="text-red-400 hover:bg-red-950/30 transition mx-4 rounded-xl">
+                <i class="fas fa-power-off"></i> Đăng xuất
+            </a>
         </div>
     </div>
 
     <div class="main-content">
-        <div class="header-bar">
-            <h2>Dashboard Quản Trị</h2>
-            <div>Xin chào, Quản trị viên</div>
-            <button id="logoutButton"><i class="fas fa-sign-out-alt"></i> Đăng Xuất</button>
-        </div>
-        
-        <div class="stats-grid">
-            <div class="stat-box orange">
-                <i class="fas fa-user-friends fa-2x" style="float: right;"></i>
-                <div class="number">1,294</div>
-                <div class="label">Visitors (Khách truy cập)</div>
+        <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+            <div>
+                <h2 class="text-2xl font-black text-slate-800 tracking-tight">DASHBOARD TRỰC TUYẾN</h2>
+                <p class="text-sm text-slate-500 font-medium">Cập nhật hệ thống: <span id="currentTime">--:--:--</span></p>
             </div>
-            <div class="stat-box green">
-                <i class="fas fa-chart-bar fa-2x" style="float: right;"></i>
-                <div class="number">$1,345</div>
-                <div class="label">Sales (Doanh số)</div>
-            </div>
-            <div class="stat-box red">
-                <i class="fas fa-bell fa-2x" style="float: right;"></i>
-                <div class="number">1303</div>
-                <div class="label">Subscribers (Người đăng ký)</div>
-            </div>
-            <div class="stat-box blue">
-                <i class="fas fa-check-circle fa-2x" style="float: right;"></i>
-                <div class="number">576</div>
-                <div class="label">Orders (Đơn hàng)</div>
+            <div class="flex items-center gap-4">
+                <div class="text-right">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Quản trị viên</p>
+                    <p class="font-bold text-slate-700" id="adminName">Olshop Administrator</p>
+                </div>
+                <div class="h-12 w-12 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                    <i class="fas fa-user-shield text-xl"></i>
+                </div>
             </div>
         </div>
 
-        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
-            <h3>Các Hoạt Động Gần Đây / Tổng quan</h3>
-            <p>Đây là nơi hiển thị các widget Task, World Map, và các biểu đồ khác...</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card border-l-4 border-l-emerald-500">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Doanh thu (Tháng)</p>
+                <h3 class="text-3xl font-black text-emerald-600 tracking-tight">45.6M</h3>
+                <p class="text-xs text-emerald-500 mt-2 font-bold"><i class="fas fa-arrow-up mr-1"></i> +12.5% so với tháng trước</p>
+            </div>
+            <div class="stat-card border-l-4 border-l-blue-500">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Sản phẩm mới</p>
+                <h3 class="text-3xl font-black text-blue-600 tracking-tight">152</h3>
+                <p class="text-xs text-blue-500 mt-2 font-bold"><i class="fas fa-box mr-1"></i> Đang tăng trưởng tốt</p>
+            </div>
+            <div class="stat-card border-l-4 border-l-orange-500">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Đơn hàng thành công</p>
+                <h3 class="text-3xl font-black text-orange-600 tracking-tight">89</h3>
+                <p class="text-xs text-orange-500 mt-2 font-bold"><i class="fas fa-check-circle mr-1"></i> Tỷ lệ hủy: 2%</p>
+            </div>
+            <div class="stat-card border-l-4 border-l-red-500">
+                <p class="text-xs font-bold text-slate-400 uppercase mb-1">Chờ kiểm duyệt</p>
+                <h3 class="text-3xl font-black text-red-600 tracking-tight">12</h3>
+                <p class="text-xs text-red-500 mt-2 font-bold animate-pulse"><i class="fas fa-clock mr-1"></i> Cần xử lý ngay</p>
+            </div>
         </div>
 
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            <div class="lg:col-span-2 chart-box">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-700 uppercase tracking-wider text-sm"><i class="fas fa-chart-line mr-2 text-indigo-500"></i>Doanh thu 7 ngày gần nhất</h3>
+                    <select class="text-xs border-none bg-slate-50 font-bold text-slate-500 rounded-lg p-2 outline-none">
+                        <option>Tuần này</option>
+                        <option>Tuần trước</option>
+                    </select>
+                </div>
+                <div class="h-80">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-box">
+                <h3 class="font-bold text-slate-700 uppercase tracking-wider text-sm mb-6"><i class="fas fa-chart-pie mr-2 text-indigo-500"></i>Cơ cấu Danh mục</h3>
+                <div class="h-80">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-black text-slate-800 uppercase tracking-tight"><i class="fas fa-medal text-yellow-500 mr-2"></i>Top Người Bán Xuất Sắc</h3>
+                    <a href="#" class="text-blue-600 text-xs font-bold hover:underline">Xem tất cả</a>
+                </div>
+                <table class="w-100 w-full text-left">
+                    <thead>
+                        <tr class="text-xs text-slate-400 uppercase border-bottom border-slate-100">
+                            <th class="pb-4">Hồ sơ</th>
+                            <th class="pb-4">Đơn hàng</th>
+                            <th class="pb-4 text-right">Tổng doanh số</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm font-medium text-slate-600">
+                        <tr class="border-t border-slate-50">
+                            <td class="py-4 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-indigo-600">TB</div>
+                                Trần Văn B
+                            </td>
+                            <td class="py-4">25 đơn</td>
+                            <td class="py-4 text-right font-bold text-slate-800">12,500,000đ</td>
+                        </tr>
+                        <tr class="border-t border-slate-50">
+                            <td class="py-4 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-indigo-600">LC</div>
+                                Lê Thị C
+                            </td>
+                            <td class="py-4">18 đơn</td>
+                            <td class="py-4 text-right font-bold text-slate-800">8,200,000đ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200">
+                <h3 class="font-black text-slate-800 uppercase tracking-tight mb-6"><i class="fas fa-fire text-red-500 mr-2"></i>Danh mục Hot</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                        <div class="flex items-center gap-4">
+                            <i class="fas fa-laptop text-indigo-500 text-xl"></i>
+                            <div>
+                                <p class="font-bold text-slate-700">Đồ điện tử</p>
+                                <p class="text-xs text-slate-400">450 lượt mua tháng này</p>
+                            </div>
+                        </div>
+                        <span class="text-emerald-500 font-bold text-sm">+12% <i class="fas fa-level-up-alt"></i></span>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
+                        <div class="flex items-center gap-4">
+                            <i class="fas fa-couch text-indigo-500 text-xl"></i>
+                            <div>
+                                <p class="font-bold text-slate-700">Nội thất</p>
+                                <p class="text-xs text-slate-400">310 lượt mua tháng này</p>
+                            </div>
+                        </div>
+                        <span class="text-emerald-500 font-bold text-sm">+5% <i class="fas fa-level-up-alt"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script>
-        // Lấy nút Đăng Xuất
-        const logoutButton = document.getElementById('logoutButton');
+        // 1. CẬP NHẬT THỜI GIAN THỰC
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000); updateClock();
 
-        // Hàm xử lý Đăng Xuất
+        // 2. BIỂU ĐỒ DOANH THU
+        const ctxBar = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'line', // Đổi sang line cho nó "pro"
+            data: {
+                labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'],
+                datasets: [{
+                    label: 'Doanh thu (M)',
+                    data: [5.2, 7.8, 4.5, 9.1, 6.4, 12.5, 10.2],
+                    borderColor: '#4f46e5',
+                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+
+        // 3. BIỂU ĐỒ CƠ CẤU
+        const ctxPie = document.getElementById('categoryChart').getContext('2d');
+        new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: ['Điện tử', 'Nội thất', 'Thời trang', 'Gia dụng'],
+                datasets: [{
+                    data: [40, 25, 20, 15],
+                    backgroundColor: ['#6366f1', '#fbbf24', '#10b981', '#3b82f6'],
+                    borderWidth: 0
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, cutout: '70%' }
+        });
+
+        // 4. HỆ THỐNG THÔNG BÁO (Custom Alert)
+        function showMessage(title, content, onConfirm) {
+            const msgBox = document.getElementById('customMessageBox');
+            document.getElementById('messageBoxTitle').textContent = title;
+            document.getElementById('messageBoxContent').textContent = content;
+            const actions = document.getElementById('messageBoxActions');
+            actions.innerHTML = '';
+
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'px-6 py-2 bg-slate-800 text-white rounded-lg font-bold';
+            confirmBtn.textContent = 'Xác nhận';
+            confirmBtn.onclick = () => { msgBox.style.display = 'none'; if(onConfirm) onConfirm(); };
+            
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'px-6 py-2 bg-slate-200 text-slate-600 rounded-lg font-bold';
+            cancelBtn.textContent = 'Hủy';
+            cancelBtn.onclick = () => msgBox.style.display = 'none';
+
+            actions.append(confirmBtn, cancelBtn);
+            msgBox.style.display = 'block';
+        }
+
         function handleLogout() {
-            // 1. XÓA TOKEN ĐĂNG NHẬP (QUAN TRỌNG NHẤT)
-            // Tùy thuộc vào cách bạn lưu token (LocalStorage, SessionStorage, hoặc Cookies), 
-            // bạn cần xóa nó khỏi bộ nhớ trình duyệt để đảm bảo bảo mật.
-            
-            // Ví dụ, nếu bạn lưu token trong LocalStorage:
-            localStorage.removeItem('access_token');
-            // Nếu bạn lưu tên người dùng/role:
-            localStorage.removeItem('user_role');
-            localStorage.removeItem('user_name');
-            
-            // 2. CHUYỂN HƯỚNG VỀ TRANG CHỦ HOẶC TRANG ĐĂNG NHẬP
-            alert('Bạn đã đăng xuất thành công.');
-            // Chuyển hướng về trang gốc http://127.0.0.1:8000/
-            window.location.href = "http://127.0.0.1:8000/"; 
+            showMessage('Đăng xuất hệ thống', 'Dữ liệu phiên làm việc sẽ bị xóa. Bạn có chắc chắn muốn rời khỏi?', () => {
+                localStorage.clear();
+                window.location.href = "http://127.0.0.1:8000/";
+            });
         }
-
-        // Gắn sự kiện click cho nút Đăng Xuất
-        logoutButton.addEventListener('click', handleLogout);
-
-        // --- Cải tiến nhỏ: Hiển thị tên Admin (Nếu có lưu trong LocalStorage) ---
-        // (Nếu bạn có lưu tên Admin sau khi đăng nhập thành công)
-        const storedAdminName = localStorage.getItem('user_name');
-        if (storedAdminName) {
-             document.getElementById('adminName').textContent = `Xin chào, ${storedAdminName}`;
-        }
-
     </script>
 </body>
 </html>

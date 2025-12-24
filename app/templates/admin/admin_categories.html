@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quản Lý Danh Mục - Admin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; display: flex; min-height: 100vh; }
+        
+        /* Sidebar Admin - Đồng bộ tuyệt đối */
+        .sidebar { width: 260px; background-color: #0f172a; color: white; position: fixed; height: 100%; display: flex; flex-direction: column; justify-content: space-between; z-index: 50; }
+        .sidebar h3 { padding: 25px; font-size: 1.2rem; font-weight: 800; border-bottom: 1px solid #1e293b; color: #38bdf8; letter-spacing: 1px; }
+        .sidebar a { padding: 14px 25px; text-decoration: none; color: #94a3b8; display: flex; align-items: center; transition: 0.2s; border-left: 4px solid transparent; font-size: 0.9rem; }
+        .sidebar a:hover, .sidebar a.active { background-color: #1e293b; border-left: 4px solid #38bdf8; color: white; }
+        .sidebar i { width: 24px; margin-right: 12px; }
+
+        .main-content { margin-left: 260px; flex-grow: 1; padding: 30px; }
+        .header-bar { background: white; padding: 20px 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 16px; }
+        
+        /* Content Box & Table */
+        .content-box { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .cat-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .cat-table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; padding: 15px; border-bottom: 2px solid #e2e8f0; }
+        .cat-table td { padding: 16px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+
+        /* Status Pills */
+        .status-pill { padding: 5px 12px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .status-pill.active { background-color: #dcfce7; color: #166534; }
+        .status-pill.hidden { background-color: #f1f5f9; color: #64748b; }
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); }
+        .modal-content { background-color: white; margin: 5% auto; padding: 30px; width: 90%; max-width: 500px; border-radius: 20px; position: relative; }
+        
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; margin-top: 15px; }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; outline: none; transition: 0.2s; font-size: 0.95rem; background: #f8fafc; }
+    </style>
+</head>
+<body onload="renderCategories()">
+
+    <div id="customMessageBox" class="modal" style="z-index: 9999;">
+        <div class="message-box bg-white p-10 rounded-2xl w-96 mx-auto mt-[15%] text-center shadow-2xl">
+            <div id="msgIcon" class="text-5xl mb-4"></div>
+            <h4 id="messageBoxTitle" class="text-xl font-bold mb-2 text-slate-800"></h4>
+            <p id="messageBoxContent" class="text-slate-600 mb-8"></p>
+            <div id="messageBoxActions" class="flex justify-center gap-3"></div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div>
+            <h3><i class="fas fa-crown"></i> ADMIN PANEL</h3>
+            <nav class="mt-4">
+                <a href="/admin/dashboard_admin.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Quản lý nhân sự</h4>
+                <a href="/admin/admin_moderators.html"><i class="fas fa-user-shield"></i> Kiểm duyệt viên</a>
+                <a href="/admin/admin_users.html"><i class="fas fa-users"></i> Khách hàng</a>
+                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Hệ thống</h4>
+                <a href="/admin/admin_products.html"><i class="fas fa-box-open"></i> Sản phẩm</a>
+                <a href="/admin/admin_categories.html" class="active"><i class="fas fa-stream"></i> Danh mục</a>
+                <a href="/admin/admin_profile.html"><i class="fas fa-id-card"></i> Hồ sơ Admin</a>
+            </nav>
+        </div>
+        <div class="pb-8">
+            <a href="javascript:void(0)" onclick="handleLogout()" class="text-red-400 hover:bg-red-950/30 transition mx-4 rounded-xl">
+                <i class="fas fa-power-off"></i> Đăng xuất
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header-bar">
+            <h2 class="text-2xl font-black text-slate-800 tracking-tight italic uppercase">Quản lý danh mục</h2>
+            <button onclick="openModal()" class="bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-emerald-700 transition flex items-center gap-2 shadow-lg shadow-emerald-200">
+                <i class="fas fa-plus-circle"></i> Thêm mới
+            </button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-blue-500">
+                <p class="text-xs font-bold text-slate-400 uppercase">Tổng nhóm ngành</p>
+                <h4 class="text-2xl font-black text-slate-800" id="totalCat">0</h4>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-emerald-500">
+                <p class="text-xs font-bold text-slate-400 uppercase">Đang hiển thị</p>
+                <h4 class="text-2xl font-black text-slate-800" id="activeCat">0</h4>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-amber-500">
+                <p class="text-xs font-bold text-slate-400 uppercase">Số sản phẩm gán nhãn</p>
+                <h4 class="text-2xl font-black text-slate-800">7,129</h4>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <table class="cat-table" id="categoryTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Biểu tượng</th>
+                        <th>Tên phân loại</th>
+                        <th>Mô tả thị trường</th>
+                        <th>Trạng thái</th>
+                        <th class="text-center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="catBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="catModal" class="modal">
+        <div class="modal-content">
+            <span class="absolute top-6 right-6 text-2xl text-slate-400 cursor-pointer" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle" class="text-2xl font-black text-slate-800 mb-6 italic">Cập nhật danh mục</h3>
+            <form id="catForm" class="input-group">
+                <input type="hidden" id="catId">
+                <label>Tên danh mục (VD: Đồ điện tử cũ)</label>
+                <input type="text" id="catName" required>
+                
+                <label>Icon class (FontAwesome)</label>
+                <input type="text" id="catIcon" placeholder="fas fa-plug">
+
+                <label>Mô tả ngắn</label>
+                <textarea id="catDesc" rows="3"></textarea>
+
+                <label>Hiển thị công khai</label>
+                <select id="catStatus">
+                    <option value="1">Hiển thị ngay</option>
+                    <option value="0">Tạm ẩn</option>
+                </select>
+
+                <div class="mt-8 flex gap-3">
+                    <button type="submit" class="flex-1 bg-slate-900 text-white font-bold py-3 rounded-xl hover:bg-black transition">Lưu cấu hình</button>
+                    <button type="button" onclick="closeModal()" class="flex-1 bg-slate-100 text-slate-600 font-bold py-3 rounded-xl">Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // HARDCODE DATA ĐỒ CŨ
+        // Cập nhật lại mảng dữ liệu trong phần <script> của bạn:
+        let MOCK_CATEGORIES = [
+            { id: 1, name: "Thời trang & Phụ kiện", icon: "fa-tshirt", desc: "Quần áo, giày dép thanh lý từ người dùng", status: 1 },
+            { id: 2, name: "Đồ gia dụng nội trợ", icon: "fa-blender", desc: "Bếp, nồi cơm, máy giặt cũ đã qua kiểm định", status: 1 },
+            { id: 3, name: "Điện tử & Máy móc", icon: "fa-laptop", desc: "Điện thoại, laptop, linh kiện điện tử", status: 1 },
+            { id: 4, name: "Nội thất gia đình", icon: "fa-couch", desc: "Bàn ghế, giường tủ gỗ thanh lý giá rẻ", status: 1 },
+            { id: 5, name: "Sách & Tri thức", icon: "fa-book", desc: "Sách cũ, giáo trình sinh viên, truyện tranh", status: 0 }, // Đã chuyển sang trạng thái 1 (Hiển thị)
+            { id: 6, name: "Phụ tùng xe cộ", icon: "fa-tools", desc: "Mũ bảo hiểm, đồ chơi xe, phụ tùng thay thế", status: 0 }  // Thêm một mục cho xôm
+        ];
+
+        // Trong hàm renderCategories(), hãy cập nhật lại class cho đẹp hơn:
+        function renderCategories() {
+            const body = document.getElementById('catBody');
+            body.innerHTML = '';
+            document.getElementById('totalCat').textContent = MOCK_CATEGORIES.length;
+            document.getElementById('activeCat').textContent = MOCK_CATEGORIES.filter(c => c.status === 1).length;
+
+            MOCK_CATEGORIES.forEach(c => {
+                body.insertAdjacentHTML('beforeend', `
+                    <tr class="hover:bg-indigo-50/50 transition-colors duration-200 group">
+                        <td class="font-mono text-slate-400 group-hover:text-indigo-600">#0${c.id}</td>
+                        <td class="text-xl text-indigo-500"><i class="fas ${c.icon}"></i></td>
+                        <td class="font-bold text-slate-700">${c.name}</td>
+                        <td class="text-sm text-slate-500">${c.desc}</td>
+                        <td>
+                            <span class="status-pill ${c.status ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'} 
+                                px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
+                                ${c.status ? 'Đang hoạt động' : 'Đang tạm ẩn'}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <button class="p-2 text-slate-400 hover:text-blue-600 transition" onclick="editCat(${c.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="p-2 text-slate-400 hover:text-red-600 transition" onclick="deleteCat(${c.id})">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `);
+            });
+        }
+
+        function showMessage(title, content, type = 'info', isConfirm = false, onConfirm = null) {
+            const msgBox = document.getElementById('customMessageBox');
+            document.getElementById('messageBoxTitle').textContent = title;
+            document.getElementById('messageBoxContent').innerHTML = content;
+            const actions = document.getElementById('messageBoxActions');
+            const icon = document.getElementById('msgIcon');
+            actions.innerHTML = '';
+            icon.innerHTML = type === 'success' ? '✅' : (type === 'error' ? '❌' : '🔔');
+
+            if (isConfirm) {
+                const cBtn = document.createElement('button'); cBtn.className = 'px-6 py-2 bg-slate-800 text-white rounded-lg font-bold'; cBtn.textContent = 'Xác nhận';
+                cBtn.onclick = () => { msgBox.style.display = 'none'; if(onConfirm) onConfirm(); };
+                const aBtn = document.createElement('button'); aBtn.className = 'px-6 py-2 bg-slate-200 text-slate-600 rounded-lg font-bold'; aBtn.textContent = 'Hủy';
+                aBtn.onclick = () => msgBox.style.display = 'none';
+                actions.append(cBtn, aBtn);
+            } else {
+                const okBtn = document.createElement('button'); okBtn.className = 'px-10 py-2 bg-slate-900 text-white rounded-lg font-bold'; okBtn.textContent = 'Đã hiểu';
+                okBtn.onclick = () => msgBox.style.display = 'none';
+                actions.appendChild(okBtn);
+            }
+            msgBox.style.display = 'block';
+        }
+
+        function openModal() {
+            document.getElementById('modalTitle').textContent = "Thêm Danh Mục Mới";
+            document.getElementById('catForm').reset();
+            document.getElementById('catId').value = "";
+            document.getElementById('catModal').style.display = 'block';
+        }
+
+        function editCat(id) {
+            const c = MOCK_CATEGORIES.find(x => x.id === id);
+            document.getElementById('modalTitle').textContent = "Sửa danh mục: " + c.name;
+            document.getElementById('catId').value = c.id;
+            document.getElementById('catName').value = c.name;
+            document.getElementById('catIcon').value = "fas " + c.icon;
+            document.getElementById('catDesc').value = c.desc;
+            document.getElementById('catStatus').value = c.status;
+            document.getElementById('catModal').style.display = 'block';
+        }
+
+        document.getElementById('catForm').onsubmit = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('catId').value;
+            if(id) {
+                const c = MOCK_CATEGORIES.find(x => x.id == id);
+                c.name = document.getElementById('catName').value;
+                c.desc = document.getElementById('catDesc').value;
+                c.status = parseInt(document.getElementById('catStatus').value);
+            }
+            showMessage('Thành công', 'Dữ liệu danh mục đã được cập nhật!', 'success');
+            closeModal(); renderCategories();
+        };
+
+        function deleteCat(id) {
+            showMessage('Cảnh báo xóa', 'Việc xóa danh mục có thể làm mất dữ liệu sản phẩm liên quan. Vẫn tiếp tục?', 'error', true, () => {
+                MOCK_CATEGORIES = MOCK_CATEGORIES.filter(x => x.id !== id);
+                renderCategories();
+            });
+        }
+
+        function closeModal() { document.getElementById('catModal').style.display = 'none'; }
+        function handleLogout() { window.location.href = "/"; }
+        window.onclick = (e) => { if(e.target == document.getElementById('catModal')) closeModal(); }
+    </script>
+</body>
+</html>
