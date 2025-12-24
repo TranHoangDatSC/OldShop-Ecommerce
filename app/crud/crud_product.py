@@ -91,21 +91,20 @@ class CRUDProduct:
         return db_product
 
     def update(self, db: Session, db_obj: Product, obj_in: schemas.ProductUpdate) -> Product:
-        """Cập nhật thông tin sản phẩm."""
         obj_data = obj_in.model_dump(exclude_unset=True)
         for key, value in obj_data.items():
             setattr(db_obj, key, value)
-
+        
+        # Logic tự động chuyển trạng thái dựa trên số lượng
         if "Quantity" in obj_data:
             if db_obj.Quantity <= 0:
-                db_obj.Status = 0  # Hết hàng/Chờ duyệt lại
+                db_obj.Status = 0  # Hết hàng/Ẩn
             elif db_obj.Quantity > 0 and db_obj.Status == 0:
-                db_obj.Status = 1  # Có hàng lại thì tự động cho phép hiển thị
+                db_obj.Status = 1  # Có hàng lại/Hiện
                 
         db_obj.UpdatedAt = datetime.utcnow()
         db.add(db_obj)
-        # SỬA LỖI: Update cũng không nên commit ở đây
-        db.flush()
+        db.flush() # Đẩy vào session, chờ commit ở Endpoint
         db.refresh(db_obj)
         return db_obj
 

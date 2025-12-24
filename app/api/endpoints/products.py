@@ -69,9 +69,9 @@ def create_product(
 # --- Endpoint Protected: Cập nhật sản phẩm ---
 @router.put("/{product_id}", response_model=schemas.Product)
 def update_product(
-    product_id: int,
-    product_in: schemas.ProductUpdate,
-    db: Session = Depends(get_db),
+    product_id: int, 
+    product_in: schemas.ProductUpdate, 
+    db: Session = Depends(get_db), 
     current_user: User = Depends(deps.get_current_user)
 ):
     product = product_crud.get_by_id(db, product_id=product_id)
@@ -98,12 +98,12 @@ def update_product(
     
     try:
         updated_product = product_crud.update(db, db_obj=product, obj_in=product_in)
-        return attach_product_response_fields(updated_product) # Đính kèm ảnh sau khi cập nhật
+        db.commit() # CHỐT HẠ: Phải có dòng này dữ liệu mới lưu vào DB
+        return attach_product_response_fields(updated_product)
     except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Lỗi khi cập nhật: {e}"
-        )
+        db.rollback()
+        raise HTTPException(status_code=400, detail=f"Lỗi: {e}")
+        
 
 # --- Endpoint Protected: Tạo sản phẩm mới VỚI ẢNH ---
 @router.post("/upload", response_model=schemas.Product, status_code=status.HTTP_201_CREATED)

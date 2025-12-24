@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <title>Quản Lý Sản Phẩm - Hệ Thống Admin</title>
     <meta charset="UTF-8">
@@ -10,7 +10,6 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; display: flex; min-height: 100vh; }
         
-        /* Sidebar Admin - Dark Slate đồng bộ */
         .sidebar { width: 260px; background-color: #0f172a; color: white; position: fixed; height: 100%; display: flex; flex-direction: column; justify-content: space-between; z-index: 50; }
         .sidebar h3 { padding: 25px; font-size: 1.2rem; font-weight: 800; border-bottom: 1px solid #1e293b; color: #38bdf8; letter-spacing: 1px; }
         .sidebar a { padding: 14px 25px; text-decoration: none; color: #94a3b8; display: flex; align-items: center; transition: 0.2s; border-left: 4px solid transparent; font-size: 0.9rem; }
@@ -19,212 +18,296 @@
 
         .main-content { margin-left: 260px; flex-grow: 1; padding: 30px; }
         .header-bar { background: white; padding: 20px 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; border-radius: 16px; }
-        
-        /* Table Styling */
+
         .content-box { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
         .product-table { width: 100%; border-collapse: separate; border-spacing: 0; }
         .product-table th { background-color: #f8fafc; color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; padding: 15px; border-bottom: 2px solid #e2e8f0; }
         .product-table td { padding: 16px; border-bottom: 1px solid #f1f5f9; color: #334155; }
 
-        /* Status Pills */
         .status-pill { padding: 5px 12px; border-radius: 9999px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
-        .status-pill.status-0 { background-color: #fef3c7; color: #92400e; }
-        .status-pill.status-1 { background-color: #dcfce7; color: #166534; }
-        .status-pill.status-2 { background-color: #fee2e2; color: #991b1b; }
+        .status-0 { background-color: #fef3c7; color: #92400e; }
+        .status-1 { background-color: #dcfce7; color: #166534; }
+        .status-2 { background-color: #fee2e2; color: #991b1b; }
 
-        .action-btn { padding: 8px 14px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .action-btn { padding: 8px 12px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: none; }
         .btn-edit { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
-        
+        .btn-action { background-color: #f8fafc; border: 1px solid #e2e8f0; }
+        .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); }
-        .modal-content { background-color: white; margin: 5% auto; padding: 30px; width: 90%; max-width: 600px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; }
-        .message-box { background: white; padding: 35px; border-radius: 20px; width: 90%; max-width: 420px; text-align: center; margin: 15% auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
-        
+        .modal-content { background-color: white; margin: 3% auto; padding: 30px; width: 90%; max-width: 650px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; animation: slideUp 0.3s; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
         .input-group label { display: block; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; margin-top: 15px; }
-        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; outline: none; transition: 0.2s; font-size: 0.95rem; background: #f8fafc; }
+        .input-group input, .input-group textarea, .input-group select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; outline: none; transition: 0.2s; background: #f8fafc; }
+        .input-group input:focus { border-color: #6366f1; ring: 2px; ring-color: #6366f1; }
+        
+        .message-box { background: white; padding: 35px; border-radius: 20px; width: 90%; max-width: 420px; text-align: center; margin: 15% auto; }
     </style>
 </head>
-<body onload="renderHardcodedProducts()">
+<body>
 
-    <div id="customMessageBox" class="modal" style="z-index: 9999;">
-        <div class="message-box">
-            <div id="msgIcon" class="text-5xl mb-4"></div>
-            <h4 id="messageBoxTitle" class="text-xl font-bold text-slate-800 mb-2"></h4>
-            <p id="messageBoxContent" class="text-slate-600 mb-8"></p>
-            <div id="messageBoxActions" class="flex justify-center gap-3"></div>
-        </div>
+<div id="customMessageBox" class="modal" style="z-index: 9999;">
+    <div class="message-box">
+        <div id="msgIcon" class="text-5xl mb-4"></div>
+        <h4 id="messageBoxTitle" class="text-xl font-bold text-slate-800 mb-2"></h4>
+        <p id="messageBoxContent" class="text-slate-600 mb-8"></p>
+        <div id="messageBoxActions" class="flex justify-center gap-3"></div>
+    </div>
+</div>
+
+<div class="sidebar">
+    <div>
+        <h3><i class="fas fa-crown"></i> ADMIN PANEL</h3>
+        <nav class="mt-4">
+            <a href="/admin/dashboard_admin.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
+            <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Quản lý nhân sự</h4>
+            <a href="/admin/admin_moderators.html"><i class="fas fa-user-shield"></i> Kiểm duyệt viên</a>
+            <a href="/admin/admin_users.html"><i class="fas fa-users"></i> Khách hàng</a>
+            <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Hệ thống</h4>
+            <a href="/admin/admin_products.html" class="active"><i class="fas fa-box-open"></i> Sản phẩm</a>
+            <a href="/admin/admin_categories.html"><i class="fas fa-stream"></i> Danh mục</a>
+        </nav>
+    </div>
+    <div class="pb-8">
+        <a href="javascript:void(0)" onclick="handleLogout()" class="text-red-400 hover:bg-red-950/30 transition mx-4 rounded-xl">
+            <i class="fas fa-power-off"></i> Đăng xuất
+        </a>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="header-bar">
+        <h2 class="text-2xl font-black text-slate-800 tracking-tight italic uppercase">Kiểm duyệt hàng hóa</h2>
+        <div class="text-sm font-bold text-indigo-600 bg-indigo-50 px-4 py-2 rounded-lg border border-indigo-100 uppercase tracking-wider">Moderator Mode</div>
     </div>
 
-    <div class="sidebar">
-        <div>
-            <h3><i class="fas fa-crown"></i> ADMIN PANEL</h3>
-            <nav class="mt-4">
-                <a href="/admin/dashboard_admin.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
-                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Quản lý nhân sự</h4>
-                <a href="/admin/admin_moderators.html"><i class="fas fa-user-shield"></i> Kiểm duyệt viên</a>
-                <a href="/admin/admin_users.html"><i class="fas fa-users"></i> Khách hàng</a>
-                <h4 class="px-6 mt-6 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Hệ thống</h4>
-                <a href="/admin/admin_products.html" class="active"><i class="fas fa-box-open"></i> Sản phẩm</a>
-                <a href="/admin/admin_categories.html"><i class="fas fa-stream"></i> Danh mục</a>
-                <a href="/admin/admin_profile.html"><i class="fas fa-id-card"></i> Hồ sơ Admin</a>
-            </nav>
+    <div class="content-box">
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex gap-2">
+                <button onclick="fetchProducts(null)" class="px-4 py-2 bg-slate-800 text-white rounded-lg text-xs font-bold">Tất cả</button>
+                <button onclick="fetchProducts(0)" class="px-4 py-2 bg-white text-slate-500 border border-slate-200 rounded-lg text-xs font-bold hover:bg-slate-50">Chờ duyệt</button>
+            </div>
+            <span class="text-xs font-bold bg-slate-100 text-slate-600 px-3 py-1 rounded-full">Tổng số: <span id="productCount">0</span> tin đăng</span>
         </div>
-        <div class="pb-8">
-            <a href="javascript:void(0)" onclick="handleLogout()" class="text-red-400 hover:bg-red-950/30 transition mx-4 rounded-xl">
-                <i class="fas fa-power-off"></i> Đăng xuất
-            </a>
-        </div>
+
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ảnh</th>
+                    <th>Sản phẩm</th>
+                    <th>Giá bán</th>
+                    <th>Trạng thái</th>
+                    <th class="text-center">Xử lý nhanh</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
     </div>
+</div>
 
-    <div class="main-content">
-        <div class="header-bar">
-            <h2 class="text-2xl font-black text-slate-800 tracking-tight italic uppercase">Quản lý hàng hóa</h2>
-            <div class="text-sm font-bold text-emerald-600 bg-emerald-50 px-4 py-2 rounded-lg border border-emerald-100">Hàng thanh lý toàn sàn</div>
-        </div>
-
-        <div class="content-box">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="font-bold text-slate-700">Dữ liệu hàng hóa đăng bán</h3>
-                <span class="text-xs font-bold bg-slate-100 text-slate-600 px-3 py-1 rounded-full">Hiện có: <span id="productCount">0</span> mục</span>
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="absolute top-6 right-6 text-2xl text-slate-400 cursor-pointer" onclick="closeModal()">&times;</span>
+        <h3 class="text-2xl font-black text-slate-800 mb-2 italic">Cập nhật & Kiểm tra</h3>
+        <p class="text-xs text-slate-400 mb-6 uppercase font-bold tracking-widest">ProductID: <span id="displayID"></span></p>
+        
+        <form id="productForm" class="input-group">
+            <input type="hidden" id="editProductID">
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label>Tên mặt hàng</label>
+                    <input type="text" id="editTitle" required>
+                </div>
+                <div>
+                    <label>Phân loại</label>
+                    <select id="editCategoryID">
+                        <option value="Gia dụng">Gia dụng</option>
+                        <option value="Nội thất cũ">Nội thất cũ</option>
+                        <option value="Đồ điện tử">Đồ điện tử</option>
+                    </select>
+                </div>
             </div>
 
-            <table class="product-table" id="productsTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Hình ảnh</th>
-                        <th>Tên mặt hàng</th>
-                        <th>Giá thanh lý</th>
-                        <th>Trạng thái</th>
-                        <th class="text-center">Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="productModal" class="modal">
-        <div class="modal-content">
-            <span class="absolute top-6 right-6 text-2xl text-slate-400 cursor-pointer" onclick="closeModal()">&times;</span>
-            <h3 class="text-2xl font-black text-slate-800 mb-6 italic">Sửa tin đăng</h3>
-            <form id="productForm" class="input-group">
-                <input type="hidden" id="editProductID">
-                <label>Tên sản phẩm</label>
-                <input type="text" id="editTitle" required>
-                <div class="grid grid-cols-2 gap-4">
-                    <div><label>Giá (VNĐ)</label><input type="number" id="editPrice" required></div>
-                    <div>
-                        <label>Phân loại</label>
-                        <select id="editCategoryID">
-                            <option value="Gia dụng">Gia dụng</option>
-                            <option value="Nội thất cũ">Nội thất cũ</option>
-                            <option value="Đồ điện tử">Đồ điện tử</option>
-                        </select>
+            <div class="grid grid-cols-2 gap-4 mt-2">
+                <div>
+                    <label>Giá thanh lý (VNĐ)</label>
+                    <input type="number" id="editPrice" required>
+                </div>
+                <div>
+                    <label>Đường dẫn Video (Review)</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="editVideoUrl" placeholder="https://youtube.com/...">
+                        <button type="button" onclick="openVideoLink()" class="bg-indigo-100 text-indigo-600 px-3 rounded-lg hover:bg-indigo-200 transition">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
                     </div>
                 </div>
-                <label>Tình trạng & Mô tả</label>
-                <textarea id="editDescription" rows="3"></textarea>
-                <div class="mt-8 flex gap-3">
-                    <button type="submit" class="flex-1 bg-slate-800 text-white font-bold py-3 rounded-xl">Lưu thay đổi</button>
-                    <button type="button" onclick="closeModal()" class="flex-1 bg-slate-100 text-slate-600 font-bold py-3 rounded-xl">Hủy</button>
-                </div>
-            </form>
-        </div>
+            </div>
+
+            <label>Mô tả tình trạng hàng cũ</label>
+            <textarea id="editDescription" rows="3" placeholder="Ghi chú về độ mới, vết trầy xước..."></textarea>
+
+            <div class="mt-8 flex gap-3">
+                <button type="submit" class="flex-[2] bg-indigo-600 text-white font-bold py-4 rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition">
+                    LƯU THÔNG TIN & DUYỆT NGAY
+                </button>
+                <button type="button" onclick="closeModal()" class="flex-1 bg-slate-100 text-slate-600 font-bold py-4 rounded-xl hover:bg-slate-200 transition">
+                    ĐÓNG
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <script>
-        // DỮ LIỆU "ĐỒ CŨ & GIA DỤNG"
-        let MOCK_PRODUCTS = [
-            { id: 201, name: "Nồi cơm điện Cuckoo 1.8L (Cũ)", price: 450000, status: 1, cat: "Gia dụng", img: "https://images.unsplash.com/photo-1544233726-9f1d2b27be8b?w=100", desc: "Đã sử dụng 1 năm, còn nấu tốt, bị trầy nhẹ vỏ." },
-            { id: 202, name: "Quạt cây Senko có điều khiển", price: 250000, status: 0, cat: "Gia dụng", img: "https://images.unsplash.com/photo-1618944847023-38aa001235f0?w=100", desc: "Chạy êm, mất nút bấm số 2." },            
-            { id: 205, name: "Máy hút bụi cầm tay Xiaomi", price: 1100000, status: 2, cat: "Đồ điện tử", img: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=100", desc: "Máy yếu, cần thay pin nên bị từ chối đăng." },
-            { id: 206, name: "Kệ sách 4 tầng gỗ công nghiệp", price: 150000, status: 1, cat: "Nội thất cũ", img: "https://images.unsplash.com/photo-1594620302200-9a762244a156?w=100", desc: "Hơi rung rinh, thanh lý nhanh." },
-            { id: 207, name: "Ấm siêu tốc Philips 1.5L", price: 180000, status: 0, cat: "Gia dụng", img: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=100", desc: "Mới dùng 2 tháng, còn hộp." }
-        ];
+<script>
+    const API_BASE = "/api/v1/products";
+    let CURRENT_DATA = [];
 
-        function showMessage(title, content, type = 'info', isConfirm = false, onConfirm = null) {
-            const msgBox = document.getElementById('customMessageBox');
-            document.getElementById('messageBoxTitle').textContent = title;
-            document.getElementById('messageBoxContent').innerHTML = content;
-            const actions = document.getElementById('messageBoxActions');
-            const icon = document.getElementById('msgIcon');
-            actions.innerHTML = '';
-            icon.innerHTML = type === 'success' ? '✅' : (type === 'error' ? '❌' : '🔔');
-            icon.className = `text-5xl mb-4 ${type === 'success' ? 'text-green-500' : (type === 'error' ? 'text-red-500' : 'text-blue-500')}`;
+    async function fetchProducts(statusFilter = null) {
+        const body = document.getElementById('tableBody');
+        body.innerHTML = '<tr><td colspan="6" class="text-center py-10"><i class="fas fa-spinner fa-spin mr-2"></i> Đang tải dữ liệu...</td></tr>';
+        
+        try {
+            const url = statusFilter !== null ? `${API_BASE}/moderator/all?status=${statusFilter}` : `${API_BASE}/moderator/all`;
+            const response = await fetch(url, { headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` } });
+            if (response.ok) {
+                CURRENT_DATA = await response.json();
+                renderTable(CURRENT_DATA);
+            } else { handleUnauthorized(); }
+        } catch (err) { body.innerHTML = '<tr><td colspan="6" class="text-center text-red-500 py-10">LỖI KẾT NỐI SERVER</td></tr>'; }
+    }
 
-            if (isConfirm) {
-                const cBtn = document.createElement('button'); cBtn.className = 'px-6 py-2 bg-slate-800 text-white rounded-lg font-bold'; cBtn.textContent = 'Xác nhận';
-                cBtn.onclick = () => { msgBox.style.display = 'none'; if(onConfirm) onConfirm(); };
-                const aBtn = document.createElement('button'); aBtn.className = 'px-6 py-2 bg-slate-200 text-slate-600 rounded-lg font-bold'; aBtn.textContent = 'Hủy';
-                aBtn.onclick = () => msgBox.style.display = 'none';
-                actions.append(cBtn, aBtn);
-            } else {
-                const okBtn = document.createElement('button'); okBtn.className = 'px-10 py-2 bg-slate-800 text-white rounded-lg font-bold'; okBtn.textContent = 'Đã hiểu';
-                okBtn.onclick = () => msgBox.style.display = 'none';
-                actions.appendChild(okBtn);
-            }
-            msgBox.style.display = 'block';
-        }
+    function renderTable(data) {
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '';
+        document.getElementById('productCount').textContent = data.length;
 
-        function renderHardcodedProducts() {
-            const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = '';
-            document.getElementById('productCount').textContent = MOCK_PRODUCTS.length;
+        data.forEach(p => {
+            const statusStr = {0: 'Đợi duyệt', 1: 'Đang bán', 2: 'Từ chối'}[p.Status];
+            tableBody.insertAdjacentHTML('beforeend', `
+                <tr class="hover:bg-slate-50 transition" id="row-${p.ProductID}">
+                    <td class="font-mono text-slate-400">#${p.ProductID}</td>
+                    <td><img src="${p.PrimaryImageUrl || 'https://via.placeholder.com/50'}" class="w-12 h-12 object-cover rounded-lg border shadow-sm"></td>
+                    <td class="font-bold text-slate-700">${p.Title}<br><span class="text-[10px] text-slate-400 uppercase font-black">${p.CategoryName || 'Hàng cũ'}</span></td>
+                    <td class="font-black text-indigo-600">${p.Price.toLocaleString()}đ</td>
+                    <td><span id="pill-${p.ProductID}" class="status-pill status-${p.Status}">${statusStr}</span></td>
+                    <td class="text-center">
+                        <div class="flex justify-center gap-2">
+                            <button class="action-btn btn-edit shadow-sm" onclick="editProduct(${p.ProductID})"><i class="fas fa-edit text-blue-600"></i></button>
+                            <button id="btn-wait-${p.ProductID}" onclick="updateStatus(${p.ProductID}, 0)" class="action-btn btn-action" ${p.Status === 0 ? 'disabled' : ''}><i class="fas fa-undo text-slate-400"></i></button>
+                            <button id="btn-app-${p.ProductID}" onclick="updateStatus(${p.ProductID}, 1)" class="action-btn btn-action" ${p.Status === 1 ? 'disabled' : ''}><i class="fas fa-check-circle text-emerald-500"></i></button>
+                            <button id="btn-rej-${p.ProductID}" onclick="updateStatus(${p.ProductID}, 2)" class="action-btn btn-action" ${p.Status === 2 ? 'disabled' : ''}><i class="fas fa-times-circle text-red-500"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `);
+        });
+    }
 
-            MOCK_PRODUCTS.forEach(p => {
-                const statusStr = p.status === 0 ? 'Đợi duyệt' : p.status === 1 ? 'Đang bán' : 'Bị từ chối';
-                tableBody.insertAdjacentHTML('beforeend', `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="font-mono text-slate-400">#${p.id}</td>
-                        <td><img src="${p.img}" class="w-12 h-12 object-cover rounded-lg border border-slate-100 shadow-sm"></td>
-                        <td class="font-bold text-slate-700">${p.name} <br><span class="text-[10px] text-slate-400 uppercase">${p.cat}</span></td>
-                        <td class="font-black text-indigo-600">${p.price.toLocaleString()}đ</td>
-                        <td><span class="status-pill status-${p.status}">${statusStr}</span></td>
-                        <td class="text-center">
-                            <button class="action-btn btn-edit" onclick="editProduct(${p.id})"><i class="fas fa-edit text-blue-500"></i></button>
-                            <button class="action-btn bg-slate-100 hover:bg-slate-200" onclick="toggleStatus(${p.id})">
-                                <i class="fas ${p.status === 1 ? 'fa-eye-slash' : 'fa-check-circle'}"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `);
-            });
-        }
+    async function updateStatus(id, newStatus) {
+        const labels = {0: "HOÀN TÁC VỀ CHỜ", 1: "PHÊ DUYỆT BÁN", 2: "TỪ CHỐI ĐĂNG"};
+        showMessage('Xác nhận', `Thực hiện: ${labels[newStatus]} cho mã #${id}?`, 'info', true, async () => {
+            try {
+                const res = await fetch(`${API_BASE}/status/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
+                    body: JSON.stringify({ Status: newStatus })
+                });
+                if (res.ok) { updateUIRow(id, newStatus); showMessage('Thành công', 'Hệ thống đã cập nhật.', 'success'); }
+            } catch (err) { showMessage('Lỗi', 'Không thể kết nối API.', 'error'); }
+        });
+    }
 
-        function editProduct(id) {
-            const p = MOCK_PRODUCTS.find(x => x.id === id);
-            document.getElementById('editProductID').value = p.id;
-            document.getElementById('editTitle').value = p.name;
-            document.getElementById('editPrice').value = p.price;
-            document.getElementById('editDescription').value = p.desc;
-            document.getElementById('editCategoryID').value = p.cat;
-            document.getElementById('productModal').style.display = 'block';
-        }
+    function updateUIRow(id, status) {
+        const labels = {0: 'Đợi duyệt', 1: 'Đang bán', 2: 'Từ chối'};
+        const pill = document.getElementById(`pill-${id}`);
+        pill.className = `status-pill status-${status}`;
+        pill.textContent = labels[status];
+        document.getElementById(`btn-wait-${id}`).disabled = (status === 0);
+        document.getElementById(`btn-app-${id}`).disabled = (status === 1);
+        document.getElementById(`btn-rej-${id}`).disabled = (status === 2);
+    }
 
-        document.getElementById('productForm').onsubmit = (e) => {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('editProductID').value);
-            const p = MOCK_PRODUCTS.find(x => x.id === id);
-            p.name = document.getElementById('editTitle').value;
-            p.price = parseInt(document.getElementById('editPrice').value);
-            p.desc = document.getElementById('editDescription').value;
-            p.cat = document.getElementById('editCategoryID').value;
-            showMessage('Thành công', 'Đã lưu thông tin hàng cũ.', 'success');
-            closeModal(); renderHardcodedProducts();
+    function editProduct(id) {
+        const p = CURRENT_DATA.find(x => x.ProductID === id);
+        if(!p) return;
+        document.getElementById('displayID').textContent = p.ProductID;
+        document.getElementById('editProductID').value = p.ProductID;
+        document.getElementById('editTitle').value = p.Title;
+        document.getElementById('editPrice').value = p.Price;
+        document.getElementById('editDescription').value = p.Description || '';
+        document.getElementById('editCategoryID').value = p.CategoryName || "Gia dụng";
+        document.getElementById('editVideoUrl').value = p.VideoUrl || '';
+        document.getElementById('productModal').style.display = 'block';
+    }
+
+    function openVideoLink() {
+        const url = document.getElementById('editVideoUrl').value;
+        if(url) window.open(url, '_blank');
+        else alert("Sản phẩm này người bán không cung cấp video review.");
+    }
+
+    document.getElementById('productForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('editProductID').value;
+        const updateData = {
+            Title: document.getElementById('editTitle').value,
+            Price: parseInt(document.getElementById('editPrice').value),
+            Description: document.getElementById('editDescription').value,
+            VideoUrl: document.getElementById('editVideoUrl').value
         };
-
-        function toggleStatus(id) {
-            const p = MOCK_PRODUCTS.find(x => x.id === id);
-            const action = p.status === 1 ? 'gỡ tin' : 'duyệt bán';
-            showMessage('Xác nhận', `Bạn muốn ${action} mặt hàng #${id}?`, 'info', true, () => {
-                p.status = p.status === 1 ? 2 : 1;
-                renderHardcodedProducts();
+        try {
+            const response = await fetch(`${API_BASE}/update/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
+                body: JSON.stringify(updateData)
             });
-        }
+            if (response.ok) { 
+                showMessage('Thành công', 'Đã lưu & đồng bộ dữ liệu.', 'success'); 
+                closeModal(); 
+                fetchProducts(); 
+            }
+        } catch (err) { showMessage('Lỗi', 'Lưu thất bại.', 'error'); }
+    };
 
-        function closeModal() { document.getElementById('productModal').style.display = 'none'; }
-        function handleLogout() { window.location.href = "/"; }
-        window.onclick = (e) => { if(e.target == document.getElementById('productModal')) closeModal(); }
-    </script>
+    function showMessage(title, content, type = 'info', isConfirm = false, onConfirm = null) {
+        const msgBox = document.getElementById('customMessageBox');
+        document.getElementById('messageBoxTitle').textContent = title;
+        document.getElementById('messageBoxContent').textContent = content;
+        const actions = document.getElementById('messageBoxActions');
+        const icon = document.getElementById('msgIcon');
+        actions.innerHTML = '';
+        icon.innerHTML = type === 'success' ? '✅' : (type === 'error' ? '❌' : '🔔');
+        icon.className = `text-5xl mb-4 ${type === 'success' ? 'text-green-500' : (type === 'error' ? 'text-red-500' : 'text-blue-500')}`;
+        if (isConfirm) {
+            const cBtn = document.createElement('button');
+            cBtn.className = 'px-6 py-2 bg-slate-800 text-white rounded-lg font-bold';
+            cBtn.textContent = 'Xác nhận';
+            cBtn.onclick = () => { msgBox.style.display = 'none'; if(onConfirm) onConfirm(); };
+            const aBtn = document.createElement('button');
+            aBtn.className = 'px-6 py-2 bg-slate-200 text-slate-600 rounded-lg font-bold';
+            aBtn.textContent = 'Hủy';
+            aBtn.onclick = () => msgBox.style.display = 'none';
+            actions.append(cBtn, aBtn);
+        } else {
+            const okBtn = document.createElement('button');
+            okBtn.className = 'px-10 py-2 bg-slate-800 text-white rounded-lg font-bold';
+            okBtn.textContent = 'Đóng';
+            okBtn.onclick = () => msgBox.style.display = 'none';
+            actions.appendChild(okBtn);
+        }
+        msgBox.style.display = 'block';
+    }
+
+    function closeModal() { document.getElementById('productModal').style.display = 'none'; }
+    function handleUnauthorized() { localStorage.clear(); window.location.href = "/"; }
+    function handleLogout() { showMessage('Đăng xuất', 'Kết thúc làm việc?', 'info', true, () => handleUnauthorized()); }
+
+    window.onload = () => fetchProducts();
+    window.onclick = (e) => { if(e.target == document.getElementById('productModal')) closeModal(); }
+</script>
 </body>
 </html>

@@ -53,6 +53,8 @@ class CRUDUser:
             PasswordHash=hashed_password,
             RandomKey=random_key, # Lưu RandomKey để giải mã/kiểm tra
             FullName=obj_in.FullName,
+            PhoneNumber=obj_in.PhoneNumber, # Cập nhật trường này
+            Address=obj_in.Address,
             IsActive=True,
             IsDeleted=False
         )

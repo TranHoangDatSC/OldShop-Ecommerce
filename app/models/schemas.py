@@ -34,6 +34,8 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     Username: str
     Password: str
+    PhoneNumber: Optional[str] = None
+    Address: Optional[str] = None
     class Config:
         min_anystr_length = 6
 class UserUpdate(BaseModel):
