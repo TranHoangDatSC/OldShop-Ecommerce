@@ -34,21 +34,20 @@
 <body onload="loadProfileData()">
 
     <div class="sidebar">
-        <div>
-            <h3><i class="fas fa-shield-alt"></i> MODERATOR AREA</h3>
-            <nav class="mt-4">
-                <a href="/moderator/moderator_dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a>
-                <h4 class="px-5 mt-6 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Hệ thống</h4>
-                <a href="/moderator/moderator_products.html"><i class="fas fa-box"></i> Duyệt Sản phẩm</a>
-                <a href="/moderator/moderator_users.html"><i class="fas fa-users-slash"></i> Mở/Khóa Tài khoản</a>
-                <a href="/moderator/moderator_profile.html" class="active"><i class="fas fa-user-circle"></i> Hồ sơ cá nhân</a>
-            </nav>
-        </div>
-        <div class="pb-6">
-            <a href="javascript:void(0)" onclick="handleLogout()" class="text-red-400 hover:bg-red-900/20"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-        </div>
+    <div>
+        <h3><i class="fas fa-gavel"></i> MODERATOR AREA</h3>
+        <nav class="mt-4">
+            <a href="/moderator/moderator_dashboard.html" class="active"><i class="fas fa-th-large"></i> Dashboard</a>
+            <h4 class="px-5 mt-6 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Xử lý nhanh</h4>
+            <a href="/moderator/moderator_products.html"><i class="fas fa-box text-blue-400"></i> Duyệt Sản phẩm</a>
+            <a href="/moderator/moderator_users.html"><i class="fas fa-users-slash text-red-400"></i> Khóa Tài khoản</a>
+            <a href="/moderator/moderator_profile.html" class="active"><i class="fas fa-user-circle"></i> Hồ sơ cá nhân</a>
+        </nav>
     </div>
-
+    <div class="pb-6">
+        <a href="javascript:void(0)" onclick="handleLogout()" class="text-slate-400 hover:text-white"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+    </div>
+</div>
     <main class="main-content">
         <div class="profile-card">
             <div class="profile-cover"></div>

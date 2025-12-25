@@ -255,26 +255,65 @@
     // 3. QUẢN LÝ SẢN PHẨM
     async function renderProductTable() {
         const token = localStorage.getItem('access_token');
-        const myId = JSON.parse(atob(token.split('.')[1])).sub;
         const tbody = document.getElementById('productTableBody');
+        
+        // Nếu không có bảng để đổ dữ liệu thì dừng luôn, đỡ lỗi
+        if (!tbody) return; 
+
         try {
-            const res = await fetch(`${apiBase}/products/`, { headers: { "Authorization": "Bearer " + token } });
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(window.atob(base64));
+            const myId = payload.sub || payload.id || payload.user_id;
+
+            const res = await fetch(`${apiBase}/products/`, { 
+                headers: { "Authorization": "Bearer " + token } 
+            });
+            
+            if (!res.ok) throw new Error("Không thể lấy dữ liệu từ Server");
             const products = await res.json();
-            const myProducts = products.filter(p => p.SellerID == myId);
-            document.getElementById('totalProductCount').textContent = myProducts.length;
-            tbody.innerHTML = myProducts.map(p => `
-                <tr>
-                    <td><img src="${p.PrimaryImageUrl || 'https://via.placeholder.com/50'}" class="rounded shadow-sm" width="50" height="50"></td>
-                    <td><div class="fw-bold">${p.Title}</div><small class="text-muted">ID: ${p.ProductID}</small></td>
-                    <td class="fw-bold text-primary">${parseFloat(p.Price).toLocaleString()} đ</td>
-                    <td><span class="badge bg-light text-dark border">${p.Quantity}</span></td>
-                    <td><span class="badge-status ${p.Status == 1 ? 'bg-success text-white' : 'bg-secondary text-white'}">${p.Status == 1 ? 'Đang bán' : 'Tạm ẩn'}</span></td>
-                    <td class="text-center">
-                        <button class="btn btn-sm btn-dark me-1" onclick="openStockModal(${p.ProductID}, ${p.Quantity})"><i class="fas fa-edit"></i> Kho</button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct(${p.ProductID})"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>`).join('');
-        } catch (err) {}
+
+            const myProducts = products.filter(p => {
+                const sID = p.SellerID || p.seller_id;
+                return String(sID) === String(myId);
+            });
+
+            // --- ĐIỂM SỬA LỖI TẠI ĐÂY ---
+            const countElement = document.getElementById('totalProductCount');
+            if (countElement) {
+                countElement.textContent = myProducts.length;
+            }
+            // ----------------------------
+
+            if (myProducts.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center p-4">Bạn chưa có sản phẩm nào.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = myProducts.map(p => {
+                const pID = p.ProductID || p.id;
+                const pTitle = p.Title || p.title;
+                const pPrice = p.Price || p.price;
+                const pQty = (p.Quantity !== undefined) ? p.Quantity : p.quantity;
+                const pStatus = (p.Status !== undefined) ? p.Status : p.status;
+                const pImg = p.PrimaryImageUrl || p.image_url || 'https://via.placeholder.com/50';
+
+                return `
+                    <tr>
+                        <td><img src="${pImg}" class="rounded shadow-sm" width="50" height="50" onerror="this.src='https://via.placeholder.com/50'"></td>
+                        <td><div class="fw-bold">${pTitle}</div><small class="text-muted">ID: ${pID}</small></td>
+                        <td class="fw-bold text-primary">${parseFloat(pPrice).toLocaleString()} đ</td>
+                        <td><span class="badge bg-light text-dark border">${pQty}</span></td>
+                        <td><span class="badge-status ${pStatus == 1 ? 'bg-success text-white' : 'bg-secondary text-white'}">${pStatus == 1 ? 'Đang bán' : 'Tạm ẩn'}</span></td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-dark me-1" onclick="openStockModal(${pID}, ${pQty})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct(${pID})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>`;
+            }).join('');
+        } catch (err) {
+            console.error("Lỗi render table:", err);
+        }
     }
 
     // 4. TIỆN ÍCH KHÁC
